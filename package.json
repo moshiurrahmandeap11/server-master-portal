@@ -1,0 +1,37 @@
+{
+  "name": "chakri-sheba-backend",
+  "version": "1.0.0",
+  "description": "Chakri Sheba Decoupled Backend API Engine",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "brain": "node ai-brain/cli.js",
+    "brain:worker": "node ai-brain/worker.js",
+    "spider:browser": "node scripts/spider/browser_agent.js",
+    "worker:local": "node scripts/local_spider_worker.js",
+    "sync:alljobs": "node scripts/fetch_and_populate_alljobs.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^10.5.0",
+    "unpdf": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.17.10",
+    "@types/nodemailer": "^8.0.2",
+    "playwright": "^1.65.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
