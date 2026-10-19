@@ -1,0 +1,14 @@
+{
+  "checkpointId": "CP-test-ms2-project-1793936925172-318",
+  "projectId": "test-ms2-project",
+  "taskId": "T-FEAT",
+  "workspacePath": "C:\\Users\\Leon Rahman\\.gemini\\antigravity\\scratch\\chakri-sheba-workspace\\ai-brain\\tests",
+  "timestamp": "2026-11-06T03:48:45.175Z",
+  "files": [
+    {
+      "relPath": "temp_checkpoint_test.txt",
+      "fullPath": "C:\\Users\\Leon Rahman\\.gemini\\antigravity\\scratch\\chakri-sheba-workspace\\ai-brain\\tests\\temp_checkpoint_test.txt",
+      "backupPath": "C:\\Users\\Leon Rahman\\.gemini\\antigravity\\scratch\\chakri-sheba-workspace\\ai-brain\\storage\\checkpoints\\CP-test-ms2-project-1793936925172-318\\74656d705f636865636b706f696e745f746573742e747874"
+    }
+  ]
+}
