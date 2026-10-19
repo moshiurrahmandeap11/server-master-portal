@@ -1,0 +1,14 @@
+{
+  "checkpointId": "CP-disposable-demo-app-1793936915613-334",
+  "projectId": "disposable-demo-app",
+  "taskId": "TASK-FIX-01",
+  "workspacePath": "C:\\Users\\Leon Rahman\\.gemini\\antigravity\\scratch\\chakri-sheba-workspace\\ai-brain\\disposable_test_target",
+  "timestamp": "2026-11-06T03:48:35.616Z",
+  "files": [
+    {
+      "relPath": "messages.json",
+      "fullPath": "C:\\Users\\Leon Rahman\\.gemini\\antigravity\\scratch\\chakri-sheba-workspace\\ai-brain\\disposable_test_target\\messages.json",
+      "backupPath": "C:\\Users\\Leon Rahman\\.gemini\\antigravity\\scratch\\chakri-sheba-workspace\\ai-brain\\storage\\checkpoints\\CP-disposable-demo-app-1793936915613-334\\6d657373616765732e6a736f6e"
+    }
+  ]
+}
