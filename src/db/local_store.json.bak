@@ -11219,6 +11219,34 @@
           "reason": "প্রোফাইল তথ্য হালনাগাদ"
         }
       ]
+    },
+    "USR-MWDEVKQG-CD7FF2": {
+      "id": "USR-MWDEVKQG-CD7FF2",
+      "name": "E2E Candidate",
+      "nameBn": "E2E Candidate",
+      "fatherName": "",
+      "motherName": "",
+      "email": "e2e_test_1794479692931@example.com",
+      "phone": "",
+      "username": "e2e.candidate.2931",
+      "dob": "",
+      "gender": "male",
+      "nid": "",
+      "division": "ঢাকা",
+      "district": "ঢাকা",
+      "address": "",
+      "permanentAddress": "",
+      "photoUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"120\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"%2394a3b8\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"100%\" height=\"100%\" fill=\"%23f1f5f9\"/><path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"></path><circle cx=\"12\" cy=\"7\" r=\"4\"></circle></svg>",
+      "signatureUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"60\" viewBox=\"0 0 200 60\"><rect width=\"200\" height=\"60\" fill=\"%23f8fafc\" rx=\"6\"/><text x=\"100\" y=\"35\" font-family=\"sans-serif\" font-size=\"12\" fill=\"%2394a3b8\" text-anchor=\"middle\">স্বাক্ষর যুক্ত করুন</text></svg>",
+      "walletBalance": 0,
+      "maritalStatus": "single",
+      "quota": "none",
+      "education": [],
+      "passwordHash": "scrypt$e57665a32fab0605c7715ff7830d4446$8921ac604d9ba38221dfa7e3b2c0ea3da1c30f6665ad2827667302622a8e9e4a2524cfd4d006c0647d7ea9de7e97235f3ec5800e516ed3164556d5484f649220",
+      "role": "candidate",
+      "isEmailVerified": false,
+      "createdAt": "2026-11-12T10:34:53.062Z",
+      "updatedAt": "2026-11-12T10:34:53.062Z"
     }
   },
   "documents": {
@@ -11400,7 +11428,8 @@
     "CS-USR-26-000100": [],
     "USR-MWDD35W5-A8CB59": [],
     "USR-MWDD3LVY-32F9CF": [],
-    "USR-MWDDQGXF-BD2E1F": []
+    "USR-MWDDQGXF-BD2E1F": [],
+    "USR-MWDEVKQG-CD7FF2": []
   },
   "applications": {
     "USR-01712345678": [
@@ -17584,7 +17613,8 @@
     ],
     "USR-MWDD35W5-A8CB59": [],
     "USR-MWDD3LVY-32F9CF": [],
-    "USR-MWDDQGXF-BD2E1F": []
+    "USR-MWDDQGXF-BD2E1F": [],
+    "USR-MWDEVKQG-CD7FF2": []
   },
   "savedJobs": {
     "USR-01712345678": [
@@ -17695,7 +17725,8 @@
     "CS-USR-26-000100": [],
     "USR-MWDD35W5-A8CB59": [],
     "USR-MWDD3LVY-32F9CF": [],
-    "USR-MWDDQGXF-BD2E1F": []
+    "USR-MWDDQGXF-BD2E1F": [],
+    "USR-MWDEVKQG-CD7FF2": []
   },
   "transactions": {
     "USR-01712345678": [
@@ -17876,7 +17907,8 @@
     "CS-USR-26-000100": [],
     "USR-MWDD35W5-A8CB59": [],
     "USR-MWDD3LVY-32F9CF": [],
-    "USR-MWDDQGXF-BD2E1F": []
+    "USR-MWDDQGXF-BD2E1F": [],
+    "USR-MWDEVKQG-CD7FF2": []
   },
   "notifications": {
     "admin": [
@@ -21032,7 +21064,8 @@
     ],
     "USR-MWDD35W5-A8CB59": [],
     "USR-MWDD3LVY-32F9CF": [],
-    "USR-MWDDQGXF-BD2E1F": []
+    "USR-MWDDQGXF-BD2E1F": [],
+    "USR-MWDEVKQG-CD7FF2": []
   },
   "sessions": {
     "ef5e5470fc6b3fd8ce03eaaab017d1e688ea904819b2a7f16d95304572d43514": {
@@ -22564,6 +22597,11 @@
       "candidateId": "CS-USR-26-000001",
       "role": "candidate",
       "expiresAt": "2026-11-17T15:09:32.323Z"
+    },
+    "98b8a8839f10e0aeb81726b5d38f51697566a044d5e6c670": {
+      "candidateId": "USR-01712345678",
+      "role": "candidate",
+      "expiresAt": "2026-11-19T10:35:19.728Z"
     }
   },
   "coupons": {},
