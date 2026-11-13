@@ -20,7 +20,7 @@ export async function GET() {
         faviconUrl: settings.general?.faviconUrl || '/favicon.ico',
         whatsappButtonText: (settings.general as any)?.whatsappButtonText || 'WhatsApp',
         loginButtonText: (settings.general as any)?.loginButtonText || 'লগইন / রেজিস্ট্রেশন',
-        announcementText: (settings.general as any)?.announcementText || '⚡ সরকারি ও ব্যাংক চাকরির শতভাগ নির্ভুল অনলাইন আবেদন ও এসএমএস ট্র্যাকিং সেবা সক্রিয় রয়েছে।',
+        announcementText: (settings.general as any)?.announcementText || ' সরকারি ও ব্যাংক চাকরির শতভাগ নির্ভুল অনলাইন আবেদন ও এসএমএস ট্র্যাকিং সেবা সক্রিয় রয়েছে।',
         announcementUrl: (settings.general as any)?.announcementUrl || '/jobs',
         announcementEnabled: (settings.general as any)?.announcementEnabled !== false,
         headerMenuItems: (settings.general as any)?.headerMenuItems || null,
