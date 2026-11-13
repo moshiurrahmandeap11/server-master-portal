@@ -1,9 +1,7 @@
-import { privateUploadDirectory } from '@/lib/private-uploads';
+import { uploadFile } from '@/lib/storage';
 import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth';
 import { serverDB } from '@/lib/db';
-import fs from 'fs';
-import path from 'path';
 
 export async function POST(req: Request) {
   const session = getServerSession(req);
@@ -28,7 +26,7 @@ export async function POST(req: Request) {
 
     const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
     if (!allowedTypes.includes(file.type) && !file.name.toLowerCase().endsWith('.pdf')) {
-      return NextResponse.json({ error: 'শুধুমাত্র PDF অথবা ছবি (JPG/PNG) ফাইল আপলোড করা যাবে।' }, { status: 400 });
+      return NextResponse.json({ error: 'শুধুমাত্র PDF অথবা ছবি (JPG/PNG/WEBP) ফাইল আপলোড করা যাবে।' }, { status: 400 });
     }
 
     // Limit to 10MB
@@ -39,18 +37,25 @@ export async function POST(req: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadDir = privateUploadDirectory('applicant-copies');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const customName = appId ? `${appId}_applicant_copy_${cleanName}` : `applicant_copy_${cleanName}`;
+
+    // Upload via unified storage (R2 / Local + WebP auto-conversion if image)
+    const uploadResult = await uploadFile({
+      buffer,
+      originalName: file.name,
+      mimeType: file.type,
+      folder: 'applicant-copies',
+      isPrivate: true,
+      customFileName: customName,
+    });
+
+    if (!uploadResult.success) {
+      return NextResponse.json({ error: uploadResult.error || 'আপলোড ব্যর্থ হয়েছে।' }, { status: 500 });
     }
 
-    const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const fileName = appId ? (appId + '_applicant_copy_' + cleanName) : ('applicant_copy_' + Date.now() + '_' + cleanName);
-    const filePath = path.join(uploadDir, fileName);
-
-    fs.writeFileSync(filePath, buffer);
-
-    const publicUrl = '/api/uploads/applicant-copies/' + fileName;
+    const publicUrl = uploadResult.url;
+    const fileName = uploadResult.filename;
 
     // If appId is provided, immediately link it in database
     if (appId) {
@@ -69,8 +74,11 @@ export async function POST(req: Request) {
       success: true,
       url: publicUrl,
       fileName,
-      size: file.size,
-      message: 'ফাইল সফলভাবে সার্ভারে সংরক্ষিত হয়েছে।'
+      size: uploadResult.size,
+      originalSize: uploadResult.originalSize,
+      storage: uploadResult.storage,
+      wasOptimized: uploadResult.wasOptimized,
+      message: 'ফাইল সফলভাবে সংরক্ষিত হয়েছে।'
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'আপলোড ব্যর্থ হয়েছে।' }, { status: 500 });
