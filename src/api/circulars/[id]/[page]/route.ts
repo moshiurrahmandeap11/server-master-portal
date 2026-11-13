@@ -127,7 +127,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
       <g transform="translate(425, 70)">
         <circle r="26" fill="#ecfdf5" stroke="#059669" stroke-width="1.5" />
         <circle r="22" fill="none" stroke="#047857" stroke-width="0.8" stroke-dasharray="3,2" />
-        <text y="7" font-size="24" text-anchor="middle">🏛️</text>
+        <text y="7" font-size="24" text-anchor="middle"></text>
       </g>
 
       <text x="425" y="118" class="crest-txt">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</text>
@@ -225,7 +225,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
       <!-- Header -->
       <g transform="translate(425, 65)">
         <circle r="22" fill="#ecfdf5" stroke="#059669" stroke-width="1.5" />
-        <text y="7" font-size="20" text-anchor="middle">🏛️</text>
+        <text y="7" font-size="20" text-anchor="middle"></text>
       </g>
       <text x="425" y="110" class="crest-txt">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</text>
       <text x="425" y="135" class="org-title">${org}</text>
