@@ -1,10 +1,9 @@
-import { findPrivateUpload } from '@/lib/private-uploads';
+import { getFile } from '@/lib/storage';
 import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth';
 import { AdminGovernanceRbac } from '@/lib/governance';
 import { serverDB } from '@/lib/db';
 import { SyntheticUserManager } from '@/lib/testing/synthetic/synthetic-user-manager';
-import fs from 'fs';
 import path from 'path';
 
 export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
@@ -49,13 +48,12 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
       return NextResponse.json({ error: 'FORBIDDEN: এই সনদপত্রটি দেখার অনুমতি আপনার নেই।' }, { status: 403 });
     }
 
-    // 3. File existence check and mime mapping
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'candidate-documents');
+    // 3. File retrieval (R2 or Local)
     const safeFileName = path.basename(targetDoc.fileName || '');
-    const fullFilePath = findPrivateUpload('candidate-documents', safeFileName);
+    const fileData = await getFile('candidate-documents', safeFileName);
 
-    if (!fs.existsSync(fullFilePath)) {
-      // If physical file not found on disk, return document metadata safely
+    if (!fileData) {
+      // If physical file not found on storage, return document metadata safely
       return NextResponse.json({
         success: true,
         documentMetadata: targetDoc,
@@ -63,25 +61,14 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
       });
     }
 
-    const fileBuffer = fs.readFileSync(fullFilePath);
-    const ext = path.extname(safeFileName).toLowerCase();
-    const mimeTypes: Record<string, string> = {
-      '.pdf': 'application/pdf',
-      '.jpg': 'image/jpeg',
-      '.jpeg': 'image/jpeg',
-      '.png': 'image/png',
-      '.webp': 'image/webp'
-    };
-
-    const contentType = mimeTypes[ext] || 'application/octet-stream';
-
-    return new Response(fileBuffer, {
+    return new Response(new Uint8Array(fileData.buffer), {
       status: 200,
       headers: {
-        'Content-Type': contentType,
+        'Content-Type': fileData.contentType,
         'Content-Disposition': `inline; filename="${safeFileName}"`,
         'X-Content-Type-Options': 'nosniff',
-        'Cache-Control': 'private, no-store'
+        'Cache-Control': 'private, no-store',
+        'X-Storage-Backend': fileData.storage,
       }
     });
   } catch (error: any) {
