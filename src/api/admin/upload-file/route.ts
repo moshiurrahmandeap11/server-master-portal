@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth';
-import fs from 'fs';
-import path from 'path';
+import { uploadFile, UploadFolder } from '@/lib/storage';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,38 +39,42 @@ export async function POST(req: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    let subfolder = 'uploads';
+    let folder: UploadFolder = 'circulars';
     if (isPdf || uploadType === 'pdf') {
-      subfolder = 'pdfs';
+      folder = 'pdfs';
     } else if (uploadType === 'logo') {
-      subfolder = 'uploads/logos';
+      folder = 'logos';
     } else {
-      subfolder = 'uploads/circulars';
+      folder = 'circulars';
     }
 
-    const targetDir = path.join(process.cwd(), 'public', subfolder);
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
+    // Skip WebP conversion for SVG files (preserve vector markup)
+    const isSvg = file.name.toLowerCase().endsWith('.svg') || file.type === 'image/svg+xml';
+
+    const uploadResult = await uploadFile({
+      buffer,
+      originalName: file.name,
+      mimeType: file.type,
+      folder,
+      isPrivate: false,
+      skipWebpConversion: isSvg,
+    });
+
+    if (!uploadResult.success) {
+      return NextResponse.json({ error: uploadResult.error || 'ফাইল আপলোডে ত্রুটি হয়েছে' }, { status: 500 });
     }
-
-    const safeBaseName = file.name
-      .replace(/\s+/g, '_')
-      .replace(/[^a-zA-Z0-9._\-\u0980-\u09FF]/g, '');
-    const uniqueFileName = `${Date.now()}_${safeBaseName}`;
-    const targetFilePath = path.join(targetDir, uniqueFileName);
-
-    fs.writeFileSync(targetFilePath, buffer);
-
-    const publicUrl = `/${subfolder}/${uniqueFileName}`;
 
     return NextResponse.json({
       success: true,
       message: 'ফাইল সফলভাবে আপলোড হয়েছে',
-      url: publicUrl,
-      filename: uniqueFileName,
+      url: uploadResult.url,
+      filename: uploadResult.filename,
       originalName: file.name,
-      size: file.size,
-      mimeType: file.type
+      size: uploadResult.size,
+      originalSize: uploadResult.originalSize,
+      mimeType: uploadResult.mimeType,
+      storage: uploadResult.storage,
+      wasOptimized: uploadResult.wasOptimized,
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'ফাইল আপলোডে ত্রুটি হয়েছে' }, { status: 500 });
