@@ -358,7 +358,7 @@ export const OperationalExpenseManager = {
     if (!report.isNearThreshold && !report.isOverBudget) return;
 
     try {
-      const notificationTitle = report.isOverBudget ? '⚠️ অপারেশনাল বাজেট অতিক্রম!' : '🔔 অপারেশনাল বাজেট সতর্কবার্তা';
+      const notificationTitle = report.isOverBudget ? 'অপারেশনাল বাজেট অতিক্রম!' : 'অপারেশনাল বাজেট সতর্কবার্তা';
       const notificationBody = report.isOverBudget
         ? `চলতি মাস (${report.period})-এর মোট অপারেশনাল খরচ BDT ${report.projectedTotalBdt} ছুঁয়েছে, যা বরাদ্দকৃত বাজেট BDT ${report.monthlyBudgetBdt} অতিক্রম করেছে।`
         : `চলতি মাস (${report.period})-এর মোট অপারেশনাল খরচ বাজেটের ${report.burnRatePercent}% স্পর্শ করেছে।`;
