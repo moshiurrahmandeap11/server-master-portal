@@ -4734,7 +4734,7 @@ export const serverDB = {
     try {
       const isJobActive = merged.status === 'published' || merged.status === 'active' || (merged as any).publicationStatus === 'PUBLISHED';
       if (isJobActive) {
-        const notifTitle = exists ? `আপডেট: ${merged.title}` : `📢 নতুন সার্কুলার: ${merged.title}`;
+        const notifTitle = exists ? `আপডেট: ${merged.title}` : ` নতুন সার্কুলার: ${merged.title}`;
         const notifMsg = `${merged.organization} কর্তৃক ${merged.categoryLabel || 'নিয়োগ'} বিজ্ঞপ্তি প্রকাশিত হয়েছে। পদ সংখ্যা: ${merged.totalPosts || 'একাধিক'}। আবেদনের শেষ সময়: ${merged.deadline || 'শীঘ্রই'}।`;
         const notifLink = `/jobs/${merged.slug || merged.id}`;
 
@@ -4783,7 +4783,7 @@ export const serverDB = {
             let candNotifMsg = notifMsg;
 
             if (isProfileMatch) {
-              candNotifTitle = `🎯 আপনার যোগ্যতা ও সিজিপিএ অনুযায়ী সার্কুলার: ${merged.title}`;
+              candNotifTitle = ` আপনার যোগ্যতা ও সিজিপিএ অনুযায়ী সার্কুলার: ${merged.title}`;
               candNotifMsg = `আপনার ${matchedDegreeName || 'শিক্ষাগত যোগ্যতা'}${matchedCgpa ? ` (ফল: ${matchedCgpa})` : ''} অনুযায়ী ${merged.organization}-এর এই বিজ্ঞপ্তিটির যোগ্যতা শর্তাবলী পূরণ হয়েছে। পদ সংখ্যা: ${merged.totalPosts || 'একাধিক'}। শেষ সময়: ${merged.deadline || 'শীঘ্রই'}।`;
             }
 
