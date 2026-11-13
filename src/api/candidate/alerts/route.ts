@@ -88,7 +88,7 @@ export async function POST(req: Request) {
 
     if (body.sendTestAlert) {
       serverDB.addCandidateNotification(targetId, {
-        title: '🔔 টেস্ট জব অ্যালার্ট (সফল)',
+        title: ' টেস্ট জব অ্যালার্ট (সফল)',
         message: `আপনার নোটিফিকেশন অ্যালার্ট সফলভাবে সক্রিয় আছে। চ্যানেল: ${[alertPreferences.whatsappAlert && 'হোয়াটসঅ্যাপ', alertPreferences.smsAlert && 'এসএমএস', alertPreferences.emailAlert && 'ইমেইল'].filter(Boolean).join(', ') || 'ইন-অ্যাপ'}। নির্বাচিত ক্যাটাগরি: ${alertPreferences.categories.slice(0, 2).join(', ')}।`,
         type: 'system',
         link: '/dashboard/alerts'
