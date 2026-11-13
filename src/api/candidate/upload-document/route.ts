@@ -1,5 +1,5 @@
 import { generateSmartDocumentId } from '@/lib/id-generator';
-import { privateUploadDirectory } from '@/lib/private-uploads';
+import { uploadFile } from '@/lib/storage';
 import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth';
 import { serverDB } from '@/lib/db';
@@ -49,32 +49,28 @@ export async function POST(req: Request) {
     }
 
     const candidateId = session?.candidateId || 'GUEST_' + Date.now();
-    const timestamp = Date.now();
     const cleanDocType = docType.replace(/[^a-zA-Z0-9_-]/g, '_');
-    const cleanFileName = candidateId.replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + cleanDocType + '_' + timestamp + fileExt;
-
-    const uploadDir = privateUploadDirectory('candidate-documents');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
-    const filePath = path.join(uploadDir, cleanFileName);
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    fs.writeFileSync(filePath, buffer);
 
-    // Compute cryptographic SHA-256 hash of document
-    const checksumSha256 = crypto.createHash('sha256').update(buffer).digest('hex');
+    // Optimized Cloudflare R2 / Local upload with auto WebP conversion for images
+    const uploadResult = await uploadFile({
+      buffer,
+      originalName: originalName,
+      mimeType: file.type,
+      folder: 'candidate-documents',
+      isPrivate: true,
+      customFileName: `${candidateId.replace(/[^a-zA-Z0-9_-]/g, '_')}_${cleanDocType}_${originalName}`
+    });
 
-    const mimeMap: Record<string, string> = {
-      '.pdf': 'application/pdf',
-      '.jpg': 'image/jpeg',
-      '.jpeg': 'image/jpeg',
-      '.png': 'image/png',
-      '.webp': 'image/webp'
-    };
-    const mimeType = mimeMap[fileExt] || 'application/octet-stream';
-    const relativeUrl = '/api/uploads/candidate-documents/' + cleanFileName;
+    if (!uploadResult.success) {
+      return NextResponse.json({ error: uploadResult.error || 'ফাইল সংরক্ষণে সমস্যা হয়েছে' }, { status: 500 });
+    }
+
+    const cleanFileName = uploadResult.filename;
+    const checksumSha256 = uploadResult.checksumSha256;
+    const mimeType = uploadResult.mimeType;
+    const relativeUrl = uploadResult.url;
 
     let targetDocId = generateSmartDocumentId();
     let version = 1;
@@ -116,7 +112,7 @@ export async function POST(req: Request) {
         title: docTitle,
         category: category,
         fileName: cleanFileName,
-        fileSize: Math.round(file.size / 1024) + ' KB',
+        fileSize: Math.round(uploadResult.size / 1024) + ' KB',
         uploadDate: new Date().toLocaleDateString('bn-BD'),
         dataUrl: relativeUrl,
         fileUrl: relativeUrl,
@@ -148,7 +144,11 @@ export async function POST(req: Request) {
         docTitle,
         category,
         docRecord,
-        fileSizeKb: Math.round(file.size / 1024),
+        fileSizeKb: Math.round(uploadResult.size / 1024),
+        originalSize: uploadResult.originalSize,
+        optimizedSize: uploadResult.size,
+        wasOptimized: uploadResult.wasOptimized,
+        storage: uploadResult.storage,
         checksumSha256
       });
     }
@@ -161,7 +161,11 @@ export async function POST(req: Request) {
       docTitle,
       category,
       docRecord: null,
-      fileSizeKb: Math.round(file.size / 1024),
+      fileSizeKb: Math.round(uploadResult.size / 1024),
+      originalSize: uploadResult.originalSize,
+      optimizedSize: uploadResult.size,
+      wasOptimized: uploadResult.wasOptimized,
+      storage: uploadResult.storage,
       checksumSha256
     });
   } catch (err: any) {
