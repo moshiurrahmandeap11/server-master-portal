@@ -1,10 +1,9 @@
-import { findPrivateUpload } from '@/lib/private-uploads';
+import { getFile } from '@/lib/storage';
 import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth';
 import { AdminGovernanceRbac } from '@/lib/governance';
 import { serverDB } from '@/lib/db';
 import { SyntheticUserManager } from '@/lib/testing/synthetic/synthetic-user-manager';
-import fs from 'fs';
 import path from 'path';
 
 export async function GET(req: Request, props: { params: Promise<{ filename: string }> }) {
@@ -66,27 +65,19 @@ export async function GET(req: Request, props: { params: Promise<{ filename: str
       );
     }
 
-    const filePath = findPrivateUpload('candidate-documents', filename);
-    if (!fs.existsSync(filePath)) {
+    const fileData = await getFile('candidate-documents', filename);
+    if (!fileData) {
       return NextResponse.json({ error: 'Document file not found' }, { status: 404 });
     }
 
-    const fileBuffer = fs.readFileSync(filePath);
-    const ext = path.extname(filename).toLowerCase();
-    
-    let contentType = 'application/octet-stream';
-    if (ext === '.pdf') contentType = 'application/pdf';
-    else if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
-    else if (ext === '.png') contentType = 'image/png';
-    else if (ext === '.webp') contentType = 'image/webp';
-
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(new Uint8Array(fileData.buffer), {
       status: 200,
       headers: {
-        'Content-Type': contentType,
+        'Content-Type': fileData.contentType,
         'Content-Disposition': 'inline; filename="' + filename + '"',
         'X-Content-Type-Options': 'nosniff',
         'Cache-Control': 'private, no-cache, no-store, must-revalidate',
+        'X-Storage-Backend': fileData.storage,
       },
     });
   } catch (err: any) {
