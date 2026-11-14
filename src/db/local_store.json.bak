@@ -22612,6 +22612,16 @@
       "candidateId": "USR-MWDDQGXF-BD2E1F",
       "role": "candidate",
       "expiresAt": "2026-11-20T13:07:12.550Z"
+    },
+    "7be32cac4f402684f8c58dfb07192cadaa27b7c1a255bd02": {
+      "candidateId": "USR-MWDDQGXF-BD2E1F",
+      "role": "candidate",
+      "expiresAt": "2026-11-21T09:30:35.513Z"
+    },
+    "be3fe0bddf3d85075ad5432fd8a8ac7bb1369c9648c9b00b": {
+      "candidateId": "USR-MWDDQGXF-BD2E1F",
+      "role": "candidate",
+      "expiresAt": "2026-11-21T09:51:44.774Z"
     }
   },
   "coupons": {},
