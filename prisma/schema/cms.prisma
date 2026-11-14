@@ -1,0 +1,42 @@
+model PageRecord {
+  id              String    @id
+  slug            String    @unique
+  title           String
+  metaTitle       String?
+  metaDescription String?
+  status          String    @default("published")
+  version         Int       @default(1)
+  isSystemPage    Boolean   @default(false)
+  sections        Json      // Array of Page Builder Sections
+  revisions       Json?
+  publishedAt     DateTime?
+  updatedAt       DateTime  @updatedAt
+
+  @@map("pages")
+}
+
+model MediaItem {
+  id         String   @id @default(uuid())
+  filename   String
+  fileUrl    String
+  fileSize   Int?
+  mimeType   String?
+  dimensions Json?
+  createdAt  DateTime @default(now())
+
+  @@map("media_items")
+}
+
+model PlatformSettings {
+  id           String   @id @default("global")
+  siteName     String   @default("চাকরি সেবা")
+  tagline      String?
+  contactEmail String?
+  supportPhone String?
+  headerMenu   Json?
+  footerMenu   Json?
+  seoDefaults  Json?
+  updatedAt    DateTime @updatedAt
+
+  @@map("platform_settings")
+}
