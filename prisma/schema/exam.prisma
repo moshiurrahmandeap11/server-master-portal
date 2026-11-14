@@ -1,0 +1,70 @@
+model ExamNotice {
+  id        String       @id @default(uuid())
+  jobId     String?
+  job       JobCircular? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  title     String
+  stage     ExamStage    @default(WRITTEN)
+  examDate  DateTime?
+  venue     String?
+  noticeUrl String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@map("exam_notices")
+}
+
+model AdmitCard {
+  id               String      @id @default(uuid())
+  jobId            String
+  job              JobCircular @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  title            String
+  downloadUrl      String?
+  rollInstructions String?
+  isAvailable      Boolean     @default(false)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@map("admit_cards")
+}
+
+model ExamResult {
+  id          String      @id @default(uuid())
+  jobId       String
+  job         JobCircular @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  title       String
+  stage       ExamStage   @default(WRITTEN)
+  pdfUrl      String?
+  passedRolls Json?       // Array of passed roll numbers
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("exam_results")
+}
+
+model Question {
+  id           String   @id @default(uuid())
+  category     String   // Bangla, English, Math, General Knowledge, etc.
+  question     String
+  options      Json     // Array of choices [optionA, optionB, optionC, optionD]
+  correctIndex Int
+  explanation  String?
+  examYear     Int?
+  organization String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("questions")
+}
+
+model ModelTest {
+  id              String   @id @default(uuid())
+  title           String
+  category        String
+  totalMarks      Int      @default(100)
+  durationMinutes Int      @default(60)
+  questions       Json     // Array of questions / question IDs
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("model_tests")
+}
