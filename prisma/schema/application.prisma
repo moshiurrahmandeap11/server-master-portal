@@ -1,0 +1,49 @@
+model ApplicationRequest {
+  id                  String            @id
+  candidateId         String
+  candidate           Candidate         @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  jobId               String
+  job                 JobCircular       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  positionIndex       Int               @default(0)
+  positionName        String
+  trackingNumber      String            @unique
+  status              ApplicationStatus @default(PENDING)
+  govtFee             Decimal           @db.Decimal(10, 2)
+  serviceFee          Decimal           @db.Decimal(10, 2)
+  discount            Decimal           @default(0.00) @db.Decimal(10, 2)
+  totalPaid           Decimal           @db.Decimal(10, 2)
+  paymentMethod       String            @default("wallet")
+  transactionId       String?
+  applicantCopyPdfUrl String?
+  teletalkUserId      String?
+  rollNumber          String?
+  operatorNotes       String?
+  statusHistory       Json?             // Array of status changes [{status, timestamp, note}]
+  submittedAt         DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@map("application_requests")
+}
+
+model CompanyProfile {
+  id          String   @id
+  companyName String
+  email       String?
+  phone       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("company_profiles")
+}
+
+model CompanyApplication {
+  id          String   @id @default(uuid())
+  companyId   String
+  candidateId String
+  jobId       String
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("company_applications")
+}
