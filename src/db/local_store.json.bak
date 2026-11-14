@@ -22607,6 +22607,11 @@
       "candidateId": "USR-MWDDQGXF-BD2E1F",
       "role": "candidate",
       "expiresAt": "2026-11-20T07:03:23.204Z"
+    },
+    "36199e629027b003930a30c6345af026908b5488a5a02cf6": {
+      "candidateId": "USR-MWDDQGXF-BD2E1F",
+      "role": "candidate",
+      "expiresAt": "2026-11-20T13:07:12.550Z"
     }
   },
   "coupons": {},
