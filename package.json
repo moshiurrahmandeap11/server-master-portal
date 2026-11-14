@@ -3,10 +3,17 @@
   "version": "1.0.0",
   "description": "Chakri Sheba Decoupled Backend API Engine",
   "main": "src/server.ts",
+  "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js",
+    "prepare-schema": "node scripts/prepare-schema.js",
+    "generate": "node scripts/prepare-schema.js && prisma generate",
+    "db:push": "node scripts/prepare-schema.js && prisma db push",
+    "migrate": "node scripts/prepare-schema.js && prisma migrate dev",
+    "db:seed": "prisma db seed",
+    "studio": "prisma studio",
+    "build": "node scripts/prepare-schema.js && prisma generate && tsc",
+    "start": "node dist/src/server.js",
     "brain": "node ai-brain/cli.js",
     "brain:worker": "node ai-brain/worker.js",
     "spider:browser": "node scripts/spider/browser_agent.js",
@@ -16,13 +23,28 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1168.0",
     "@aws-sdk/s3-request-presigner": "^3.1168.0",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/ejs": "^3.1.5",
+    "@types/pg": "^8.23.1",
+    "@types/uuid": "^10.0.0",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "ejs": "^7.0.2",
     "express": "^4.21.2",
+    "http-status": "^2.1.0",
     "jsonwebtoken": "^9.0.3",
     "nodemailer": "^10.5.0",
+    "pg": "^8.23.1",
+    "prisma": "^7.10.1",
     "sharp": "^0.35.5",
-    "unpdf": "^2.0.0"
+    "unpdf": "^2.0.0",
+    "uuid": "^14.0.3",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -34,6 +56,9 @@
     "playwright": "^1.65.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "engines": {
     "node": ">=20.0.0"
