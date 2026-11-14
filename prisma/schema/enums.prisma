@@ -1,0 +1,81 @@
+enum UserRole {
+  CANDIDATE
+  ADMIN
+  OPERATOR
+  EDITOR
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum OtpType {
+  VERIFY_EMAIL
+  RESET_PASSWORD
+  LOGIN_OTP
+}
+
+enum ApplicationStatus {
+  PENDING
+  PROCESSING
+  PAYMENT_COMPLETED
+  COMPLETED
+  REJECTED
+  CANCELLED
+}
+
+enum TransactionType {
+  RECHARGE
+  APPLICATION_FEE
+  REFUND
+  CASHBACK
+  ADJUSTMENT
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum JobStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+  EXPIRED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum CouponStatus {
+  ACTIVE
+  EXPIRED
+  DISABLED
+}
+
+enum ExamStage {
+  MCQ
+  WRITTEN
+  PRACTICAL
+  VIVA
+}
+
+enum DocumentType {
+  PHOTO_300x300
+  SIGNATURE_300x80
+  NID_CARD
+  BIRTH_CERTIFICATE
+  SSC_CERTIFICATE
+  HSC_CERTIFICATE
+  GRADUATION_CERTIFICATE
+  MASTERS_CERTIFICATE
+  QUOTA_CERTIFICATE
+  OTHER
+}
