@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8fafc; padding: 20px; }
+    .box { max-width: 500px; margin: auto; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; padding: 30px; }
+    .code { font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #059669; background: #ecfdf5; padding: 12px 24px; border-radius: 6px; display: inline-block; margin: 20px 0; }
+    .footer { font-size: 12px; color: #64748b; margin-top: 25px; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2><%= siteName %> ইমেইল ভেরিফিকেশন</h2>
+    <p>আপনার অ্যাকাউন্ট সুরক্ষিত রাখতে নিচের ৬-সংখ্যার যাচাইকরণ কোডটি ব্যবহার করুন:</p>
+    <div class="code"><%= otp %></div>
+    <p>এই ওটিপি কোডটি আগামী ১০ মিনিটের জন্য কার্যকর থাকবে। কাউকে এই কোড শেয়ার করবেন না।</p>
+    <div class="footer">
+      <p>© ২০২৬ <%= siteName %> প্ল্যাটফর্ম। সমস্ত অধিকার সংরক্ষিত।</p>
+    </div>
+  </div>
+</body>
+</html>
