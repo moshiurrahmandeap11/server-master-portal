@@ -153,6 +153,15 @@ export const authService = {
     const accessToken = jwtUtils.createAccessToken(tokenPayload);
     const refreshToken = jwtUtils.createRefreshToken({ candidateId: candidate.id });
 
+    // Save refresh session in DB
+    await prisma.session.create({
+      data: {
+        candidateId: candidate.id,
+        refreshToken,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      },
+    });
+
     return {
       user: {
         id: candidate.id,
@@ -261,5 +270,183 @@ export const authService = {
 
     const { passwordHash: _, ...safeCandidate } = candidate;
     return safeCandidate;
+  },
+
+  logout: async (refreshToken?: string) => {
+    if (refreshToken) {
+      await prisma.session.deleteMany({ where: { refreshToken } }).catch(() => {});
+    }
+    return { success: true };
+  },
+
+  changePassword: async (candidateId: string, payload: { oldPassword: string; newPassword: string }) => {
+    const candidate = await prisma.candidate.findUnique({ where: { id: candidateId } });
+    if (!candidate) {
+      throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।');
+    }
+
+    const isValid = await bcryptUtils.comparePassword(payload.oldPassword, candidate.passwordHash);
+    if (!isValid) {
+      throw new AppError(status.BAD_REQUEST, 'বর্তমান পাসওয়ার্ডটি সঠিক নয়।');
+    }
+
+    const newHash = await bcryptUtils.hashPassword(payload.newPassword);
+    await prisma.candidate.update({
+      where: { id: candidateId },
+      data: { passwordHash: newHash },
+    });
+
+    const tokenPayload = {
+      candidateId: candidate.id,
+      email: candidate.email,
+      role: candidate.role,
+      phone: candidate.phone,
+      name: candidate.name,
+    };
+
+    const accessToken = jwtUtils.createAccessToken(tokenPayload);
+    const refreshToken = jwtUtils.createRefreshToken({ candidateId: candidate.id });
+
+    // Save refresh session in DB
+    await prisma.session.create({
+      data: {
+        candidateId: candidate.id,
+        refreshToken,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      },
+    });
+
+    return { accessToken, refreshToken };
+  },
+
+  forgotPassword: async (payload: { action: string; identifier?: string; email?: string; otp?: string; newPassword?: string }) => {
+    const cleanId = (payload.identifier || payload.email || '').trim().toLowerCase();
+    if (!cleanId) {
+      throw new AppError(status.BAD_REQUEST, 'ইমেইল অথবা মোবাইল নম্বর প্রদান করুন।');
+    }
+
+    const candidate = await prisma.candidate.findFirst({
+      where: {
+        OR: [
+          { email: cleanId },
+          { username: cleanId },
+          { phone: cleanId },
+        ],
+      },
+    });
+
+    if (!candidate) {
+      throw new AppError(status.NOT_FOUND, 'এই তথ্যে কোনো অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।');
+    }
+
+    if (payload.action === 'request_otp') {
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+      await prisma.verificationOtp.create({
+        data: {
+          email: candidate.email,
+          otp,
+          type: OtpType.RESET_PASSWORD,
+          candidateId: candidate.id,
+          expiresAt,
+        },
+      });
+
+      const emailRes = await emailUtils.sendOtpEmail(candidate.email, otp, 'reset');
+      return {
+        success: true,
+        maskedTarget: candidate.email.replace(/(.{2})(.*)(@.*)/, '$1***$3'),
+        devOtp: emailRes.devOtp,
+      };
+    }
+
+    if (payload.action === 'verify_otp') {
+      if (!payload.otp) {
+        throw new AppError(status.BAD_REQUEST, 'ওটিপি কোড প্রদান করুন।');
+      }
+
+      const otpRecord = await prisma.verificationOtp.findFirst({
+        where: {
+          email: candidate.email,
+          otp: payload.otp.trim(),
+          isUsed: false,
+          expiresAt: { gt: new Date() },
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (!otpRecord) {
+        throw new AppError(status.BAD_REQUEST, 'ভুল বা মেয়াদোত্তীর্ণ ওটিপি কোড।');
+      }
+
+      return { success: true, message: 'ওটিপি ভেরিফিকেশন সফল হয়েছে।' };
+    }
+
+    if (payload.action === 'reset_password') {
+      if (!payload.otp || !payload.newPassword) {
+        throw new AppError(status.BAD_REQUEST, 'ওটিপি কোড এবং নতুন পাসওয়ার্ড প্রদান করুন।');
+      }
+
+      const otpRecord = await prisma.verificationOtp.findFirst({
+        where: {
+          email: candidate.email,
+          otp: payload.otp.trim(),
+          isUsed: false,
+          expiresAt: { gt: new Date() },
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (!otpRecord) {
+        throw new AppError(status.BAD_REQUEST, 'ভুল বা মেয়াদোত্তীর্ণ ওটিপি কোড।');
+      }
+
+      await prisma.verificationOtp.update({
+        where: { id: otpRecord.id },
+        data: { isUsed: true },
+      });
+
+      const newHash = await bcryptUtils.hashPassword(payload.newPassword);
+      await prisma.candidate.update({
+        where: { id: candidate.id },
+        data: { passwordHash: newHash },
+      });
+
+      const tokenPayload = {
+        candidateId: candidate.id,
+        email: candidate.email,
+        role: candidate.role,
+        phone: candidate.phone,
+        name: candidate.name,
+      };
+
+      const accessToken = jwtUtils.createAccessToken(tokenPayload);
+      const refreshToken = jwtUtils.createRefreshToken({ candidateId: candidate.id });
+
+      // Save refresh session in DB
+      await prisma.session.create({
+        data: {
+          candidateId: candidate.id,
+          refreshToken,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
+
+      return {
+        success: true,
+        message: 'পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে।',
+        accessToken,
+        refreshToken,
+        user: {
+          id: candidate.id,
+          email: candidate.email,
+          name: candidate.name,
+          role: candidate.role,
+        },
+      };
+    }
+
+    throw new AppError(status.BAD_REQUEST, 'অবৈধ অ্যাকশন অনুরোধ।');
   },
 };

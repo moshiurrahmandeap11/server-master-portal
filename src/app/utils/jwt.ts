@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { env } from '../config/env';
 import { IRequestUser } from '../interfaces/requestUser.interface';
 
@@ -8,7 +9,11 @@ export const jwtUtils = {
   },
 
   createRefreshToken: (payload: { candidateId: string }): string => {
-    return jwt.sign(payload, env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+    return jwt.sign(
+      { ...payload, jti: crypto.randomUUID() },
+      env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '7d' }
+    );
   },
 
   verifyAccessToken: (token: string): { success: boolean; data?: IRequestUser; error?: string } => {

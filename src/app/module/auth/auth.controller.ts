@@ -75,7 +75,9 @@ export const authController = {
     });
   }),
 
-  logout: catchAsync(async (_req: Request, res: Response) => {
+  logout: catchAsync(async (req: Request, res: Response) => {
+    const token = CookieUtils.getCookie(req, 'refreshToken') || req.body?.refreshToken;
+    await authService.logout(token);
     CookieUtils.clearAuthCookies(res);
 
     sendResponse(res, {
@@ -92,6 +94,32 @@ export const authController = {
       httpStatusCode: status.OK,
       success: true,
       message: 'প্রোফাইল লোড সফল হয়েছে।',
+      data: result,
+    });
+  }),
+
+  changePassword: catchAsync(async (req: Request, res: Response) => {
+    const result = await authService.changePassword(req.user!.candidateId, req.body);
+    CookieUtils.setAuthCookies(res, result.accessToken, result.refreshToken);
+
+    sendResponse(res, {
+      httpStatusCode: status.OK,
+      success: true,
+      message: 'পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!',
+      data: result,
+    });
+  }),
+
+  forgotPassword: catchAsync(async (req: Request, res: Response) => {
+    const result = await authService.forgotPassword(req.body);
+    if ((result as any).accessToken && (result as any).refreshToken) {
+      CookieUtils.setAuthCookies(res, (result as any).accessToken, (result as any).refreshToken);
+    }
+
+    sendResponse(res, {
+      httpStatusCode: status.OK,
+      success: true,
+      message: (result as any).message || 'পাসওয়ার্ড রিসেট অনুরোধ সফল হয়েছে।',
       data: result,
     });
   }),

@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const emailUtils = {
-  sendOtpEmail: async (to: string, otp: string, type: 'login' | 'verify' = 'verify'): Promise<{ success: boolean; devOtp?: string }> => {
+  sendOtpEmail: async (to: string, otp: string, type: 'login' | 'verify' | 'reset' = 'verify'): Promise<{ success: boolean; devOtp?: string }> => {
     try {
       const templateName = type === 'login' ? 'login-otp.ejs' : 'verification-email.ejs';
       const templatePath = path.join(__dirname, '../templates', templateName);
@@ -31,10 +31,14 @@ export const emailUtils = {
       }
 
       if (env.SMTP_USER && env.SMTP_PASS) {
+        let subject = 'চাকরি সেবা — ইমেইল ভেরিফিকেশন ওটিপি';
+        if (type === 'login') subject = 'চাকরি সেবা — লগইন ভেরিফিকেশন ওটিপি';
+        if (type === 'reset') subject = 'চাকরি সেবা — পাসওয়ার্ড রিসেট ওটিপি';
+
         await transporter.sendMail({
           from: env.SMTP_FROM,
           to,
-          subject: type === 'login' ? 'চাকরি সেবা — লগইন ভেরিফিকেশন ওটিপি' : 'চাকরি সেবা — ইমেইল ভেরিফিকেশন ওটিপি',
+          subject,
           html,
         });
       } else {

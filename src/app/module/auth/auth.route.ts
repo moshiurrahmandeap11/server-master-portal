@@ -14,5 +14,7 @@ router.post('/resend-verification', validateRequest(authValidation.resendOtp), a
 router.post('/refresh-token', authController.refreshToken);
 router.post('/logout', authController.logout);
 router.get('/me', checkAuth(), authController.getMe);
+router.post('/change-password', checkAuth(), validateRequest(authValidation.changePassword), authController.changePassword);
+router.post('/forgot-password', authController.forgotPassword);
 
 export const authRoutes = router;
