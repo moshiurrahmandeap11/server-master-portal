@@ -1,0 +1,72 @@
+model Candidate {
+  id              String      @id @default(uuid())
+  email           String      @unique
+  phone           String?     @unique
+  username        String      @unique
+  name            String
+  nameBn          String?
+  passwordHash    String
+  role            UserRole    @default(CANDIDATE)
+  status          UserStatus  @default(ACTIVE)
+  isEmailVerified Boolean     @default(false)
+  walletBalance   Decimal     @default(0.00) @db.Decimal(12, 2)
+  district        String?
+  division        String?
+  avatarUrl       String?
+  googleId        String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  sessions          Session[]
+  documents         CandidateDocument[]
+  educations        EducationRecord[]
+  applications      ApplicationRequest[]
+  transactions      WalletTransaction[]
+  savedJobs         SavedJob[]
+  notifications     NotificationItem[]
+  jobReminders      UserJobReminder[]
+  couponRedemptions CouponRedemption[]
+  raffleEntries     RaffleEntry[]
+
+  @@map("candidates")
+}
+
+model Session {
+  id           String    @id @default(uuid())
+  candidateId  String
+  candidate    Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  refreshToken String    @unique
+  ipAddress    String?
+  userAgent    String?
+  expiresAt    DateTime
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("sessions")
+}
+
+model VerificationOtp {
+  id          String   @id @default(uuid())
+  email       String
+  otp         String
+  type        OtpType  @default(VERIFY_EMAIL)
+  candidateId String?
+  expiresAt   DateTime
+  isUsed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("verification_otps")
+}
+
+model StaffMember {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  role        UserRole  @default(OPERATOR)
+  permissions Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("staff_members")
+}
