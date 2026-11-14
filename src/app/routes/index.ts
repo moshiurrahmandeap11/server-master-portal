@@ -1,0 +1,22 @@
+import { Router } from 'express';
+import { authRoutes } from '../module/auth/auth.route';
+import { candidateRoutes } from '../module/candidate/candidate.route';
+import { jobRoutes } from '../module/job/job.route';
+import { applicationRoutes } from '../module/application/application.route';
+import { walletRoutes } from '../module/wallet/wallet.route';
+import { examRoutes } from '../module/exam/exam.route';
+import { cmsRoutes } from '../module/cms/cms.route';
+import { adminRoutes } from '../module/admin/admin.route';
+
+const router = Router();
+
+router.use('/auth', authRoutes);
+router.use('/candidate', candidateRoutes);
+router.use('/jobs', jobRoutes);
+router.use('/applications', applicationRoutes);
+router.use('/wallet', walletRoutes);
+router.use('/exams', examRoutes);
+router.use('/cms', cmsRoutes);
+router.use('/admin', adminRoutes);
+
+export const IndexRoutes = router;
