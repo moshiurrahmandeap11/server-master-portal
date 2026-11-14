@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": false,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2023",
+    "rootDir": "./",
     "outDir": "./dist",
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
@@ -16,6 +18,6 @@
       "next/cache": ["./src/shims/next-cache.ts"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/lib/testing/**/*", "node_modules", "dist"]
+  "include": ["src/**/*", "prisma.config.ts"],
+  "exclude": ["node_modules", "dist"]
 }
