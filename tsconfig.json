@@ -12,10 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "next/server": ["./src/shims/next-server.ts"],
-      "next/headers": ["./src/shims/next-headers.ts"],
-      "next/cache": ["./src/shims/next-cache.ts"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*", "prisma.config.ts"],

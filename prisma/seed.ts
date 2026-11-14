@@ -8,7 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function main() {
-  const jsonPath = path.join(__dirname, '../src/db/local_store.json');
+  const archiveJsonPath = path.join(__dirname, '../_legacy_archive/db/local_store.json');
+  const legacyJsonPath = path.join(__dirname, '../src/db/local_store.json');
+  const jsonPath = fs.existsSync(archiveJsonPath) ? archiveJsonPath : legacyJsonPath;
   if (!fs.existsSync(jsonPath)) {
     console.log('No local_store.json found to migrate.');
     return;
