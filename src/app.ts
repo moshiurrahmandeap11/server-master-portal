@@ -40,9 +40,18 @@ app.use(cookieParser());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+// Normalize redundant slashes in incoming URLs (e.g. //api/... -> /api/...)
+app.use((req: Request, _res: Response, next) => {
+  if (req.url && req.url.includes('//')) {
+    req.url = req.url.replace(/\/{2,}/g, '/');
+  }
+  next();
+});
+
 // Static uploads serving
 const uploadsDir = env.CHAKRI_UPLOAD_DIR;
 app.use('/uploads', express.static(uploadsDir));
+app.use('/api/uploads', express.static(uploadsDir));
 
 // Health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
