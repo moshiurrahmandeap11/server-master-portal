@@ -8,10 +8,12 @@ export const candidateController = {
   getProfile: catchAsync(async (req: Request, res: Response) => {
     const result = await candidateService.getProfile(req.user!.candidateId);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
       message: 'প্রোফাইল তথ্য লোড সফল হয়েছে।',
+      profile: result,
+      user: result,
       data: result,
     });
   }),
@@ -19,10 +21,12 @@ export const candidateController = {
   updateProfile: catchAsync(async (req: Request, res: Response) => {
     const result = await candidateService.updateProfile(req.user!.candidateId, req.body);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
       message: 'প্রোফাইল সফলভাবে আপডেট করা হয়েছে।',
+      profile: result,
+      user: result,
       data: result,
     });
   }),
@@ -89,6 +93,18 @@ export const candidateController = {
       httpStatusCode: status.OK,
       success: true,
       message: 'সংরক্ষিত চাকরির তালিকা।',
+      data: result,
+    });
+  }),
+
+  getNotifications: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.getNotifications(req.user!.candidateId);
+
+    res.status(status.OK).json({
+      statusCode: status.OK,
+      success: true,
+      message: 'নোটিফিকেশন তালিকা লোড হয়েছে।',
+      notifications: result,
       data: result,
     });
   }),
