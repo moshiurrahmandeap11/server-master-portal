@@ -8,6 +8,23 @@ import { env } from '../../config/env';
 import { ISignUpPayload, ILoginPayload, IVerifyOtpPayload, IAuthResponse } from './auth.interface';
 import { OtpType, UserRole } from '../../../generated/prisma';
 
+// In-memory grace period map for rotated tokens (60s buffer to absorb concurrent pipeline/middleware requests)
+const rotatedTokensGraceMap = new Map<string, {
+  accessToken: string;
+  refreshToken: string;
+  user: any;
+  expiresAt: number;
+}>();
+
+function cleanupGraceMap() {
+  const now = Date.now();
+  for (const [key, val] of rotatedTokensGraceMap.entries()) {
+    if (val.expiresAt < now) {
+      rotatedTokensGraceMap.delete(key);
+    }
+  }
+}
+
 export const authService = {
   signUp: async (payload: ISignUpPayload) => {
     const cleanEmail = payload.email.trim().toLowerCase();
@@ -278,6 +295,17 @@ export const authService = {
   },
 
   refreshToken: async (token: string) => {
+    // 1. Check if this token was recently rotated within the 60s grace window
+    cleanupGraceMap();
+    const graceEntry = rotatedTokensGraceMap.get(token);
+    if (graceEntry && graceEntry.expiresAt > Date.now()) {
+      return {
+        accessToken: graceEntry.accessToken,
+        refreshToken: graceEntry.refreshToken,
+        user: graceEntry.user,
+      };
+    }
+
     const verified = jwtUtils.verifyRefreshToken(token);
     if (!verified.success || !verified.data) {
       throw new AppError(status.UNAUTHORIZED, 'অবৈধ রিফ্রেশ টোকেন। পুনরায় লগইন করুন।');
@@ -313,7 +341,7 @@ export const authService = {
       },
     });
 
-    return {
+    const result = {
       accessToken: newAccessToken,
       refreshToken: newRefreshToken,
       user: {
@@ -323,6 +351,14 @@ export const authService = {
         role: candidate.role,
       },
     };
+
+    // Keep in grace window for 60 seconds to absorb concurrent requests
+    rotatedTokensGraceMap.set(token, {
+      ...result,
+      expiresAt: Date.now() + 60 * 1000,
+    });
+
+    return result;
   },
 
   getMe: async (candidateId: string) => {
