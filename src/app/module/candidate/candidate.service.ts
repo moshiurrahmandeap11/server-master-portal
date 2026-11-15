@@ -19,17 +19,128 @@ export const candidateService = {
     }
 
     const { passwordHash: _, ...safeProfile } = profile;
-    return safeProfile;
+    const mappedEducations = (safeProfile.educations || []).map((e: any) => ({
+      ...e,
+      degree: e.examTitle || '',
+      boardOrUni: e.boardUniversity || '',
+      roll: e.rollNumber || '',
+      reg: e.regNumber || '',
+      year: String(e.passingYear || ''),
+      result: e.gpaCgpa ? String(e.gpaCgpa) : e.resultType || '',
+      majorSubject: e.groupMajor || '',
+      institutionName: e.institute || '',
+    }));
+
+    const photo = (safeProfile as any).photoUrl || (safeProfile as any).avatarUrl || null;
+
+    return {
+      ...safeProfile,
+      photoUrl: photo,
+      avatarUrl: photo,
+      education: mappedEducations,
+      educations: mappedEducations,
+      skills: (safeProfile as any).skills || [],
+      experiences: (safeProfile as any).experiences || [],
+      documents: (safeProfile.documents || []).map((d: any) => ({
+        ...d,
+        dataUrl: d.fileUrl,
+        type: d.type === 'PHOTO_300x300' ? 'photo' : d.type === 'SIGNATURE_300x80' ? 'signature' : String(d.type).toLowerCase(),
+      })),
+      walletBalance: Number(safeProfile.walletBalance || 0),
+    };
   },
 
-  updateProfile: async (candidateId: string, payload: IUpdateCandidateProfilePayload) => {
+  getNotifications: async (candidateId: string) => {
+    return await prisma.notificationItem.findMany({
+      where: { candidateId },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
+  updateProfile: async (candidateId: string, payload: any) => {
+    const allowedColumns = [
+      'name',
+      'nameBn',
+      'phone',
+      'district',
+      'division',
+      'avatarUrl',
+      'photoUrl',
+      'nidFrontUrl',
+      'nidBackUrl',
+      'fatherNidUrl',
+      'motherNidUrl',
+      'nagorikCertificateUrl',
+      'birthCertificateUrl',
+      'characterCertificateUrl',
+      'fatherName',
+      'fatherNameBn',
+      'motherName',
+      'motherNameBn',
+      'fatherNid',
+      'motherNid',
+      'dob',
+      'gender',
+      'nid',
+      'address',
+      'permanentAddress',
+      'sameAsPresentAddress',
+      'maritalStatus',
+      'religion',
+      'nationality',
+      'signatureUrl',
+      'quota',
+      'quotaCertificateUrl',
+      'skills',
+      'experiences',
+      'presentAddressDetails',
+      'permanentAddressDetails',
+      'careerObjective',
+      'professionalSummary',
+      'currentPosition',
+      'currentOrganization',
+      'careerPreferences',
+    ];
+    const updateData: Record<string, any> = {};
+    for (const col of allowedColumns) {
+      if (payload[col] !== undefined) {
+        updateData[col] = payload[col];
+      }
+    }
+
     const updated = await prisma.candidate.update({
       where: { id: candidateId },
-      data: payload,
+      data: updateData,
+      include: {
+        educations: { orderBy: { passingYear: 'desc' } },
+        documents: { orderBy: { createdAt: 'desc' } },
+        savedJobs: { include: { job: true } },
+      },
     });
 
     const { passwordHash: _, ...safeProfile } = updated;
-    return safeProfile;
+    const mappedEducations = (safeProfile.educations || []).map((e: any) => ({
+      ...e,
+      degree: e.examTitle || '',
+      boardOrUni: e.boardUniversity || '',
+      roll: e.rollNumber || '',
+      reg: e.regNumber || '',
+      year: String(e.passingYear || ''),
+      result: e.gpaCgpa ? String(e.gpaCgpa) : e.resultType || '',
+      majorSubject: e.groupMajor || '',
+      institutionName: e.institute || '',
+    }));
+
+    return {
+      ...payload, // Preserve full form state (address, permanentAddress, fatherName, dob, nid, etc.)
+      ...safeProfile,
+      education: mappedEducations,
+      educations: mappedEducations,
+      skills: (safeProfile as any).skills || payload.skills || [],
+      experiences: (safeProfile as any).experiences || payload.experiences || [],
+      documents: safeProfile.documents || payload.documents || [],
+      walletBalance: Number(safeProfile.walletBalance || 0),
+    };
   },
 
   // Educations CRUD
