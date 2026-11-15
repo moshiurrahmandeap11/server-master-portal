@@ -11,7 +11,9 @@ import { adminRoutes } from '../module/admin/admin.route';
 const router = Router();
 
 router.use('/auth', authRoutes);
+router.use('/social', authRoutes);
 router.use('/candidate', candidateRoutes);
+router.use('/profile', candidateRoutes);
 router.use('/jobs', jobRoutes);
 router.use('/applications', applicationRoutes);
 router.use('/wallet', walletRoutes);

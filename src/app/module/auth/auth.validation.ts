@@ -16,8 +16,30 @@ export const authValidation = {
 
   login: z.object({
     body: z.object({
-      loginId: z.string().min(1, 'ইমেইল, ফোন নম্বর বা ইউজারনেম প্রদান করুন।'),
-      password: z.string().min(1, 'পাসওয়ার্ড প্রদান করুন।'),
+      loginId: z.string().optional(),
+      email: z.string().optional(),
+      identifier: z.string().optional(),
+      phone: z.string().optional(),
+      password: z.string().optional(),
+      role: z.string().optional(),
+      adminPin: z.string().optional(),
+    }).refine((body) => {
+      // 1. Admin Login via adminPin or password
+      if (body.role === 'admin' || body.adminPin) {
+        return Boolean(body.adminPin || body.password);
+      }
+      // 2. Candidate Login via identifier + password
+      const hasId = Boolean(body.loginId || body.email || body.identifier || body.phone);
+      const hasPass = Boolean(body.password);
+      return hasId && hasPass;
+    }, {
+      message: 'ইমেইল/ইউজারনেম এবং পাসওয়ার্ড প্রদান করুন (অথবা অ্যাডমিন পিন দিন)।',
+    }),
+  }),
+
+  googleSignIn: z.object({
+    body: z.object({
+      credential: z.string().min(1, 'গুগল ক্রেডেনশিয়াল টোকেন প্রয়োজন।'),
     }),
   }),
 

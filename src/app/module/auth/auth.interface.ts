@@ -12,8 +12,13 @@ export interface ISignUpPayload {
 }
 
 export interface ILoginPayload {
-  loginId: string; // email, phone, or username
-  password: string;
+  loginId?: string; // email, phone, or username
+  email?: string;
+  identifier?: string;
+  phone?: string;
+  password?: string;
+  role?: string;
+  adminPin?: string;
 }
 
 export interface IVerifyOtpPayload {

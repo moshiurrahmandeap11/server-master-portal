@@ -22,6 +22,8 @@ interface EnvConfig {
   SMTP_FROM?: string;
   ADMIN_SECRET_KEY?: string;
   CHAKRI_UPLOAD_DIR: string;
+  GOOGLE_CLIENT_ID?: string;
+  GOOGLE_CLIENT_SECRET?: string;
 }
 
 const loadEnv = (): EnvConfig => {
@@ -41,6 +43,8 @@ const loadEnv = (): EnvConfig => {
     SMTP_FROM: process.env.SMTP_FROM || 'চাকরি সেবা <noreply@chakriseba.com>',
     ADMIN_SECRET_KEY: process.env.ADMIN_SECRET_KEY || 'admin_dev_secret_2026',
     CHAKRI_UPLOAD_DIR: process.env.CHAKRI_UPLOAD_DIR || path.join(process.cwd(), 'uploads'),
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   };
 };
 

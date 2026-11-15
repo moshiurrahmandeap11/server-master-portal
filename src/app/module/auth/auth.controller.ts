@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import status from 'http-status';
 import { catchAsync } from '../../shared/catchAsync';
-import { sendResponse } from '../../shared/sendResponse';
 import { authService } from './auth.service';
 import { CookieUtils } from '../../utils/cookie';
 
@@ -9,10 +8,14 @@ export const authController = {
   signUp: catchAsync(async (req: Request, res: Response) => {
     const result = await authService.signUp(req.body);
 
-    sendResponse(res, {
-      httpStatusCode: status.CREATED,
+    res.status(status.CREATED).json({
+      statusCode: status.CREATED,
       success: true,
       message: 'রেজিস্ট্রেশন সফল হয়েছে! আপনার ইমেইল ঠিকানায় ৬-সংখ্যার ওটিপি কোড পাঠানো হয়েছে।',
+      requiresVerification: result.requiresVerification,
+      email: result.email,
+      devOtp: result.devOtp,
+      candidateId: result.candidateId,
       data: result,
     });
   }),
@@ -24,10 +27,17 @@ export const authController = {
       CookieUtils.setAuthCookies(res, result.accessToken, result.refreshToken);
     }
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    const roleName = (result.user.role || 'CANDIDATE').toLowerCase();
+
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
+      isLoggedIn: true,
       message: 'লগইন সফল হয়েছে!',
+      role: roleName,
+      user: result.user,
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
       data: result,
     });
   }),
@@ -39,21 +49,30 @@ export const authController = {
       CookieUtils.setAuthCookies(res, result.accessToken, result.refreshToken);
     }
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    const roleName = (result.user.role || 'CANDIDATE').toLowerCase();
+
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
+      isLoggedIn: true,
       message: 'ইমেইল সফলভাবে ভেরিফাই হয়েছে!',
+      role: roleName,
+      user: result.user,
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
       data: result,
     });
   }),
 
   resendOtp: catchAsync(async (req: Request, res: Response) => {
-    const result = await authService.resendOtp(req.body.email);
+    const email = req.body.email || req.body.identifier;
+    const result = await authService.resendOtp(email);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
       message: 'নতুন ওটিপি কোড পাঠানো হয়েছে।',
+      devOtp: result.devOtp,
       data: result,
     });
   }),
@@ -61,16 +80,28 @@ export const authController = {
   refreshToken: catchAsync(async (req: Request, res: Response) => {
     const token = CookieUtils.getCookie(req, 'refreshToken') || req.body?.refreshToken;
     if (!token) {
-      return res.status(status.UNAUTHORIZED).json({ success: false, message: 'রিফ্রেশ টোকেন পাওয়া যায়নি।' });
+      return res.status(status.UNAUTHORIZED).json({
+        statusCode: status.UNAUTHORIZED,
+        success: false,
+        isLoggedIn: false,
+        message: 'রিফ্রেশ টোকেন পাওয়া যায়নি।',
+      });
     }
 
     const result = await authService.refreshToken(token);
     CookieUtils.setAuthCookies(res, result.accessToken, result.refreshToken);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    const roleName = (result.user.role || 'CANDIDATE').toLowerCase();
+
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
+      isLoggedIn: true,
       message: 'টোকেন নবায়ন সফল হয়েছে!',
+      role: roleName,
+      user: result.user,
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
       data: result,
     });
   }),
@@ -80,20 +111,51 @@ export const authController = {
     await authService.logout(token);
     CookieUtils.clearAuthCookies(res);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
+      isLoggedIn: false,
+      role: null,
+      user: null,
       message: 'সফলভাবে লগআউট করা হয়েছে।',
+      data: null,
     });
   }),
 
   getMe: catchAsync(async (req: Request, res: Response) => {
     const result = await authService.getMe(req.user!.candidateId);
+    const roleName = (result.role || 'CANDIDATE').toLowerCase();
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
+      isLoggedIn: true,
+      role: roleName,
+      user: result,
       message: 'প্রোফাইল লোড সফল হয়েছে।',
+      data: result,
+    });
+  }),
+
+  googleSignIn: catchAsync(async (req: Request, res: Response) => {
+    const result = await authService.googleSignIn(req.body.credential);
+
+    if (result.accessToken && result.refreshToken) {
+      CookieUtils.setAuthCookies(res, result.accessToken, result.refreshToken);
+    }
+
+    const roleName = (result.user.role || 'CANDIDATE').toLowerCase();
+
+    res.status(status.OK).json({
+      statusCode: status.OK,
+      success: true,
+      isLoggedIn: true,
+      role: roleName,
+      user: result.user,
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
+      redirectUrl: '/dashboard',
+      message: 'গুগল সাইন-ইন সফল হয়েছে!',
       data: result,
     });
   }),
@@ -102,10 +164,12 @@ export const authController = {
     const result = await authService.changePassword(req.user!.candidateId, req.body);
     CookieUtils.setAuthCookies(res, result.accessToken, result.refreshToken);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
       message: 'পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!',
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
       data: result,
     });
   }),
@@ -116,10 +180,11 @@ export const authController = {
       CookieUtils.setAuthCookies(res, (result as any).accessToken, (result as any).refreshToken);
     }
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
       message: (result as any).message || 'পাসওয়ার্ড রিসেট অনুরোধ সফল হয়েছে।',
+      ...(typeof result === 'object' ? result : {}),
       data: result,
     });
   }),
