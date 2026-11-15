@@ -1,3 +1,13 @@
+import net from 'net';
+import dns from 'dns';
+
+if (typeof net.setDefaultAutoSelectFamily === 'function') {
+  net.setDefaultAutoSelectFamily(false);
+}
+if (typeof dns.setDefaultResultOrder === 'function') {
+  dns.setDefaultResultOrder('ipv4first');
+}
+
 import app from './app';
 import { env } from './app/config/env';
 import { prisma } from './app/lib/prisma';
