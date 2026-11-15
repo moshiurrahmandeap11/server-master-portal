@@ -78,7 +78,10 @@ export const authController = {
   }),
 
   refreshToken: catchAsync(async (req: Request, res: Response) => {
-    const token = CookieUtils.getCookie(req, 'refreshToken') || req.body?.refreshToken;
+    const token =
+      CookieUtils.getCookie(req, 'refreshToken') ||
+      CookieUtils.getCookie(req, 'cs_refresh_token') ||
+      req.body?.refreshToken;
     if (!token) {
       return res.status(status.UNAUTHORIZED).json({
         statusCode: status.UNAUTHORIZED,
@@ -107,7 +110,10 @@ export const authController = {
   }),
 
   logout: catchAsync(async (req: Request, res: Response) => {
-    const token = CookieUtils.getCookie(req, 'refreshToken') || req.body?.refreshToken;
+    const token =
+      CookieUtils.getCookie(req, 'refreshToken') ||
+      CookieUtils.getCookie(req, 'cs_refresh_token') ||
+      req.body?.refreshToken;
     await authService.logout(token);
     CookieUtils.clearAuthCookies(res);
 
