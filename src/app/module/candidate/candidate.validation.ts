@@ -5,12 +5,12 @@ export const candidateValidation = {
   updateProfile: z.object({
     body: z.object({
       name: z.string().optional(),
-      nameBn: z.string().optional(),
-      phone: z.string().optional(),
-      district: z.string().optional(),
-      division: z.string().optional(),
-      avatarUrl: z.string().optional(),
-    }),
+      nameBn: z.string().optional().nullable(),
+      phone: z.string().optional().nullable(),
+      district: z.string().optional().nullable(),
+      division: z.string().optional().nullable(),
+      avatarUrl: z.string().optional().nullable(),
+    }).passthrough(),
   }),
 
   addEducation: z.object({
