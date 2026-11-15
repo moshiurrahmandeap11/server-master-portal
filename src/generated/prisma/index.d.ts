@@ -15159,6 +15159,36 @@ export namespace Prisma {
     googleId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    fatherName: string | null
+    fatherNameBn: string | null
+    motherName: string | null
+    motherNameBn: string | null
+    fatherNid: string | null
+    motherNid: string | null
+    dob: string | null
+    gender: string | null
+    nid: string | null
+    address: string | null
+    permanentAddress: string | null
+    sameAsPresentAddress: boolean | null
+    maritalStatus: string | null
+    religion: string | null
+    nationality: string | null
+    photoUrl: string | null
+    signatureUrl: string | null
+    nidFrontUrl: string | null
+    nidBackUrl: string | null
+    fatherNidUrl: string | null
+    motherNidUrl: string | null
+    nagorikCertificateUrl: string | null
+    birthCertificateUrl: string | null
+    characterCertificateUrl: string | null
+    quota: string | null
+    quotaCertificateUrl: string | null
+    careerObjective: string | null
+    professionalSummary: string | null
+    currentPosition: string | null
+    currentOrganization: string | null
   }
 
   export type CandidateMaxAggregateOutputType = {
@@ -15179,6 +15209,36 @@ export namespace Prisma {
     googleId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    fatherName: string | null
+    fatherNameBn: string | null
+    motherName: string | null
+    motherNameBn: string | null
+    fatherNid: string | null
+    motherNid: string | null
+    dob: string | null
+    gender: string | null
+    nid: string | null
+    address: string | null
+    permanentAddress: string | null
+    sameAsPresentAddress: boolean | null
+    maritalStatus: string | null
+    religion: string | null
+    nationality: string | null
+    photoUrl: string | null
+    signatureUrl: string | null
+    nidFrontUrl: string | null
+    nidBackUrl: string | null
+    fatherNidUrl: string | null
+    motherNidUrl: string | null
+    nagorikCertificateUrl: string | null
+    birthCertificateUrl: string | null
+    characterCertificateUrl: string | null
+    quota: string | null
+    quotaCertificateUrl: string | null
+    careerObjective: string | null
+    professionalSummary: string | null
+    currentPosition: string | null
+    currentOrganization: string | null
   }
 
   export type CandidateCountAggregateOutputType = {
@@ -15199,6 +15259,41 @@ export namespace Prisma {
     googleId: number
     createdAt: number
     updatedAt: number
+    fatherName: number
+    fatherNameBn: number
+    motherName: number
+    motherNameBn: number
+    fatherNid: number
+    motherNid: number
+    dob: number
+    gender: number
+    nid: number
+    address: number
+    permanentAddress: number
+    sameAsPresentAddress: number
+    maritalStatus: number
+    religion: number
+    nationality: number
+    photoUrl: number
+    signatureUrl: number
+    nidFrontUrl: number
+    nidBackUrl: number
+    fatherNidUrl: number
+    motherNidUrl: number
+    nagorikCertificateUrl: number
+    birthCertificateUrl: number
+    characterCertificateUrl: number
+    quota: number
+    quotaCertificateUrl: number
+    skills: number
+    experiences: number
+    presentAddressDetails: number
+    permanentAddressDetails: number
+    careerObjective: number
+    professionalSummary: number
+    currentPosition: number
+    currentOrganization: number
+    careerPreferences: number
     _all: number
   }
 
@@ -15229,6 +15324,36 @@ export namespace Prisma {
     googleId?: true
     createdAt?: true
     updatedAt?: true
+    fatherName?: true
+    fatherNameBn?: true
+    motherName?: true
+    motherNameBn?: true
+    fatherNid?: true
+    motherNid?: true
+    dob?: true
+    gender?: true
+    nid?: true
+    address?: true
+    permanentAddress?: true
+    sameAsPresentAddress?: true
+    maritalStatus?: true
+    religion?: true
+    nationality?: true
+    photoUrl?: true
+    signatureUrl?: true
+    nidFrontUrl?: true
+    nidBackUrl?: true
+    fatherNidUrl?: true
+    motherNidUrl?: true
+    nagorikCertificateUrl?: true
+    birthCertificateUrl?: true
+    characterCertificateUrl?: true
+    quota?: true
+    quotaCertificateUrl?: true
+    careerObjective?: true
+    professionalSummary?: true
+    currentPosition?: true
+    currentOrganization?: true
   }
 
   export type CandidateMaxAggregateInputType = {
@@ -15249,6 +15374,36 @@ export namespace Prisma {
     googleId?: true
     createdAt?: true
     updatedAt?: true
+    fatherName?: true
+    fatherNameBn?: true
+    motherName?: true
+    motherNameBn?: true
+    fatherNid?: true
+    motherNid?: true
+    dob?: true
+    gender?: true
+    nid?: true
+    address?: true
+    permanentAddress?: true
+    sameAsPresentAddress?: true
+    maritalStatus?: true
+    religion?: true
+    nationality?: true
+    photoUrl?: true
+    signatureUrl?: true
+    nidFrontUrl?: true
+    nidBackUrl?: true
+    fatherNidUrl?: true
+    motherNidUrl?: true
+    nagorikCertificateUrl?: true
+    birthCertificateUrl?: true
+    characterCertificateUrl?: true
+    quota?: true
+    quotaCertificateUrl?: true
+    careerObjective?: true
+    professionalSummary?: true
+    currentPosition?: true
+    currentOrganization?: true
   }
 
   export type CandidateCountAggregateInputType = {
@@ -15269,6 +15424,41 @@ export namespace Prisma {
     googleId?: true
     createdAt?: true
     updatedAt?: true
+    fatherName?: true
+    fatherNameBn?: true
+    motherName?: true
+    motherNameBn?: true
+    fatherNid?: true
+    motherNid?: true
+    dob?: true
+    gender?: true
+    nid?: true
+    address?: true
+    permanentAddress?: true
+    sameAsPresentAddress?: true
+    maritalStatus?: true
+    religion?: true
+    nationality?: true
+    photoUrl?: true
+    signatureUrl?: true
+    nidFrontUrl?: true
+    nidBackUrl?: true
+    fatherNidUrl?: true
+    motherNidUrl?: true
+    nagorikCertificateUrl?: true
+    birthCertificateUrl?: true
+    characterCertificateUrl?: true
+    quota?: true
+    quotaCertificateUrl?: true
+    skills?: true
+    experiences?: true
+    presentAddressDetails?: true
+    permanentAddressDetails?: true
+    careerObjective?: true
+    professionalSummary?: true
+    currentPosition?: true
+    currentOrganization?: true
+    careerPreferences?: true
     _all?: true
   }
 
@@ -15376,6 +15566,41 @@ export namespace Prisma {
     googleId: string | null
     createdAt: Date
     updatedAt: Date
+    fatherName: string | null
+    fatherNameBn: string | null
+    motherName: string | null
+    motherNameBn: string | null
+    fatherNid: string | null
+    motherNid: string | null
+    dob: string | null
+    gender: string | null
+    nid: string | null
+    address: string | null
+    permanentAddress: string | null
+    sameAsPresentAddress: boolean | null
+    maritalStatus: string | null
+    religion: string | null
+    nationality: string | null
+    photoUrl: string | null
+    signatureUrl: string | null
+    nidFrontUrl: string | null
+    nidBackUrl: string | null
+    fatherNidUrl: string | null
+    motherNidUrl: string | null
+    nagorikCertificateUrl: string | null
+    birthCertificateUrl: string | null
+    characterCertificateUrl: string | null
+    quota: string | null
+    quotaCertificateUrl: string | null
+    skills: JsonValue | null
+    experiences: JsonValue | null
+    presentAddressDetails: JsonValue | null
+    permanentAddressDetails: JsonValue | null
+    careerObjective: string | null
+    professionalSummary: string | null
+    currentPosition: string | null
+    currentOrganization: string | null
+    careerPreferences: JsonValue | null
     _count: CandidateCountAggregateOutputType | null
     _avg: CandidateAvgAggregateOutputType | null
     _sum: CandidateSumAggregateOutputType | null
@@ -15415,6 +15640,41 @@ export namespace Prisma {
     googleId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    fatherName?: boolean
+    fatherNameBn?: boolean
+    motherName?: boolean
+    motherNameBn?: boolean
+    fatherNid?: boolean
+    motherNid?: boolean
+    dob?: boolean
+    gender?: boolean
+    nid?: boolean
+    address?: boolean
+    permanentAddress?: boolean
+    sameAsPresentAddress?: boolean
+    maritalStatus?: boolean
+    religion?: boolean
+    nationality?: boolean
+    photoUrl?: boolean
+    signatureUrl?: boolean
+    nidFrontUrl?: boolean
+    nidBackUrl?: boolean
+    fatherNidUrl?: boolean
+    motherNidUrl?: boolean
+    nagorikCertificateUrl?: boolean
+    birthCertificateUrl?: boolean
+    characterCertificateUrl?: boolean
+    quota?: boolean
+    quotaCertificateUrl?: boolean
+    skills?: boolean
+    experiences?: boolean
+    presentAddressDetails?: boolean
+    permanentAddressDetails?: boolean
+    careerObjective?: boolean
+    professionalSummary?: boolean
+    currentPosition?: boolean
+    currentOrganization?: boolean
+    careerPreferences?: boolean
     sessions?: boolean | Candidate$sessionsArgs<ExtArgs>
     documents?: boolean | Candidate$documentsArgs<ExtArgs>
     educations?: boolean | Candidate$educationsArgs<ExtArgs>
@@ -15446,6 +15706,41 @@ export namespace Prisma {
     googleId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    fatherName?: boolean
+    fatherNameBn?: boolean
+    motherName?: boolean
+    motherNameBn?: boolean
+    fatherNid?: boolean
+    motherNid?: boolean
+    dob?: boolean
+    gender?: boolean
+    nid?: boolean
+    address?: boolean
+    permanentAddress?: boolean
+    sameAsPresentAddress?: boolean
+    maritalStatus?: boolean
+    religion?: boolean
+    nationality?: boolean
+    photoUrl?: boolean
+    signatureUrl?: boolean
+    nidFrontUrl?: boolean
+    nidBackUrl?: boolean
+    fatherNidUrl?: boolean
+    motherNidUrl?: boolean
+    nagorikCertificateUrl?: boolean
+    birthCertificateUrl?: boolean
+    characterCertificateUrl?: boolean
+    quota?: boolean
+    quotaCertificateUrl?: boolean
+    skills?: boolean
+    experiences?: boolean
+    presentAddressDetails?: boolean
+    permanentAddressDetails?: boolean
+    careerObjective?: boolean
+    professionalSummary?: boolean
+    currentPosition?: boolean
+    currentOrganization?: boolean
+    careerPreferences?: boolean
   }, ExtArgs["result"]["candidate"]>
 
   export type CandidateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15466,6 +15761,41 @@ export namespace Prisma {
     googleId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    fatherName?: boolean
+    fatherNameBn?: boolean
+    motherName?: boolean
+    motherNameBn?: boolean
+    fatherNid?: boolean
+    motherNid?: boolean
+    dob?: boolean
+    gender?: boolean
+    nid?: boolean
+    address?: boolean
+    permanentAddress?: boolean
+    sameAsPresentAddress?: boolean
+    maritalStatus?: boolean
+    religion?: boolean
+    nationality?: boolean
+    photoUrl?: boolean
+    signatureUrl?: boolean
+    nidFrontUrl?: boolean
+    nidBackUrl?: boolean
+    fatherNidUrl?: boolean
+    motherNidUrl?: boolean
+    nagorikCertificateUrl?: boolean
+    birthCertificateUrl?: boolean
+    characterCertificateUrl?: boolean
+    quota?: boolean
+    quotaCertificateUrl?: boolean
+    skills?: boolean
+    experiences?: boolean
+    presentAddressDetails?: boolean
+    permanentAddressDetails?: boolean
+    careerObjective?: boolean
+    professionalSummary?: boolean
+    currentPosition?: boolean
+    currentOrganization?: boolean
+    careerPreferences?: boolean
   }, ExtArgs["result"]["candidate"]>
 
   export type CandidateSelectScalar = {
@@ -15486,9 +15816,44 @@ export namespace Prisma {
     googleId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    fatherName?: boolean
+    fatherNameBn?: boolean
+    motherName?: boolean
+    motherNameBn?: boolean
+    fatherNid?: boolean
+    motherNid?: boolean
+    dob?: boolean
+    gender?: boolean
+    nid?: boolean
+    address?: boolean
+    permanentAddress?: boolean
+    sameAsPresentAddress?: boolean
+    maritalStatus?: boolean
+    religion?: boolean
+    nationality?: boolean
+    photoUrl?: boolean
+    signatureUrl?: boolean
+    nidFrontUrl?: boolean
+    nidBackUrl?: boolean
+    fatherNidUrl?: boolean
+    motherNidUrl?: boolean
+    nagorikCertificateUrl?: boolean
+    birthCertificateUrl?: boolean
+    characterCertificateUrl?: boolean
+    quota?: boolean
+    quotaCertificateUrl?: boolean
+    skills?: boolean
+    experiences?: boolean
+    presentAddressDetails?: boolean
+    permanentAddressDetails?: boolean
+    careerObjective?: boolean
+    professionalSummary?: boolean
+    currentPosition?: boolean
+    currentOrganization?: boolean
+    careerPreferences?: boolean
   }
 
-  export type CandidateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "phone" | "username" | "name" | "nameBn" | "passwordHash" | "role" | "status" | "isEmailVerified" | "walletBalance" | "district" | "division" | "avatarUrl" | "googleId" | "createdAt" | "updatedAt", ExtArgs["result"]["candidate"]>
+  export type CandidateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "phone" | "username" | "name" | "nameBn" | "passwordHash" | "role" | "status" | "isEmailVerified" | "walletBalance" | "district" | "division" | "avatarUrl" | "googleId" | "createdAt" | "updatedAt" | "fatherName" | "fatherNameBn" | "motherName" | "motherNameBn" | "fatherNid" | "motherNid" | "dob" | "gender" | "nid" | "address" | "permanentAddress" | "sameAsPresentAddress" | "maritalStatus" | "religion" | "nationality" | "photoUrl" | "signatureUrl" | "nidFrontUrl" | "nidBackUrl" | "fatherNidUrl" | "motherNidUrl" | "nagorikCertificateUrl" | "birthCertificateUrl" | "characterCertificateUrl" | "quota" | "quotaCertificateUrl" | "skills" | "experiences" | "presentAddressDetails" | "permanentAddressDetails" | "careerObjective" | "professionalSummary" | "currentPosition" | "currentOrganization" | "careerPreferences", ExtArgs["result"]["candidate"]>
   export type CandidateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | Candidate$sessionsArgs<ExtArgs>
     documents?: boolean | Candidate$documentsArgs<ExtArgs>
@@ -15537,6 +15902,41 @@ export namespace Prisma {
       googleId: string | null
       createdAt: Date
       updatedAt: Date
+      fatherName: string | null
+      fatherNameBn: string | null
+      motherName: string | null
+      motherNameBn: string | null
+      fatherNid: string | null
+      motherNid: string | null
+      dob: string | null
+      gender: string | null
+      nid: string | null
+      address: string | null
+      permanentAddress: string | null
+      sameAsPresentAddress: boolean | null
+      maritalStatus: string | null
+      religion: string | null
+      nationality: string | null
+      photoUrl: string | null
+      signatureUrl: string | null
+      nidFrontUrl: string | null
+      nidBackUrl: string | null
+      fatherNidUrl: string | null
+      motherNidUrl: string | null
+      nagorikCertificateUrl: string | null
+      birthCertificateUrl: string | null
+      characterCertificateUrl: string | null
+      quota: string | null
+      quotaCertificateUrl: string | null
+      skills: Prisma.JsonValue | null
+      experiences: Prisma.JsonValue | null
+      presentAddressDetails: Prisma.JsonValue | null
+      permanentAddressDetails: Prisma.JsonValue | null
+      careerObjective: string | null
+      professionalSummary: string | null
+      currentPosition: string | null
+      currentOrganization: string | null
+      careerPreferences: Prisma.JsonValue | null
     }, ExtArgs["result"]["candidate"]>
     composites: {}
   }
@@ -15987,6 +16387,41 @@ export namespace Prisma {
     readonly googleId: FieldRef<"Candidate", 'String'>
     readonly createdAt: FieldRef<"Candidate", 'DateTime'>
     readonly updatedAt: FieldRef<"Candidate", 'DateTime'>
+    readonly fatherName: FieldRef<"Candidate", 'String'>
+    readonly fatherNameBn: FieldRef<"Candidate", 'String'>
+    readonly motherName: FieldRef<"Candidate", 'String'>
+    readonly motherNameBn: FieldRef<"Candidate", 'String'>
+    readonly fatherNid: FieldRef<"Candidate", 'String'>
+    readonly motherNid: FieldRef<"Candidate", 'String'>
+    readonly dob: FieldRef<"Candidate", 'String'>
+    readonly gender: FieldRef<"Candidate", 'String'>
+    readonly nid: FieldRef<"Candidate", 'String'>
+    readonly address: FieldRef<"Candidate", 'String'>
+    readonly permanentAddress: FieldRef<"Candidate", 'String'>
+    readonly sameAsPresentAddress: FieldRef<"Candidate", 'Boolean'>
+    readonly maritalStatus: FieldRef<"Candidate", 'String'>
+    readonly religion: FieldRef<"Candidate", 'String'>
+    readonly nationality: FieldRef<"Candidate", 'String'>
+    readonly photoUrl: FieldRef<"Candidate", 'String'>
+    readonly signatureUrl: FieldRef<"Candidate", 'String'>
+    readonly nidFrontUrl: FieldRef<"Candidate", 'String'>
+    readonly nidBackUrl: FieldRef<"Candidate", 'String'>
+    readonly fatherNidUrl: FieldRef<"Candidate", 'String'>
+    readonly motherNidUrl: FieldRef<"Candidate", 'String'>
+    readonly nagorikCertificateUrl: FieldRef<"Candidate", 'String'>
+    readonly birthCertificateUrl: FieldRef<"Candidate", 'String'>
+    readonly characterCertificateUrl: FieldRef<"Candidate", 'String'>
+    readonly quota: FieldRef<"Candidate", 'String'>
+    readonly quotaCertificateUrl: FieldRef<"Candidate", 'String'>
+    readonly skills: FieldRef<"Candidate", 'Json'>
+    readonly experiences: FieldRef<"Candidate", 'Json'>
+    readonly presentAddressDetails: FieldRef<"Candidate", 'Json'>
+    readonly permanentAddressDetails: FieldRef<"Candidate", 'Json'>
+    readonly careerObjective: FieldRef<"Candidate", 'String'>
+    readonly professionalSummary: FieldRef<"Candidate", 'String'>
+    readonly currentPosition: FieldRef<"Candidate", 'String'>
+    readonly currentOrganization: FieldRef<"Candidate", 'String'>
+    readonly careerPreferences: FieldRef<"Candidate", 'Json'>
   }
     
 
@@ -43540,7 +43975,42 @@ export namespace Prisma {
     avatarUrl: 'avatarUrl',
     googleId: 'googleId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    fatherName: 'fatherName',
+    fatherNameBn: 'fatherNameBn',
+    motherName: 'motherName',
+    motherNameBn: 'motherNameBn',
+    fatherNid: 'fatherNid',
+    motherNid: 'motherNid',
+    dob: 'dob',
+    gender: 'gender',
+    nid: 'nid',
+    address: 'address',
+    permanentAddress: 'permanentAddress',
+    sameAsPresentAddress: 'sameAsPresentAddress',
+    maritalStatus: 'maritalStatus',
+    religion: 'religion',
+    nationality: 'nationality',
+    photoUrl: 'photoUrl',
+    signatureUrl: 'signatureUrl',
+    nidFrontUrl: 'nidFrontUrl',
+    nidBackUrl: 'nidBackUrl',
+    fatherNidUrl: 'fatherNidUrl',
+    motherNidUrl: 'motherNidUrl',
+    nagorikCertificateUrl: 'nagorikCertificateUrl',
+    birthCertificateUrl: 'birthCertificateUrl',
+    characterCertificateUrl: 'characterCertificateUrl',
+    quota: 'quota',
+    quotaCertificateUrl: 'quotaCertificateUrl',
+    skills: 'skills',
+    experiences: 'experiences',
+    presentAddressDetails: 'presentAddressDetails',
+    permanentAddressDetails: 'permanentAddressDetails',
+    careerObjective: 'careerObjective',
+    professionalSummary: 'professionalSummary',
+    currentPosition: 'currentPosition',
+    currentOrganization: 'currentOrganization',
+    careerPreferences: 'careerPreferences'
   };
 
   export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
@@ -44922,6 +45392,41 @@ export namespace Prisma {
     googleId?: StringNullableFilter<"Candidate"> | string | null
     createdAt?: DateTimeFilter<"Candidate"> | Date | string
     updatedAt?: DateTimeFilter<"Candidate"> | Date | string
+    fatherName?: StringNullableFilter<"Candidate"> | string | null
+    fatherNameBn?: StringNullableFilter<"Candidate"> | string | null
+    motherName?: StringNullableFilter<"Candidate"> | string | null
+    motherNameBn?: StringNullableFilter<"Candidate"> | string | null
+    fatherNid?: StringNullableFilter<"Candidate"> | string | null
+    motherNid?: StringNullableFilter<"Candidate"> | string | null
+    dob?: StringNullableFilter<"Candidate"> | string | null
+    gender?: StringNullableFilter<"Candidate"> | string | null
+    nid?: StringNullableFilter<"Candidate"> | string | null
+    address?: StringNullableFilter<"Candidate"> | string | null
+    permanentAddress?: StringNullableFilter<"Candidate"> | string | null
+    sameAsPresentAddress?: BoolNullableFilter<"Candidate"> | boolean | null
+    maritalStatus?: StringNullableFilter<"Candidate"> | string | null
+    religion?: StringNullableFilter<"Candidate"> | string | null
+    nationality?: StringNullableFilter<"Candidate"> | string | null
+    photoUrl?: StringNullableFilter<"Candidate"> | string | null
+    signatureUrl?: StringNullableFilter<"Candidate"> | string | null
+    nidFrontUrl?: StringNullableFilter<"Candidate"> | string | null
+    nidBackUrl?: StringNullableFilter<"Candidate"> | string | null
+    fatherNidUrl?: StringNullableFilter<"Candidate"> | string | null
+    motherNidUrl?: StringNullableFilter<"Candidate"> | string | null
+    nagorikCertificateUrl?: StringNullableFilter<"Candidate"> | string | null
+    birthCertificateUrl?: StringNullableFilter<"Candidate"> | string | null
+    characterCertificateUrl?: StringNullableFilter<"Candidate"> | string | null
+    quota?: StringNullableFilter<"Candidate"> | string | null
+    quotaCertificateUrl?: StringNullableFilter<"Candidate"> | string | null
+    skills?: JsonNullableFilter<"Candidate">
+    experiences?: JsonNullableFilter<"Candidate">
+    presentAddressDetails?: JsonNullableFilter<"Candidate">
+    permanentAddressDetails?: JsonNullableFilter<"Candidate">
+    careerObjective?: StringNullableFilter<"Candidate"> | string | null
+    professionalSummary?: StringNullableFilter<"Candidate"> | string | null
+    currentPosition?: StringNullableFilter<"Candidate"> | string | null
+    currentOrganization?: StringNullableFilter<"Candidate"> | string | null
+    careerPreferences?: JsonNullableFilter<"Candidate">
     sessions?: SessionListRelationFilter
     documents?: CandidateDocumentListRelationFilter
     educations?: EducationRecordListRelationFilter
@@ -44952,6 +45457,41 @@ export namespace Prisma {
     googleId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    fatherName?: SortOrderInput | SortOrder
+    fatherNameBn?: SortOrderInput | SortOrder
+    motherName?: SortOrderInput | SortOrder
+    motherNameBn?: SortOrderInput | SortOrder
+    fatherNid?: SortOrderInput | SortOrder
+    motherNid?: SortOrderInput | SortOrder
+    dob?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    nid?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    permanentAddress?: SortOrderInput | SortOrder
+    sameAsPresentAddress?: SortOrderInput | SortOrder
+    maritalStatus?: SortOrderInput | SortOrder
+    religion?: SortOrderInput | SortOrder
+    nationality?: SortOrderInput | SortOrder
+    photoUrl?: SortOrderInput | SortOrder
+    signatureUrl?: SortOrderInput | SortOrder
+    nidFrontUrl?: SortOrderInput | SortOrder
+    nidBackUrl?: SortOrderInput | SortOrder
+    fatherNidUrl?: SortOrderInput | SortOrder
+    motherNidUrl?: SortOrderInput | SortOrder
+    nagorikCertificateUrl?: SortOrderInput | SortOrder
+    birthCertificateUrl?: SortOrderInput | SortOrder
+    characterCertificateUrl?: SortOrderInput | SortOrder
+    quota?: SortOrderInput | SortOrder
+    quotaCertificateUrl?: SortOrderInput | SortOrder
+    skills?: SortOrderInput | SortOrder
+    experiences?: SortOrderInput | SortOrder
+    presentAddressDetails?: SortOrderInput | SortOrder
+    permanentAddressDetails?: SortOrderInput | SortOrder
+    careerObjective?: SortOrderInput | SortOrder
+    professionalSummary?: SortOrderInput | SortOrder
+    currentPosition?: SortOrderInput | SortOrder
+    currentOrganization?: SortOrderInput | SortOrder
+    careerPreferences?: SortOrderInput | SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     documents?: CandidateDocumentOrderByRelationAggregateInput
     educations?: EducationRecordOrderByRelationAggregateInput
@@ -44985,6 +45525,41 @@ export namespace Prisma {
     googleId?: StringNullableFilter<"Candidate"> | string | null
     createdAt?: DateTimeFilter<"Candidate"> | Date | string
     updatedAt?: DateTimeFilter<"Candidate"> | Date | string
+    fatherName?: StringNullableFilter<"Candidate"> | string | null
+    fatherNameBn?: StringNullableFilter<"Candidate"> | string | null
+    motherName?: StringNullableFilter<"Candidate"> | string | null
+    motherNameBn?: StringNullableFilter<"Candidate"> | string | null
+    fatherNid?: StringNullableFilter<"Candidate"> | string | null
+    motherNid?: StringNullableFilter<"Candidate"> | string | null
+    dob?: StringNullableFilter<"Candidate"> | string | null
+    gender?: StringNullableFilter<"Candidate"> | string | null
+    nid?: StringNullableFilter<"Candidate"> | string | null
+    address?: StringNullableFilter<"Candidate"> | string | null
+    permanentAddress?: StringNullableFilter<"Candidate"> | string | null
+    sameAsPresentAddress?: BoolNullableFilter<"Candidate"> | boolean | null
+    maritalStatus?: StringNullableFilter<"Candidate"> | string | null
+    religion?: StringNullableFilter<"Candidate"> | string | null
+    nationality?: StringNullableFilter<"Candidate"> | string | null
+    photoUrl?: StringNullableFilter<"Candidate"> | string | null
+    signatureUrl?: StringNullableFilter<"Candidate"> | string | null
+    nidFrontUrl?: StringNullableFilter<"Candidate"> | string | null
+    nidBackUrl?: StringNullableFilter<"Candidate"> | string | null
+    fatherNidUrl?: StringNullableFilter<"Candidate"> | string | null
+    motherNidUrl?: StringNullableFilter<"Candidate"> | string | null
+    nagorikCertificateUrl?: StringNullableFilter<"Candidate"> | string | null
+    birthCertificateUrl?: StringNullableFilter<"Candidate"> | string | null
+    characterCertificateUrl?: StringNullableFilter<"Candidate"> | string | null
+    quota?: StringNullableFilter<"Candidate"> | string | null
+    quotaCertificateUrl?: StringNullableFilter<"Candidate"> | string | null
+    skills?: JsonNullableFilter<"Candidate">
+    experiences?: JsonNullableFilter<"Candidate">
+    presentAddressDetails?: JsonNullableFilter<"Candidate">
+    permanentAddressDetails?: JsonNullableFilter<"Candidate">
+    careerObjective?: StringNullableFilter<"Candidate"> | string | null
+    professionalSummary?: StringNullableFilter<"Candidate"> | string | null
+    currentPosition?: StringNullableFilter<"Candidate"> | string | null
+    currentOrganization?: StringNullableFilter<"Candidate"> | string | null
+    careerPreferences?: JsonNullableFilter<"Candidate">
     sessions?: SessionListRelationFilter
     documents?: CandidateDocumentListRelationFilter
     educations?: EducationRecordListRelationFilter
@@ -45015,6 +45590,41 @@ export namespace Prisma {
     googleId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    fatherName?: SortOrderInput | SortOrder
+    fatherNameBn?: SortOrderInput | SortOrder
+    motherName?: SortOrderInput | SortOrder
+    motherNameBn?: SortOrderInput | SortOrder
+    fatherNid?: SortOrderInput | SortOrder
+    motherNid?: SortOrderInput | SortOrder
+    dob?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    nid?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    permanentAddress?: SortOrderInput | SortOrder
+    sameAsPresentAddress?: SortOrderInput | SortOrder
+    maritalStatus?: SortOrderInput | SortOrder
+    religion?: SortOrderInput | SortOrder
+    nationality?: SortOrderInput | SortOrder
+    photoUrl?: SortOrderInput | SortOrder
+    signatureUrl?: SortOrderInput | SortOrder
+    nidFrontUrl?: SortOrderInput | SortOrder
+    nidBackUrl?: SortOrderInput | SortOrder
+    fatherNidUrl?: SortOrderInput | SortOrder
+    motherNidUrl?: SortOrderInput | SortOrder
+    nagorikCertificateUrl?: SortOrderInput | SortOrder
+    birthCertificateUrl?: SortOrderInput | SortOrder
+    characterCertificateUrl?: SortOrderInput | SortOrder
+    quota?: SortOrderInput | SortOrder
+    quotaCertificateUrl?: SortOrderInput | SortOrder
+    skills?: SortOrderInput | SortOrder
+    experiences?: SortOrderInput | SortOrder
+    presentAddressDetails?: SortOrderInput | SortOrder
+    permanentAddressDetails?: SortOrderInput | SortOrder
+    careerObjective?: SortOrderInput | SortOrder
+    professionalSummary?: SortOrderInput | SortOrder
+    currentPosition?: SortOrderInput | SortOrder
+    currentOrganization?: SortOrderInput | SortOrder
+    careerPreferences?: SortOrderInput | SortOrder
     _count?: CandidateCountOrderByAggregateInput
     _avg?: CandidateAvgOrderByAggregateInput
     _max?: CandidateMaxOrderByAggregateInput
@@ -45043,6 +45653,41 @@ export namespace Prisma {
     googleId?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
+    fatherName?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    fatherNameBn?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    motherName?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    motherNameBn?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    fatherNid?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    motherNid?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    dob?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    gender?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    nid?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    permanentAddress?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    sameAsPresentAddress?: BoolNullableWithAggregatesFilter<"Candidate"> | boolean | null
+    maritalStatus?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    religion?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    nationality?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    photoUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    signatureUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    nidFrontUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    nidBackUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    fatherNidUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    motherNidUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    nagorikCertificateUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    birthCertificateUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    characterCertificateUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    quota?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    quotaCertificateUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    skills?: JsonNullableWithAggregatesFilter<"Candidate">
+    experiences?: JsonNullableWithAggregatesFilter<"Candidate">
+    presentAddressDetails?: JsonNullableWithAggregatesFilter<"Candidate">
+    permanentAddressDetails?: JsonNullableWithAggregatesFilter<"Candidate">
+    careerObjective?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    professionalSummary?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    currentPosition?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    currentOrganization?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    careerPreferences?: JsonNullableWithAggregatesFilter<"Candidate">
   }
 
   export type SessionWhereInput = {
@@ -47639,6 +48284,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
@@ -47669,6 +48349,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
@@ -47699,6 +48414,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
@@ -47729,6 +48479,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
@@ -47759,6 +48544,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CandidateUpdateManyMutationInput = {
@@ -47779,6 +48599,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CandidateUncheckedUpdateManyInput = {
@@ -47799,6 +48654,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SessionCreateInput = {
@@ -50458,6 +51348,11 @@ export namespace Prisma {
     not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -50576,6 +51471,41 @@ export namespace Prisma {
     googleId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    fatherName?: SortOrder
+    fatherNameBn?: SortOrder
+    motherName?: SortOrder
+    motherNameBn?: SortOrder
+    fatherNid?: SortOrder
+    motherNid?: SortOrder
+    dob?: SortOrder
+    gender?: SortOrder
+    nid?: SortOrder
+    address?: SortOrder
+    permanentAddress?: SortOrder
+    sameAsPresentAddress?: SortOrder
+    maritalStatus?: SortOrder
+    religion?: SortOrder
+    nationality?: SortOrder
+    photoUrl?: SortOrder
+    signatureUrl?: SortOrder
+    nidFrontUrl?: SortOrder
+    nidBackUrl?: SortOrder
+    fatherNidUrl?: SortOrder
+    motherNidUrl?: SortOrder
+    nagorikCertificateUrl?: SortOrder
+    birthCertificateUrl?: SortOrder
+    characterCertificateUrl?: SortOrder
+    quota?: SortOrder
+    quotaCertificateUrl?: SortOrder
+    skills?: SortOrder
+    experiences?: SortOrder
+    presentAddressDetails?: SortOrder
+    permanentAddressDetails?: SortOrder
+    careerObjective?: SortOrder
+    professionalSummary?: SortOrder
+    currentPosition?: SortOrder
+    currentOrganization?: SortOrder
+    careerPreferences?: SortOrder
   }
 
   export type CandidateAvgOrderByAggregateInput = {
@@ -50600,6 +51530,36 @@ export namespace Prisma {
     googleId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    fatherName?: SortOrder
+    fatherNameBn?: SortOrder
+    motherName?: SortOrder
+    motherNameBn?: SortOrder
+    fatherNid?: SortOrder
+    motherNid?: SortOrder
+    dob?: SortOrder
+    gender?: SortOrder
+    nid?: SortOrder
+    address?: SortOrder
+    permanentAddress?: SortOrder
+    sameAsPresentAddress?: SortOrder
+    maritalStatus?: SortOrder
+    religion?: SortOrder
+    nationality?: SortOrder
+    photoUrl?: SortOrder
+    signatureUrl?: SortOrder
+    nidFrontUrl?: SortOrder
+    nidBackUrl?: SortOrder
+    fatherNidUrl?: SortOrder
+    motherNidUrl?: SortOrder
+    nagorikCertificateUrl?: SortOrder
+    birthCertificateUrl?: SortOrder
+    characterCertificateUrl?: SortOrder
+    quota?: SortOrder
+    quotaCertificateUrl?: SortOrder
+    careerObjective?: SortOrder
+    professionalSummary?: SortOrder
+    currentPosition?: SortOrder
+    currentOrganization?: SortOrder
   }
 
   export type CandidateMinOrderByAggregateInput = {
@@ -50620,6 +51580,36 @@ export namespace Prisma {
     googleId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    fatherName?: SortOrder
+    fatherNameBn?: SortOrder
+    motherName?: SortOrder
+    motherNameBn?: SortOrder
+    fatherNid?: SortOrder
+    motherNid?: SortOrder
+    dob?: SortOrder
+    gender?: SortOrder
+    nid?: SortOrder
+    address?: SortOrder
+    permanentAddress?: SortOrder
+    sameAsPresentAddress?: SortOrder
+    maritalStatus?: SortOrder
+    religion?: SortOrder
+    nationality?: SortOrder
+    photoUrl?: SortOrder
+    signatureUrl?: SortOrder
+    nidFrontUrl?: SortOrder
+    nidBackUrl?: SortOrder
+    fatherNidUrl?: SortOrder
+    motherNidUrl?: SortOrder
+    nagorikCertificateUrl?: SortOrder
+    birthCertificateUrl?: SortOrder
+    characterCertificateUrl?: SortOrder
+    quota?: SortOrder
+    quotaCertificateUrl?: SortOrder
+    careerObjective?: SortOrder
+    professionalSummary?: SortOrder
+    currentPosition?: SortOrder
+    currentOrganization?: SortOrder
   }
 
   export type CandidateSumOrderByAggregateInput = {
@@ -50644,6 +51634,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserStatusFilter<$PrismaModel>
     _max?: NestedEnumUserStatusFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type SessionCountOrderByAggregateInput = {
@@ -52146,6 +53144,10 @@ export namespace Prisma {
     set?: $Enums.UserStatus
   }
 
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
   export type SessionUpdateManyWithoutCandidateNestedInput = {
     create?: XOR<SessionCreateWithoutCandidateInput, SessionUncheckedCreateWithoutCandidateInput> | SessionCreateWithoutCandidateInput[] | SessionUncheckedCreateWithoutCandidateInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutCandidateInput | SessionCreateOrConnectWithoutCandidateInput[]
@@ -53317,6 +54319,11 @@ export namespace Prisma {
     not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
@@ -53335,6 +54342,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserStatusFilter<$PrismaModel>
     _max?: NestedEnumUserStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumOtpTypeFilter<$PrismaModel = never> = {
@@ -53586,6 +54601,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
@@ -53615,6 +54665,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
@@ -53660,6 +54745,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
@@ -53689,6 +54809,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
@@ -53718,6 +54873,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
@@ -53747,6 +54937,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
@@ -53857,6 +55082,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
@@ -53886,6 +55146,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
@@ -53986,6 +55281,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
@@ -54015,6 +55345,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
@@ -54125,6 +55490,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
@@ -54154,6 +55554,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
@@ -54881,6 +56316,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
     applications?: ApplicationRequestCreateNestedManyWithoutCandidateInput
@@ -54910,6 +56380,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
     applications?: ApplicationRequestUncheckedCreateNestedManyWithoutCandidateInput
@@ -54955,6 +56460,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
     applications?: ApplicationRequestUpdateManyWithoutCandidateNestedInput
@@ -54984,6 +56524,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
     applications?: ApplicationRequestUncheckedUpdateManyWithoutCandidateNestedInput
@@ -55013,6 +56588,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     applications?: ApplicationRequestCreateNestedManyWithoutCandidateInput
@@ -55042,6 +56652,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     applications?: ApplicationRequestUncheckedCreateNestedManyWithoutCandidateInput
@@ -55087,6 +56732,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     applications?: ApplicationRequestUpdateManyWithoutCandidateNestedInput
@@ -55116,6 +56796,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     applications?: ApplicationRequestUncheckedUpdateManyWithoutCandidateNestedInput
@@ -55145,6 +56860,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
     applications?: ApplicationRequestCreateNestedManyWithoutCandidateInput
@@ -55174,6 +56924,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
     applications?: ApplicationRequestUncheckedCreateNestedManyWithoutCandidateInput
@@ -55219,6 +57004,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
     applications?: ApplicationRequestUpdateManyWithoutCandidateNestedInput
@@ -55248,6 +57068,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
     applications?: ApplicationRequestUncheckedUpdateManyWithoutCandidateNestedInput
@@ -55277,6 +57132,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
@@ -55306,6 +57196,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
@@ -55416,6 +57341,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
@@ -55445,6 +57405,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
@@ -56450,6 +58445,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
@@ -56479,6 +58509,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
@@ -56524,6 +58589,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
@@ -56553,6 +58653,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
@@ -56657,6 +58792,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
@@ -56686,6 +58856,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
@@ -56772,6 +58977,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
@@ -56801,6 +59041,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
@@ -56889,6 +59164,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordCreateNestedManyWithoutCandidateInput
@@ -56918,6 +59228,41 @@ export namespace Prisma {
     googleId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    fatherName?: string | null
+    fatherNameBn?: string | null
+    motherName?: string | null
+    motherNameBn?: string | null
+    fatherNid?: string | null
+    motherNid?: string | null
+    dob?: string | null
+    gender?: string | null
+    nid?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    sameAsPresentAddress?: boolean | null
+    maritalStatus?: string | null
+    religion?: string | null
+    nationality?: string | null
+    photoUrl?: string | null
+    signatureUrl?: string | null
+    nidFrontUrl?: string | null
+    nidBackUrl?: string | null
+    fatherNidUrl?: string | null
+    motherNidUrl?: string | null
+    nagorikCertificateUrl?: string | null
+    birthCertificateUrl?: string | null
+    characterCertificateUrl?: string | null
+    quota?: string | null
+    quotaCertificateUrl?: string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: string | null
+    professionalSummary?: string | null
+    currentPosition?: string | null
+    currentOrganization?: string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedCreateNestedManyWithoutCandidateInput
     documents?: CandidateDocumentUncheckedCreateNestedManyWithoutCandidateInput
     educations?: EducationRecordUncheckedCreateNestedManyWithoutCandidateInput
@@ -56990,6 +59335,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUpdateManyWithoutCandidateNestedInput
@@ -57019,6 +59399,41 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNameBn?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNid?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    nid?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsPresentAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    religion?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    signatureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nidBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    motherNidUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    nagorikCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    characterCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    quota?: NullableStringFieldUpdateOperationsInput | string | null
+    quotaCertificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    experiences?: NullableJsonNullValueInput | InputJsonValue
+    presentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    permanentAddressDetails?: NullableJsonNullValueInput | InputJsonValue
+    careerObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    professionalSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPosition?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOrganization?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPreferences?: NullableJsonNullValueInput | InputJsonValue
     sessions?: SessionUncheckedUpdateManyWithoutCandidateNestedInput
     documents?: CandidateDocumentUncheckedUpdateManyWithoutCandidateNestedInput
     educations?: EducationRecordUncheckedUpdateManyWithoutCandidateNestedInput
