@@ -14,6 +14,7 @@ interface EnvConfig {
   ACCESS_TOKEN_SECRET: string;
   REFRESH_TOKEN_SECRET: string;
   COOKIE_SECURE: boolean;
+  COOKIE_DOMAIN?: string;
   SMTP_HOST: string;
   SMTP_PORT: number;
   SMTP_SECURE: boolean;
@@ -35,6 +36,7 @@ const loadEnv = (): EnvConfig => {
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'cs_access_token_secret_min_32_characters_key_2026',
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'cs_refresh_token_secret_min_32_characters_key_2026',
     COOKIE_SECURE: process.env.COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production',
+    COOKIE_DOMAIN: process.env.COOKIE_DOMAIN || '.moshiur.pro',
     SMTP_HOST: process.env.SMTP_HOST || 'smtp.gmail.com',
     SMTP_PORT: Number(process.env.SMTP_PORT) || 587,
     SMTP_SECURE: process.env.SMTP_SECURE === 'true',
