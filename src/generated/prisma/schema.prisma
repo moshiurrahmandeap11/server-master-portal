@@ -172,6 +172,43 @@ model Candidate {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
+  // Extended Smart Profile Fields (Govt / Teletalk / Bank Standard)
+  fatherName              String?
+  fatherNameBn            String?
+  motherName              String?
+  motherNameBn            String?
+  fatherNid               String?
+  motherNid               String?
+  dob                     String?
+  gender                  String?  @default("male")
+  nid                     String?
+  address                 String?
+  permanentAddress        String?
+  sameAsPresentAddress    Boolean? @default(true)
+  maritalStatus           String?  @default("single")
+  religion                String?
+  nationality             String?  @default("বাংলাদেশি (Bangladeshi)")
+  photoUrl                String?
+  signatureUrl            String?
+  nidFrontUrl             String?
+  nidBackUrl              String?
+  fatherNidUrl            String?
+  motherNidUrl            String?
+  nagorikCertificateUrl   String?
+  birthCertificateUrl     String?
+  characterCertificateUrl String?
+  quota                   String?  @default("none")
+  quotaCertificateUrl     String?
+  skills                  Json?    @default("[]")
+  experiences             Json?    @default("[]")
+  presentAddressDetails   Json?
+  permanentAddressDetails Json?
+  careerObjective         String?
+  professionalSummary     String?
+  currentPosition         String?
+  currentOrganization     String?
+  careerPreferences       Json?
+
   sessions          Session[]
   documents         CandidateDocument[]
   educations        EducationRecord[]
