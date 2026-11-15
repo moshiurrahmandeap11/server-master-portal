@@ -11,6 +11,9 @@ const transporter = nodemailer.createTransport({
   host: env.SMTP_HOST,
   port: env.SMTP_PORT,
   secure: env.SMTP_SECURE,
+  connectionTimeout: 4000,
+  greetingTimeout: 4000,
+  socketTimeout: 4000,
   auth: (env.SMTP_USER && env.SMTP_PASS) ? {
     user: env.SMTP_USER,
     pass: env.SMTP_PASS,
@@ -35,11 +38,14 @@ export const emailUtils = {
         if (type === 'login') subject = 'চাকরি সেবা — লগইন ভেরিফিকেশন ওটিপি';
         if (type === 'reset') subject = 'চাকরি সেবা — পাসওয়ার্ড রিসেট ওটিপি';
 
-        await transporter.sendMail({
+        // Send email asynchronously with error catching so request is never blocked by SMTP timeouts
+        transporter.sendMail({
           from: env.SMTP_FROM,
           to,
           subject,
           html,
+        }).catch((err) => {
+          console.error('[emailUtils] Failed to send email via SMTP:', err.message);
         });
       } else {
         console.log(`[DEV EMAIL] Target: ${to} | Type: ${type} | OTP: ${otp}`);
