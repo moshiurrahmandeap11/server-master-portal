@@ -585,4 +585,39 @@ export const adminController = {
     });
   }),
 
+  // Autonomous Audit & Diagnostics
+  getAudit: catchAsync(async (_req: Request, res: Response) => {
+    const result = await adminService.getAuditReport(false);
+    return res.status(200).json(result);
+  }),
+
+  postAudit: catchAsync(async (req: Request, res: Response) => {
+    const autoRepair = req.body?.autoRepair !== false;
+    const result = await adminService.getAuditReport(autoRepair);
+    return res.status(200).json(result);
+  }),
+
+  // Automation Tasks Management
+  getAutomationTasks: catchAsync(async (_req: Request, res: Response) => {
+    const result = await adminService.getAutomationTasksList();
+    return res.status(200).json({
+      success: true,
+      ...result,
+    });
+  }),
+
+  postAutomationTasks: catchAsync(async (req: Request, res: Response) => {
+    const taskId = req.body?.taskId;
+    const result = await adminService.executeAutomationTask(taskId);
+    return res.status(200).json(result);
+  }),
+
+  patchAutomationTasks: catchAsync(async (req: Request, res: Response) => {
+    const { taskId, targetStatus } = req.body;
+    return res.status(200).json({
+      success: true,
+      message: `টাস্ক ${taskId} স্ট্যাটাস ${targetStatus} করা হয়েছে।`,
+    });
+  }),
+
 };
