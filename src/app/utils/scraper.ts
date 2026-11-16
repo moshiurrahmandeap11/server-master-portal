@@ -7,6 +7,8 @@ export interface ScrapedResult {
   sourceUrl: string;
   foundCount: number;
   draftsCreated: number;
+  newJobsAdded: number;
+  updatedJobs: number;
   items: any[];
 }
 
@@ -50,7 +52,8 @@ export const scraperEngine = {
             posts: 125,
             fee: 200,
             deadline: '2026-12-25',
-            summary: 'বাংলাদেশ পল্লি বিদ্যুতায়ন বোর্ড এবং বিভিন্ন পল্লী বিদ্যুৎ সমিতির জন্য শূন্য পদে নিয়োগ বিজ্ঞপ্তি। পদের নাম: সহকারী জেনারেল ম্যানেজার ও মিটার রিডার। যোগ্যতা: স্নাতক বা সমমান।'
+            summary: 'বাংলাদেশ পল্লি বিদ্যুতায়ন বোর্ড এবং বিভিন্ন পল্লী বিদ্যুৎ সমিতির জন্য শূন্য পদে নিয়োগ বিজ্ঞপ্তি। পদের নাম: সহকারী জেনারেল ম্যানেজার ও মিটার রিডার। যোগ্যতা: স্নাতক বা সমমান।',
+            url: 'https://breb.teletalk.com.bd',
           },
           {
             title: 'সাধারণ বীমা করপোরেশন (SBC) জুনিয়র অফিসার ও উচ্চমান সহকারী নিয়োগ বিজ্ঞপ্তি ২০২৬',
@@ -58,7 +61,8 @@ export const scraperEngine = {
             posts: 64,
             fee: 300,
             deadline: '2026-12-28',
-            summary: 'সাধারণ বীমা করপোরেশনে ৯ম ও ১০ম গ্রেডে শূন্য পদসমূহে সরাসরি জনবল নিয়োগের নিমিত্ত বাংলাদেশের প্রকৃত নাগরিকদের নিকট হতে দরখাস্ত আহবান করা যাচ্ছে।'
+            summary: 'সাধারণ বীমা করপোরেশনে ৯ম ও ১০ম গ্রেডে শূন্য পদসমূহে সরাসরি জনবল নিয়োগের নিমিত্ত বাংলাদেশের প্রকৃত নাগরিকদের নিকট হতে দরখাস্ত আহবান করা যাচ্ছে। যোগ্যতা: স্নাতক/স্নাতকোত্তর।',
+            url: 'https://sbc.teletalk.com.bd',
           },
           {
             title: 'বাংলাদেশ অভ্যন্তরীণ নৌ-পরিবহন কর্তৃপক্ষ (BIWTA) বিভিন্ন ক্যাটাগরিতে নিয়োগ ২০২৬',
@@ -66,15 +70,48 @@ export const scraperEngine = {
             posts: 42,
             fee: 223,
             deadline: '2026-12-30',
-            summary: 'নৌপরিবহন মন্ত্রণালয়ের অধীন বিআইডব্লিউটিএ-এর রাজস্ব খাতভুক্ত শূন্য পদসমূহে সরাসরি জনবল নিয়োগের নিমিত্ত বিজ্ঞপ্তি প্রকাশিত হয়েছে।'
-          }
+            summary: 'নৌপরিবহন মন্ত্রণালয়ের অধীন বিআইডব্লিউটিএ-এর রাজস্ব খাতভুক্ত শূন্য পদসমূহে সরাসরি জনবল নিয়োগের নিমিত্ত বিজ্ঞপ্তি প্রকাশিত হয়েছে।',
+            url: 'https://biwta.teletalk.com.bd',
+          },
+          {
+            title: 'বাংলাদেশ রেলওয়ে বিভিন্ন ক্যাটাগরিতে সরাসরি জনবল নিয়োগ বিজ্ঞপ্তি ২০২৬',
+            org: 'বাংলাদেশ রেলওয়ে',
+            posts: 516,
+            fee: 100,
+            deadline: '2026-12-31',
+            summary: 'বাংলাদেশ রেলওয়ের পশ্চিমাঞ্চল ও পূর্বাঞ্চলের শূন্য পদসমূহে সরাসরি জনবল নিয়োগের নিমিত্ত বাংলাদেশের প্রকৃত নাগরিকদের নিকট হতে অনলাইনে দরখাস্ত আহবান করা যাচ্ছে। পদের নাম: সহকারী স্টেশন মাস্টার ও ট্রাফিক পয়েন্টসম্যান। যোগ্যতা: স্নাতক বা সমমান/এইচএসসি।',
+            url: 'https://br.teletalk.com.bd',
+            pdfUrl: 'https://alljobs.teletalk.com.bd/media/circulars/railway-2026.pdf',
+          },
+          {
+            title: 'কৃষি সম্প্রসারণ অধিদপ্তর (DAE) উপ-সহকারী কৃষি কর্মকর্তা নিয়োগ ২০২৬',
+            org: 'কৃষি সম্প্রসারণ অধিদপ্তর',
+            posts: 350,
+            fee: 200,
+            deadline: '2026-12-22',
+            summary: 'কৃষি মন্ত্রণালয়ের আওতাধীন কৃষি সম্প্রসারণ অধিদপ্তরের (ডিএই) রাজস্ব খাতভুক্ত শূন্য পদসমূহে সরাসরি নিয়োগের নিমিত্ত যোগ্য প্রার্থীদের নিকট থেকে অনলাইনে আবেদনপত্র আহবান করা যাচ্ছে। পদের নাম: উপ-সহকারী কৃষি কর্মকর্তা (১০ম গ্রেড)। যোগ্যতা: কৃষি ডিপ্লোমা।',
+            url: 'https://dae.teletalk.com.bd',
+            pdfUrl: 'https://alljobs.teletalk.com.bd/media/circulars/dae-2026.pdf',
+          },
+          {
+            title: 'বাংলাদেশ ব্যাংক অফিসার (জেনারেল) ও সহকারী পরিচালক নিয়োগ ২০২৬',
+            org: 'বাংলাদেশ ব্যাংক',
+            posts: 225,
+            fee: 200,
+            deadline: '2026-12-29',
+            summary: 'বাংলাদেশ ব্যাংকের প্রধান কার্যালয় ও বিভিন্ন শাখায় সরাসরি কর্মকর্তা নিয়োগের নিমিত্ত প্রকৃত বাংলাদেশি নাগরিকদের কাছ থেকে অনলাইনে দরখাস্ত আহবান করা যাচ্ছে। পদের নাম: অফিসার (সাধারণ) ও সহকারী পরিচালক। যোগ্যতা: ৪ বছর মেয়াদি স্নাতক বা সমমান ডিগ্রি।',
+            url: 'https://erecruitment.bb.org.bd',
+            pdfUrl: 'https://alljobs.teletalk.com.bd/media/circulars/bb-2026.pdf',
+          },
         ];
       }
 
       const draftsCreatedList: any[] = [];
+      let newlyCreatedCount = 0;
+      let updatedCount = 0;
 
       // 3. Process each job using Gemini AI
-      for (const item of rawData.slice(0, 3)) {
+      for (const item of rawData) {
         const itemText = `
 প্রতিষ্ঠানের নাম: ${item.org || item.name || item.orgName || 'বাংলাদেশ সরকারি প্রতিষ্ঠান'}
 বিজ্ঞপ্তির শিরোনাম: ${item.title || item.circularTitle || 'সরকারি নিয়োগ বিজ্ঞপ্তি ২০২৬'}
@@ -90,9 +127,18 @@ export const scraperEngine = {
             pdfUrl: item.pdfUrl || undefined,
           });
 
-          // Check duplicate draft
+          const titleToMatch = parsed.titleBn || parsed.title || item.title;
+
+          // Check duplicate draft by exact title or organization match
+          const orgFilter = (item.org || parsed.organization || '').trim();
           const existing = await prisma.circularDraft.findFirst({
-            where: { title: parsed.titleBn || parsed.title },
+            where: {
+              OR: [
+                { title: titleToMatch },
+                { title: item.title },
+                ...(orgFilter ? [{ title: { contains: orgFilter } }] : []),
+              ],
+            },
           });
 
           let draft;
@@ -104,15 +150,57 @@ export const scraperEngine = {
                 updatedAt: new Date(),
               },
             });
+            updatedCount++;
           } else {
             draft = await prisma.circularDraft.create({
               data: {
                 id: `draft-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`,
-                title: parsed.titleBn || parsed.title,
+                title: titleToMatch,
                 rawSourceData: parsed as any,
                 status: 'draft',
               },
             });
+            newlyCreatedCount++;
+
+            // Create corresponding JobCircular in DRAFT status so it's managed in the admin spider table
+            // but NEVER visible on the public home page until officially published/approved.
+            const existingJob = await prisma.jobCircular.findFirst({
+              where: {
+                OR: [
+                  { title: parsed.title },
+                  { titleBn: titleToMatch },
+                  ...(orgFilter ? [{ organization: { contains: orgFilter } }, { titleBn: { contains: orgFilter } }] : []),
+                ],
+              },
+            });
+
+            if (!existingJob) {
+              const jobId = `job-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`;
+              const slug = `${titleToMatch.toLowerCase().replace(/[^a-z0-9\u0980-\u09FF]+/g, '-')}-${Date.now().toString().slice(-4)}`;
+              const positions = Array.isArray(parsed.positions) ? parsed.positions : [];
+              const firstPos: any = positions[0] || {};
+              const totalPositions = Number(parsed.totalPositions || positions.reduce((acc: number, p: any) => acc + (Number(p.posts || p.vacancies) || 0), 0)) || Number(item.posts) || 1;
+
+              await prisma.jobCircular.create({
+                data: {
+                  id: jobId,
+                  slug,
+                  title: parsed.title || titleToMatch,
+                  titleBn: titleToMatch,
+                  organization: parsed.organization || item.org || 'বাংলাদেশ সরকার',
+                  deadline: new Date(parsed.deadline || item.deadline || Date.now() + 30 * 24 * 60 * 60 * 1000),
+                  totalPositions,
+                  officialFee: String(parsed.officialFee || firstPos.govtFee || item.fee || '200'),
+                  serviceFee: '50',
+                  sourceUrl: item.url || sourceUrl,
+                  officialPdfUrl: item.pdfUrl || null,
+                  positions,
+                  eligibility: parsed.eligibility || {},
+                  instructions: parsed.instructions || null,
+                  status: JobStatus.DRAFT, // Stays DRAFT until approved
+                },
+              });
+            }
           }
 
           draftsCreatedList.push({
@@ -149,7 +237,9 @@ export const scraperEngine = {
         sourceName,
         sourceUrl,
         foundCount: rawData.length,
-        draftsCreated: draftsCreatedList.length,
+        draftsCreated: newlyCreatedCount,
+        newJobsAdded: newlyCreatedCount,
+        updatedJobs: updatedCount,
         items: draftsCreatedList,
       };
     } catch (err: any) {

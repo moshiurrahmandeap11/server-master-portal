@@ -876,13 +876,17 @@ export const adminService = {
       case 'run_live_automation':
       case 'sync': {
         const scrapeResult = await scraperEngine.scrapeGovernmentJobs();
+        const msg = scrapeResult.newJobsAdded > 0
+          ? `সরকারি চাকরি পোর্টাল থেকে ${scrapeResult.newJobsAdded}টি নতুন সার্কুলার জেমিনি এআই দিয়ে সফলভাবে স্ক্যান ও সংগ্রহ করা হয়েছে (${scrapeResult.updatedJobs}টি বিদ্যমান সার্কুলার আপডেট হয়েছে)।`
+          : `নতুন কোনো সার্কুলার পাওয়া যায়নি। বিদ্যমান ${scrapeResult.updatedJobs}টি সার্কুলারের তথ্য যাচাই ও হালনাগাদ করা হয়েছে।`;
+
         return {
           success: true,
-          message: `সরকারি চাকরি পোর্টাল থেকে ${scrapeResult.draftsCreated}টি নতুন সার্কুলার জেমিনি এআই দিয়ে সফলভাবে স্ক্যান ও খসড়া তৈরি হয়েছে।`,
+          message: msg,
           stats: {
             totalOrgsFound: scrapeResult.foundCount,
-            newJobsAdded: scrapeResult.draftsCreated,
-            updatedJobs: 0,
+            newJobsAdded: scrapeResult.newJobsAdded,
+            updatedJobs: scrapeResult.updatedJobs,
           },
           steps: [
             { step: 1, name: 'সরকারি পোর্টাল সংযোগ ও সার্কুলার ফেচ', status: 'SUCCESS' },
