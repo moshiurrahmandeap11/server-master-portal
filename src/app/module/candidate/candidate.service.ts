@@ -108,15 +108,94 @@ export const candidateService = {
       }
     }
 
-    const updated = await prisma.candidate.update({
-      where: { id: candidateId },
-      data: updateData,
-      include: {
-        educations: { orderBy: { passingYear: 'desc' } },
-        documents: { orderBy: { createdAt: 'desc' } },
-        savedJobs: { include: { job: true } },
-      },
+    const incomingEdu = payload.education !== undefined ? payload.education : payload.educations;
+
+    const updated = await prisma.$transaction(async (tx) => {
+      // 1. Update Candidate table fields
+      await tx.candidate.update({
+        where: { id: candidateId },
+        data: updateData,
+      });
+
+      // 2. Sync Education records if provided in payload
+      if (Array.isArray(incomingEdu)) {
+        const existingRecords = await tx.educationRecord.findMany({
+          where: { candidateId },
+          select: { id: true },
+        });
+        const existingIds = new Set(existingRecords.map((r) => r.id));
+        const keepIds = new Set<string>();
+
+        for (const item of incomingEdu) {
+          if (!item) continue;
+
+          const rawYear = String(item.year || item.passingYear || '2020').replace(/[^0-9]/g, '');
+          const passingYear = parseInt(rawYear, 10) || 2020;
+
+          let parsedGpa: number | null = null;
+          if (typeof item.gpaCgpa === 'number') {
+            parsedGpa = item.gpaCgpa;
+          } else if (typeof item.result === 'string') {
+            const numMatch = item.result.match(/[0-9]+(?:\.[0-9]+)?/);
+            if (numMatch) parsedGpa = parseFloat(numMatch[0]);
+          }
+
+          const eduData = {
+            level: String(item.level || 'SSC'),
+            examTitle: String(item.degree || item.examTitle || 'ডিগ্রি'),
+            groupMajor: item.majorSubject || item.groupMajor || null,
+            boardUniversity: item.boardOrUni || item.boardUniversity || null,
+            institute: item.institutionName || item.institute || null,
+            rollNumber: item.roll ? String(item.roll) : (item.rollNumber ? String(item.rollNumber) : null),
+            regNumber: item.reg ? String(item.reg) : (item.regNumber ? String(item.regNumber) : null),
+            passingYear,
+            resultType: typeof item.result === 'string' ? item.result : (item.resultType || null),
+            gpaCgpa: parsedGpa,
+            scale: typeof item.scale === 'number' ? item.scale : null,
+          };
+
+          const itemId = item.id && typeof item.id === 'string' ? item.id : null;
+          if (itemId && existingIds.has(itemId)) {
+            // Update existing record
+            await tx.educationRecord.update({
+              where: { id: itemId },
+              data: eduData,
+            });
+            keepIds.add(itemId);
+          } else {
+            // Create new record
+            const created = await tx.educationRecord.create({
+              data: {
+                ...eduData,
+                candidateId,
+              },
+            });
+            keepIds.add(created.id);
+          }
+        }
+
+        // Remove records that were deleted by candidate
+        const idsToDelete = existingRecords.map((r) => r.id).filter((id) => !keepIds.has(id));
+        if (idsToDelete.length > 0) {
+          await tx.educationRecord.deleteMany({
+            where: { id: { in: idsToDelete }, candidateId },
+          });
+        }
+      }
+
+      return await tx.candidate.findUnique({
+        where: { id: candidateId },
+        include: {
+          educations: { orderBy: { passingYear: 'desc' } },
+          documents: { orderBy: { createdAt: 'desc' } },
+          savedJobs: { include: { job: true } },
+        },
+      });
     });
+
+    if (!updated) {
+      throw new AppError(status.NOT_FOUND, 'প্রোফাইল আপডেট করতে ব্যর্থ হয়েছে।');
+    }
 
     const { passwordHash: _, ...safeProfile } = updated;
     const mappedEducations = (safeProfile.educations || []).map((e: any) => ({
