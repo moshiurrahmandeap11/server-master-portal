@@ -540,4 +540,34 @@ export const adminService = {
       take: limit,
     });
   },
+  getSpiderStatus: async () => {
+    const [jobs, drafts, sources] = await Promise.all([
+      prisma.jobCircular.findMany({
+        take: 50,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.circularDraft.findMany({
+        take: 20,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.jobSource.findMany(),
+    ]);
+
+    const formattedJobs = jobs.map((j) => formatJobItem(j));
+
+    return {
+      success: true,
+      spiderStatus: 'active',
+      autoPublish: true,
+      engine: 'Gemini 3.5 Flash-Lite AI Scraper & Teletalk Live Engine',
+      workers: [
+        { id: 'worker-gemini-1', name: 'Gemini Primary Worker', status: 'idle', lastActive: new Date() },
+        { id: 'worker-teletalk-alljobs', name: 'Teletalk Alljobs Collector', status: 'ready', lastActive: new Date() },
+      ],
+      syncedJobs: formattedJobs,
+      drafts,
+      sources,
+    };
+  },
+
 };
