@@ -30,6 +30,12 @@ router.post('/categories/bulk-assign', adminController.getCategories);
 router.put('/categories/:id', adminController.updateCategory);
 router.delete('/categories/:id', adminController.deleteCategory);
 
+// Gemini Browser Spider Hub & Autonomous AI Parser
+router.get('/spider/gemini-browser', adminController.getSpiderGeminiBrowser);
+router.post('/spider/gemini-browser', adminController.postSpiderGeminiBrowser);
+router.post('/gemini/parse-circular', adminController.parseCircularWithGemini);
+
+
 // Sources & Crawlers
 router.get('/sources/drafts', adminController.getSourceDrafts);
 router.post('/sources/run', adminController.runSourceSpider);
