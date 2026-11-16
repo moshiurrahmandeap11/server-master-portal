@@ -527,4 +527,25 @@ export const adminController = {
     return res.status(200).json(result);
   }),
 
+  parseCircularWithGemini: catchAsync(async (req: Request, res: Response) => {
+    const result = await adminService.parseCircularWithGemini(req.body);
+    return res.status(200).json({
+      success: true,
+      message: 'জেমিনি এআই দিয়ে সার্কুলার সফলভাবে বিশ্লেষণ করা হয়েছে।',
+      extracted: result,
+      job: result,
+      data: result,
+    });
+  }),
+
+  publishDraft: catchAsync(async (req: Request, res: Response) => {
+    const circular = await adminService.publishDraft(req.params.id);
+    return res.status(200).json({
+      success: true,
+      message: 'খসড়া সার্কুলার সফলভাবে অফিসিয়ালি লাইভ পাবলিশ করা হয়েছে।',
+      circular,
+      data: circular,
+    });
+  }),
+
 };
