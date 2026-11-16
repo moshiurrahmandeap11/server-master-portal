@@ -8,11 +8,25 @@ export const walletController = {
   getWalletOverview: catchAsync(async (req: Request, res: Response) => {
     const result = await walletService.getWalletOverview(req.user!.candidateId);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    return res.status(200).json({
       success: true,
       message: 'ওয়ালেট বিবরণী লোড সফল হয়েছে।',
+      walletBalance: result.balance,
+      balance: result.balance,
+      transactions: result.transactions,
       data: result,
+    });
+  }),
+
+  getTransactions: catchAsync(async (req: Request, res: Response) => {
+    const result = await walletService.getWalletOverview(req.user!.candidateId);
+
+    return res.status(200).json({
+      success: true,
+      walletBalance: result.balance,
+      balance: result.balance,
+      transactions: result.transactions,
+      data: result.transactions,
     });
   }),
 
@@ -20,10 +34,11 @@ export const walletController = {
     const { amount, method, trxId } = req.body;
     const result = await walletService.rechargeWallet(req.user!.candidateId, Number(amount), method, trxId);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    return res.status(200).json({
       success: true,
       message: 'ওয়ালেট রিচার্জ সফল হয়েছে!',
+      walletBalance: result.newBalance,
+      transaction: result.transaction,
       data: result,
     });
   }),

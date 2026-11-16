@@ -49,4 +49,14 @@ router.patch('/career-preferences', candidateController.updateCareerPreferences)
 router.get('/recommendations', candidateController.getRecommendations);
 router.post('/recommendations/feedback', candidateController.recommendationFeedback);
 
+// Reminders & Alerts
+router.get('/job-reminders', candidateController.getJobReminders);
+router.post('/job-reminders', candidateController.addJobReminder);
+router.delete('/job-reminders', candidateController.deleteJobReminder);
+router.delete('/job-reminders/:jobId', candidateController.deleteJobReminder);
+
+router.get('/alerts', candidateController.getAlertPreferences);
+router.post('/alerts', candidateController.saveAlertPreferences);
+router.post('/alerts/test', candidateController.saveAlertPreferences);
+
 export const candidateRoutes = router;

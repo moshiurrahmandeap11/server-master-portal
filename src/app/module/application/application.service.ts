@@ -178,4 +178,24 @@ export const applicationService = {
 
     return application;
   },
+
+  updateApplication: async (candidateId: string, applicationId: string, payload: any) => {
+    const existing = await prisma.applicationRequest.findFirst({
+      where: { id: applicationId, candidateId },
+    });
+
+    if (!existing) {
+      throw new AppError(status.NOT_FOUND, 'আবেদন খুঁজে পাওয়া যায়নি।');
+    }
+
+    const updated = await prisma.applicationRequest.update({
+      where: { id: existing.id },
+      data: {
+        applicantCopyPdfUrl: payload.applicantCopyPdfUrl || existing.applicantCopyPdfUrl,
+        operatorNotes: payload.operatorNotes || existing.operatorNotes,
+      },
+    });
+
+    return updated;
+  },
 };

@@ -6,8 +6,10 @@ const router = Router();
 
 router.use(checkAuth());
 
-router.post('/', applicationController.createApplication);
+router.get('/', applicationController.getMyApplications);
 router.get('/my-applications', applicationController.getMyApplications);
+router.post('/', applicationController.createApplication);
+router.patch('/:id', applicationController.updateApplication);
 router.get('/:id', applicationController.getApplicationDetails);
 
 export const applicationRoutes = router;

@@ -209,4 +209,53 @@ export const candidateController = {
       message: 'মতামত সফলভাবে গ্রহণ করা হয়েছে।',
     });
   }),
+
+  // Job Reminders
+  getJobReminders: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.getJobReminders(req.user!.candidateId);
+    res.status(status.OK).json({
+      success: true,
+      reminders: result,
+      data: result,
+    });
+  }),
+
+  addJobReminder: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.addJobReminder(req.user!.candidateId, req.body);
+    res.status(status.OK).json({
+      success: true,
+      message: 'ডেডলাইন অ্যালার্ট সক্রিয় করা হয়েছে',
+      reminder: result,
+      data: result,
+    });
+  }),
+
+  deleteJobReminder: catchAsync(async (req: Request, res: Response) => {
+    const jobId = (req.query.jobId || req.body?.jobId || req.params.jobId) as string;
+    await candidateService.deleteJobReminder(req.user!.candidateId, jobId);
+    res.status(status.OK).json({
+      success: true,
+      message: 'রিমাইন্ডার বন্ধ করা হয়েছে',
+    });
+  }),
+
+  // Alerts Preferences
+  getAlertPreferences: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.getAlertPreferences(req.user!.candidateId);
+    res.status(status.OK).json({
+      success: true,
+      alertPreferences: result,
+      data: result,
+    });
+  }),
+
+  saveAlertPreferences: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.saveAlertPreferences(req.user!.candidateId, req.body);
+    res.status(status.OK).json({
+      success: true,
+      message: 'অ্যালার্ট পছন্দ সফলভাবে সংরক্ষণ করা হয়েছে',
+      alertPreferences: result,
+      data: result,
+    });
+  }),
 };

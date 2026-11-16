@@ -8,6 +8,10 @@ import { walletRoutes } from '../module/wallet/wallet.route';
 import { examRoutes } from '../module/exam/exam.route';
 import { cmsRoutes } from '../module/cms/cms.route';
 import { adminRoutes } from '../module/admin/admin.route';
+import { contactRoutes } from '../module/contact/contact.route';
+import { discountRoutes } from '../module/wallet/discount.route';
+import { jobAlertRoutes } from '../module/job/job-alerts.route';
+import { eligibilityRoutes } from '../module/job/eligibility.route';
 
 const router = Router();
 
@@ -24,6 +28,10 @@ router.use('/exams', examRoutes);
 router.use('/cms', cmsRoutes);
 router.use('/platform', cmsRoutes);
 router.use('/settings', cmsRoutes);
+router.use('/contact', contactRoutes);
+router.use('/discounts', discountRoutes);
+router.use('/job-alerts', jobAlertRoutes);
+router.use('/eligibility', eligibilityRoutes);
 router.use('/admin', adminRoutes);
 
 export const IndexRoutes = router;

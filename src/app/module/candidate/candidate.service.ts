@@ -503,4 +503,86 @@ export const candidateService = {
       .sort((a, b) => b.matchScore - a.matchScore)
       .slice(0, limit);
   },
+
+  getJobReminders: async (candidateId: string) => {
+    return await prisma.userJobReminder.findMany({
+      where: { candidateId },
+      include: {
+        job: {
+          select: {
+            id: true,
+            title: true,
+            organization: true,
+            deadline: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
+  addJobReminder: async (candidateId: string, payload: { jobId: string; daysBefore?: number[] | number }) => {
+    const alertDaysBefore = Array.isArray(payload.daysBefore) ? payload.daysBefore[0] : (payload.daysBefore || 1);
+    const existing = await prisma.userJobReminder.findFirst({
+      where: { candidateId, jobId: payload.jobId },
+    });
+
+    if (existing) {
+      return existing;
+    }
+
+    return await prisma.userJobReminder.create({
+      data: {
+        candidateId,
+        jobId: payload.jobId,
+        alertDaysBefore: Number(alertDaysBefore),
+      },
+    });
+  },
+
+  deleteJobReminder: async (candidateId: string, jobId: string) => {
+    await prisma.userJobReminder.deleteMany({
+      where: { candidateId, jobId },
+    });
+    return { success: true };
+  },
+
+  getAlertPreferences: async (candidateId: string) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { careerPreferences: true, district: true },
+    });
+
+    const prefs = (candidate?.careerPreferences as any)?.alerts || {
+      categories: ['সরকারি চাকরি', 'ব্যাংক ও আর্থিক'],
+      districts: [candidate?.district || 'ঢাকা'],
+      district: candidate?.district || 'ঢাকা',
+      whatsappAlert: true,
+      smsAlert: false,
+      emailAlert: true,
+      frequency: 'daily',
+    };
+
+    return prefs;
+  },
+
+  saveAlertPreferences: async (candidateId: string, payload: any) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { careerPreferences: true },
+    });
+
+    const existingPrefs = (candidate?.careerPreferences as any) || {};
+    const updatedPrefs = {
+      ...existingPrefs,
+      alerts: payload,
+    };
+
+    await prisma.candidate.update({
+      where: { id: candidateId },
+      data: { careerPreferences: updatedPrefs },
+    });
+
+    return payload;
+  },
 };
