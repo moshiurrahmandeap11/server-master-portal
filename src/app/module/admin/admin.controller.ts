@@ -515,4 +515,16 @@ export const adminController = {
       usage: { apiCalls24h: 84320, storageMb: 420 },
     });
   }),
+  // Gemini Browser Spider Hub Handlers
+  getSpiderGeminiBrowser: catchAsync(async (_req: Request, res: Response) => {
+    const result = await adminService.getSpiderStatus();
+    return res.status(200).json(result);
+  }),
+
+  postSpiderGeminiBrowser: catchAsync(async (req: Request, res: Response) => {
+    const action = req.body?.action || req.query?.action;
+    const result = await adminService.handleSpiderAction(action as string, req.body);
+    return res.status(200).json(result);
+  }),
+
 };
