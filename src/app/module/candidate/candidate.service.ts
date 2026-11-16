@@ -294,4 +294,213 @@ export const candidateService = {
       orderBy: { createdAt: 'desc' },
     });
   },
+
+  // Skills CRUD
+  getSkills: async (candidateId: string) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { skills: true },
+    });
+    return Array.isArray(candidate?.skills) ? (candidate?.skills as any[]) : [];
+  },
+
+  addSkill: async (candidateId: string, payload: any) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { skills: true },
+    });
+    if (!candidate) throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট পাওয়া যায়নি।');
+
+    const currentSkills: any[] = Array.isArray(candidate.skills) ? [...(candidate.skills as any[])] : [];
+    const skillName = (payload.name || payload.title || '').trim();
+    if (!skillName) throw new AppError(status.BAD_REQUEST, 'স্কিলের নাম দেওয়া আবশ্যক।');
+
+    const skillItem = {
+      id: payload.id || `sk_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      name: skillName,
+      proficiency: payload.proficiency || 'intermediate',
+      category: payload.category || 'Technical',
+      isUserConfirmed: true,
+    };
+
+    const existingIdx = currentSkills.findIndex(
+      (s: any) => (typeof s === 'string' ? s.toLowerCase() === skillName.toLowerCase() : s.name?.toLowerCase() === skillName.toLowerCase())
+    );
+
+    if (existingIdx >= 0) {
+      currentSkills[existingIdx] = { ...currentSkills[existingIdx], ...skillItem };
+    } else {
+      currentSkills.push(skillItem);
+    }
+
+    await prisma.candidate.update({
+      where: { id: candidateId },
+      data: { skills: currentSkills },
+    });
+
+    return currentSkills;
+  },
+
+  deleteSkill: async (candidateId: string, skillId: string) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { skills: true },
+    });
+    if (!candidate) throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট পাওয়া যায়নি।');
+
+    const currentSkills: any[] = Array.isArray(candidate.skills) ? [...(candidate.skills as any[])] : [];
+    const updatedSkills = currentSkills.filter(
+      (s: any) => (typeof s === 'string' ? s !== skillId : (s.id !== skillId && s.name !== skillId))
+    );
+
+    await prisma.candidate.update({
+      where: { id: candidateId },
+      data: { skills: updatedSkills },
+    });
+
+    return updatedSkills;
+  },
+
+  // Experience CRUD
+  getExperience: async (candidateId: string) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { experiences: true },
+    });
+    return Array.isArray(candidate?.experiences) ? (candidate?.experiences as any[]) : [];
+  },
+
+  addExperience: async (candidateId: string, payload: any) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { experiences: true },
+    });
+    if (!candidate) throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট পাওয়া যায়নি।');
+
+    const currentExp: any[] = Array.isArray(candidate.experiences) ? [...(candidate.experiences as any[])] : [];
+    const expItem = {
+      id: payload.id || `exp_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      designation: (payload.designation || '').trim(),
+      organization: (payload.organization || '').trim(),
+      startDate: payload.startDate || '',
+      endDate: payload.isCurrent ? '' : (payload.endDate || ''),
+      isCurrent: Boolean(payload.isCurrent),
+      responsibilities: (payload.responsibilities || '').trim(),
+    };
+
+    currentExp.push(expItem);
+
+    await prisma.candidate.update({
+      where: { id: candidateId },
+      data: { experiences: currentExp },
+    });
+
+    return currentExp;
+  },
+
+  deleteExperience: async (candidateId: string, expId: string) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { experiences: true },
+    });
+    if (!candidate) throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট পাওয়া যায়নি।');
+
+    const currentExp: any[] = Array.isArray(candidate.experiences) ? [...(candidate.experiences as any[])] : [];
+    const updatedExp = currentExp.filter((e: any) => e.id !== expId);
+
+    await prisma.candidate.update({
+      where: { id: candidateId },
+      data: { experiences: updatedExp },
+    });
+
+    return updatedExp;
+  },
+
+  // Career Preferences
+  getCareerPreferences: async (candidateId: string) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { careerPreferences: true },
+    });
+    return candidate?.careerPreferences || {};
+  },
+
+  updateCareerPreferences: async (candidateId: string, payload: any) => {
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { careerPreferences: true },
+    });
+    if (!candidate) throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট পাওয়া যায়নি।');
+
+    const updatedPrefs = {
+      ...(typeof candidate.careerPreferences === 'object' && candidate.careerPreferences !== null ? candidate.careerPreferences : {}),
+      ...payload,
+    };
+
+    await prisma.candidate.update({
+      where: { id: candidateId },
+      data: { careerPreferences: updatedPrefs },
+    });
+
+    return updatedPrefs;
+  },
+
+  // Job Recommendations
+  getRecommendations: async (candidateId: string, query: any) => {
+    const limit = Math.max(1, Math.min(100, Number(query?.limit) || 20));
+    const minScore = Number(query?.minScore) || 20;
+
+    const [candidate, jobs] = await Promise.all([
+      prisma.candidate.findUnique({
+        where: { id: candidateId },
+        include: { educations: true },
+      }),
+      prisma.jobCircular.findMany({
+        where: { status: 'PUBLISHED' },
+        take: 100,
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
+
+    if (!candidate) throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট পাওয়া যায়নি।');
+
+    const userDistrict = (candidate.district || '').toLowerCase();
+    const userEduLevels = (candidate.educations || []).map((e) => e.level.toLowerCase());
+    const candidateSkills: string[] = (Array.isArray(candidate.skills) ? (candidate.skills as any[]) : [])
+      .map((s) => (typeof s === 'string' ? s : s.name || '').toLowerCase());
+
+    const scoredJobs = jobs.map((job) => {
+      let score = 50;
+      const reasons: string[] = ['সাধারণ উন্মুক্ত নিয়োগ'];
+
+      const jobEligibility = (job.eligibility as any) || {};
+      const jobDistricts = String(jobEligibility.districts || '').toLowerCase();
+
+      if (jobDistricts.includes('সকল') || jobDistricts.includes('all') || (userDistrict && jobDistricts.includes(userDistrict))) {
+        score += 20;
+        reasons.push('জেলার যোগ্যতা মিলেছে');
+      }
+
+      if (userEduLevels.length > 0) {
+        score += 15;
+        reasons.push('শিক্ষাগত যোগ্যতা উপযুক্ত');
+      }
+
+      if (candidateSkills.length > 0) {
+        score += 15;
+        reasons.push('প্রাসঙ্গিক দক্ষতা প্রযোজ্য');
+      }
+
+      return {
+        ...job,
+        matchScore: Math.min(100, score),
+        matchReasons: reasons,
+      };
+    });
+
+    return scoredJobs
+      .filter((j) => j.matchScore >= minScore)
+      .sort((a, b) => b.matchScore - a.matchScore)
+      .slice(0, limit);
+  },
 };

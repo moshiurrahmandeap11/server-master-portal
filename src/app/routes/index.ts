@@ -15,6 +15,7 @@ router.use('/auth', authRoutes);
 router.use('/social', authRoutes);
 router.use('/candidate', candidateRoutes);
 router.use('/profile', candidateRoutes);
+router.use('/user', candidateRoutes);
 router.use('/documents', documentRoutes);
 router.use('/jobs', jobRoutes);
 router.use('/applications', applicationRoutes);

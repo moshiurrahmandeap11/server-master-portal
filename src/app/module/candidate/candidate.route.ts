@@ -30,4 +30,23 @@ router.post('/saved-jobs/:jobId', candidateController.toggleSaveJob);
 router.get('/saved-jobs', candidateController.getSavedJobs);
 router.get('/notifications', candidateController.getNotifications);
 
+// Skills
+router.get('/skills', candidateController.getSkills);
+router.post('/skills', candidateController.addSkill);
+router.delete('/skills/:id', candidateController.deleteSkill);
+
+// Experience
+router.get('/experience', candidateController.getExperience);
+router.post('/experience', candidateController.addExperience);
+router.delete('/experience/:id', candidateController.deleteExperience);
+
+// Career Preferences
+router.get('/career-preferences', candidateController.getCareerPreferences);
+router.put('/career-preferences', candidateController.updateCareerPreferences);
+router.patch('/career-preferences', candidateController.updateCareerPreferences);
+
+// Recommendations
+router.get('/recommendations', candidateController.getRecommendations);
+router.post('/recommendations/feedback', candidateController.recommendationFeedback);
+
 export const candidateRoutes = router;

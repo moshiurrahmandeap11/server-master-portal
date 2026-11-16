@@ -108,4 +108,105 @@ export const candidateController = {
       data: result,
     });
   }),
+
+  // Skills
+  getSkills: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.getSkills(req.user!.candidateId);
+    res.status(status.OK).json({
+      success: true,
+      skills: result,
+      data: result,
+    });
+  }),
+
+  addSkill: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.addSkill(req.user!.candidateId, req.body);
+    res.status(status.OK).json({
+      success: true,
+      message: 'নতুন স্কিল যুক্ত করা হয়েছে',
+      skills: result,
+      data: result,
+    });
+  }),
+
+  deleteSkill: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.deleteSkill(req.user!.candidateId, req.params.id);
+    res.status(status.OK).json({
+      success: true,
+      message: 'স্কিল সফলভাবে মোছা হয়েছে',
+      skills: result,
+      data: result,
+    });
+  }),
+
+  // Experience
+  getExperience: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.getExperience(req.user!.candidateId);
+    res.status(status.OK).json({
+      success: true,
+      experiences: result,
+      experience: result,
+      data: result,
+    });
+  }),
+
+  addExperience: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.addExperience(req.user!.candidateId, req.body);
+    res.status(status.OK).json({
+      success: true,
+      message: 'কর্মঅভিজ্ঞতা যুক্ত করা হয়েছে',
+      experiences: result,
+      experience: result,
+      data: result,
+    });
+  }),
+
+  deleteExperience: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.deleteExperience(req.user!.candidateId, req.params.id);
+    res.status(status.OK).json({
+      success: true,
+      message: 'অভিজ্ঞতা সফলভাবে মোছা হয়েছে',
+      experiences: result,
+      experience: result,
+      data: result,
+    });
+  }),
+
+  // Career Preferences
+  getCareerPreferences: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.getCareerPreferences(req.user!.candidateId);
+    res.status(status.OK).json({
+      success: true,
+      careerPreferences: result,
+      data: result,
+    });
+  }),
+
+  updateCareerPreferences: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.updateCareerPreferences(req.user!.candidateId, req.body);
+    res.status(status.OK).json({
+      success: true,
+      message: 'ক্যারিয়ার পছন্দসমূহ সংরক্ষিত হয়েছে',
+      careerPreferences: result,
+      data: result,
+    });
+  }),
+
+  // Recommendations
+  getRecommendations: catchAsync(async (req: Request, res: Response) => {
+    const targetCandidateId = req.user?.candidateId || (req.query.candidateId as string);
+    const result = await candidateService.getRecommendations(targetCandidateId, req.query);
+    res.status(status.OK).json({
+      success: true,
+      data: result,
+      recommendations: result,
+    });
+  }),
+
+  recommendationFeedback: catchAsync(async (_req: Request, res: Response) => {
+    res.status(status.OK).json({
+      success: true,
+      message: 'মতামত সফলভাবে গ্রহণ করা হয়েছে।',
+    });
+  }),
 };
