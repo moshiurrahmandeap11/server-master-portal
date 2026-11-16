@@ -8,11 +8,13 @@ export const jobController = {
   getAllJobs: catchAsync(async (req: Request, res: Response) => {
     const result = await jobService.getAllJobs(req.query);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    return res.status(status.OK).json({
       success: true,
       message: 'চাকরির তালিকা লোড সফল হয়েছে।',
+      jobs: result.jobs,
       data: result.jobs,
+      total: result.total,
+      totalPages: result.meta?.totalPages || 1,
       meta: result.meta,
     });
   }),
