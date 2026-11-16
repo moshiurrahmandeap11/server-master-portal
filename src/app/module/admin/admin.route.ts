@@ -46,6 +46,10 @@ router.post('/sources/:id/run', adminController.runSourceSpider);
 router.post('/sources/:id/test', adminController.testSource);
 router.post('/sources/:id/toggle', adminController.toggleSource);
 router.post('/sources/:id/ingest', adminController.ingestSource);
+router.get('/sources', adminController.getSources);
+router.post('/sources', adminController.createSource);
+router.put('/sources/:id', adminController.updateSource);
+router.delete('/sources/:id', adminController.deleteSource);
 
 // Verification Hub (Drafts & Quality Assurance)
 router.post('/verification/run', adminController.runVerification);
@@ -54,15 +58,10 @@ router.post('/verification/:id/reject', adminController.rejectVerification);
 router.post('/verification/:id/resolve-conflict', adminController.resolveConflict);
 router.post('/verification/:id/correct-field', adminController.correctField);
 
-
-// Sources & Crawlers
-router.get('/sources/drafts', adminController.getSourceDrafts);
-router.post('/sources/run', adminController.runSourceSpider);
-router.post('/sources/:id/run', adminController.runSourceSpider);
-router.get('/sources', adminController.getSources);
-router.post('/sources', adminController.createSource);
-router.put('/sources/:id', adminController.updateSource);
-router.delete('/sources/:id', adminController.deleteSource);
+// Testing Spider Hub (Synthetic Audits & Sandbox)
+router.get('/testing/runs', adminController.getTestingRuns);
+router.post('/testing/runs', adminController.executeTestingRun);
+router.get('/testing/personas', adminController.getTestingPersonas);
 
 // Companies
 router.get('/companies', adminController.getCompanies);
@@ -92,6 +91,8 @@ router.get('/settings', adminController.getPlatformSettings);
 router.put('/settings', adminController.updatePlatformSettings);
 
 // Audit & Impersonation
+router.get('/audit', adminController.getAudit);
+router.post('/audit', adminController.postAudit);
 router.get('/audit-logs', adminController.getAuditLogs);
 router.post('/impersonate', adminController.impersonateCandidate);
 router.delete('/impersonate', adminController.stopImpersonation);
@@ -110,7 +111,9 @@ router.get('/analytics/overview', adminController.getAnalyticsOverview);
 router.get('/analytics/data-quality', adminController.getAnalyticsOverview);
 router.get('/automation/overview', adminController.getAutomationOverview);
 router.get('/automation/rules', adminController.getAutomationOverview);
-router.get('/automation/tasks', adminController.getAutomationOverview);
+router.get('/automation/tasks', adminController.getAutomationTasks);
+router.post('/automation/tasks', adminController.postAutomationTasks);
+router.patch('/automation/tasks', adminController.patchAutomationTasks);
 router.get('/governance/overview', adminController.getGovernanceOverview);
 router.get('/governance/health', adminController.getGovernanceOverview);
 router.get('/operations/expenses', adminController.getOperationsOverview);
