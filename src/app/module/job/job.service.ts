@@ -49,11 +49,14 @@ export const jobService = {
       status: JobStatus.PUBLISHED,
     };
 
-    if (filters.searchTerm) {
+    const searchTerm = (filters.searchTerm || (filters as any).search || (filters as any).q || '').trim();
+    if (searchTerm) {
       where.OR = [
-        { title: { contains: filters.searchTerm, mode: 'insensitive' } },
-        { titleBn: { contains: filters.searchTerm, mode: 'insensitive' } },
-        { organization: { contains: filters.searchTerm, mode: 'insensitive' } },
+        { id: { contains: searchTerm, mode: 'insensitive' } },
+        { slug: { contains: searchTerm, mode: 'insensitive' } },
+        { title: { contains: searchTerm, mode: 'insensitive' } },
+        { titleBn: { contains: searchTerm, mode: 'insensitive' } },
+        { organization: { contains: searchTerm, mode: 'insensitive' } },
       ];
     }
 
