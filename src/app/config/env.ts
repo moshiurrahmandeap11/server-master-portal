@@ -25,6 +25,9 @@ interface EnvConfig {
   CHAKRI_UPLOAD_DIR: string;
   GOOGLE_CLIENT_ID?: string;
   GOOGLE_CLIENT_SECRET?: string;
+  GEMINI_API_KEY?: string;
+  GEMINI_API_KEY_1?: string;
+  GEMINI_API_KEY_2?: string;
 }
 
 const loadEnv = (): EnvConfig => {
@@ -47,6 +50,9 @@ const loadEnv = (): EnvConfig => {
     CHAKRI_UPLOAD_DIR: process.env.CHAKRI_UPLOAD_DIR || path.join(process.cwd(), 'uploads'),
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+    GEMINI_API_KEY_1: process.env.GEMINI_API_KEY_1 || process.env.GEMINI_API_KEY,
+    GEMINI_API_KEY_2: process.env.GEMINI_API_KEY_2,
   };
 };
 
