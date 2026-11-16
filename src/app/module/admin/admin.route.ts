@@ -35,6 +35,18 @@ router.get('/spider/gemini-browser', adminController.getSpiderGeminiBrowser);
 router.post('/spider/gemini-browser', adminController.postSpiderGeminiBrowser);
 router.post('/gemini/parse-circular', adminController.parseCircularWithGemini);
 
+// Sources & Crawlers
+router.get('/sources/runs', adminController.getSourceRuns);
+router.get('/sources/drafts', adminController.getSourceDrafts);
+router.post('/sources/drafts', adminController.handleDraftAction);
+router.post('/sources/drafts/:id/publish', adminController.publishDraft);
+router.post('/sources/run', adminController.runSourceSpider);
+router.post('/sources/run-all', adminController.runAllSources);
+router.post('/sources/:id/run', adminController.runSourceSpider);
+router.post('/sources/:id/test', adminController.testSource);
+router.post('/sources/:id/toggle', adminController.toggleSource);
+router.post('/sources/:id/ingest', adminController.ingestSource);
+
 
 // Sources & Crawlers
 router.get('/sources/drafts', adminController.getSourceDrafts);
