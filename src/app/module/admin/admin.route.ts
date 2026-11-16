@@ -47,6 +47,13 @@ router.post('/sources/:id/test', adminController.testSource);
 router.post('/sources/:id/toggle', adminController.toggleSource);
 router.post('/sources/:id/ingest', adminController.ingestSource);
 
+// Verification Hub (Drafts & Quality Assurance)
+router.post('/verification/run', adminController.runVerification);
+router.post('/verification/:id/approve', adminController.approveVerification);
+router.post('/verification/:id/reject', adminController.rejectVerification);
+router.post('/verification/:id/resolve-conflict', adminController.resolveConflict);
+router.post('/verification/:id/correct-field', adminController.correctField);
+
 
 // Sources & Crawlers
 router.get('/sources/drafts', adminController.getSourceDrafts);
