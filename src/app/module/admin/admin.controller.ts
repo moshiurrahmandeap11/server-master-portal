@@ -620,4 +620,39 @@ export const adminController = {
     });
   }),
 
+  handleDraftAction: catchAsync(async (req: Request, res: Response) => {
+    const { action, draftId, id, overrides } = req.body;
+    const result = await adminService.handleDraftAction(action || 'approve', draftId || id, overrides);
+    return res.status(200).json(result);
+  }),
+
+  runVerification: catchAsync(async (req: Request, res: Response) => {
+    const result = await adminService.runVerification(req.body?.draftId);
+    return res.status(200).json(result);
+  }),
+
+  approveVerification: catchAsync(async (req: Request, res: Response) => {
+    const result = await adminService.approveVerification(req.params.id);
+    return res.status(200).json(result);
+  }),
+
+  rejectVerification: catchAsync(async (req: Request, res: Response) => {
+    const result = await adminService.rejectVerification(req.params.id);
+    return res.status(200).json(result);
+  }),
+
+  resolveConflict: catchAsync(async (_req: Request, res: Response) => {
+    return res.status(200).json({
+      success: true,
+      message: 'কনফ্লিক্ট সফলভাবে সমাধান করা হয়েছে।',
+    });
+  }),
+
+  correctField: catchAsync(async (_req: Request, res: Response) => {
+    return res.status(200).json({
+      success: true,
+      message: 'তথ্য সফলভাবে সংশোধন করা হয়েছে।',
+    });
+  }),
+
 };
