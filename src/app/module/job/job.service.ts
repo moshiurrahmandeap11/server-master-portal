@@ -91,7 +91,8 @@ export const jobService = {
     ]);
 
     return {
-      jobs,
+      jobs: jobs.map(formatJobItem),
+      total,
       meta: {
         page,
         limit,
@@ -115,10 +116,11 @@ export const jobService = {
 
     if (searchTerm) {
       where.OR = [
+        { id: { contains: searchTerm, mode: 'insensitive' } },
+        { slug: { contains: searchTerm, mode: 'insensitive' } },
         { title: { contains: searchTerm, mode: 'insensitive' } },
         { titleBn: { contains: searchTerm, mode: 'insensitive' } },
         { organization: { contains: searchTerm, mode: 'insensitive' } },
-        { positions: { string_contains: searchTerm } },
       ];
     }
 
@@ -138,7 +140,7 @@ export const jobService = {
     ]);
 
     return {
-      jobs,
+      jobs: jobs.map(formatJobItem),
       total,
       meta: {
         page,
@@ -251,7 +253,7 @@ export const jobService = {
       });
     }
 
-    return { jobs };
+    return { jobs: jobs.map(formatJobItem) };
   },
 
   getDeadlineStatus: async (jobId: string) => {
@@ -503,7 +505,7 @@ export const jobService = {
       data: { viewsCount: { increment: 1 } },
     }).catch(() => {});
 
-    return job;
+    return formatJobItem(job);
   },
 
   getCategories: async () => {
