@@ -548,4 +548,41 @@ export const adminController = {
     });
   }),
 
+  runAllSources: catchAsync(async (_req: Request, res: Response) => {
+    const result = await adminService.runAllSources();
+    return res.status(200).json(result);
+  }),
+
+  testSource: catchAsync(async (req: Request, res: Response) => {
+    const result = await adminService.testSource(req.params.id);
+    return res.status(200).json(result);
+  }),
+
+  toggleSource: catchAsync(async (req: Request, res: Response) => {
+    const result = await adminService.toggleSource(req.params.id);
+    return res.status(200).json({
+      success: true,
+      message: `সোর্স স্ট্যাটাস আপডেট হয়েছে (${result.healthStatus})`,
+      source: result,
+    });
+  }),
+
+  ingestSource: catchAsync(async (req: Request, res: Response) => {
+    const result = await adminService.ingestSource(req.params.id);
+    return res.status(200).json({
+      success: true,
+      message: 'সোর্স থেকে সার্কুলার সফলভাবে সংগ্রহ করা হয়েছে।',
+      ...result,
+    });
+  }),
+
+  getSourceRuns: catchAsync(async (_req: Request, res: Response) => {
+    const runs = await adminService.getSourceRuns();
+    return res.status(200).json({
+      success: true,
+      runs,
+      data: runs,
+    });
+  }),
+
 };
