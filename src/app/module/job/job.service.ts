@@ -4,6 +4,41 @@ import AppError from '../../errorHelpers/AppError';
 import { IJobQueryFilters } from './job.interface';
 import { JobStatus, Prisma } from '../../../generated/prisma';
 
+export const formatJobItem = (j: any) => {
+  if (!j) return j;
+  const officialFeeNum = Number(j.officialFee) || Number(j.positions?.[0]?.govtFee) || 200;
+  const serviceFeeNum = Number(j.serviceFee) || 50;
+  const totalPostsNum = Number(j.totalPositions) || Number(j.positions?.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0)) || 1;
+  const minEdu = j.eligibility?.education || j.positions?.[0]?.minEducation || 'বিজ্ঞপ্তি অনুসারে';
+  const sal = j.positions?.[0]?.salary || 'জাতীয় পে স্কেল অনুযায়ী';
+  const grd = j.positions?.[0]?.grade || 'জাতীয় বেতন স্কেল';
+  const catSlug = j.category?.slug || 'govt';
+  const catLabel = j.category?.titleBn || 'সরকারি চাকরি';
+
+  const diffMs = j.deadline ? (new Date(j.deadline).getTime() - Date.now()) : 0;
+  const daysRemaining = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+  const deadlineStr = j.deadline ? new Date(j.deadline).toISOString().split('T')[0] : '২০২৬-১২-৩১';
+
+  return {
+    ...j,
+    govtFee: officialFeeNum,
+    officialFee: String(officialFeeNum),
+    serviceFee: serviceFeeNum,
+    totalPosts: totalPostsNum,
+    totalPositions: totalPostsNum,
+    minEducation: minEdu,
+    salary: sal,
+    grade: grd,
+    category: catSlug,
+    categoryLabel: catLabel,
+    daysRemaining,
+    deadline: deadlineStr,
+    deadlineFormatted: deadlineStr,
+    circularPdfUrl: j.officialPdfUrl || j.sourceUrl || '',
+    logo: j.bannerUrl || '',
+  };
+};
+
 export const jobService = {
   getAllJobs: async (filters: IJobQueryFilters) => {
     const page = Math.max(1, Number(filters.page) || 1);
