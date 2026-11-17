@@ -147,113 +147,117 @@ async function main() {
     }
   }
 
-  // 3. Job Circulars
-  const jobs = Object.values(data.jobs || {});
-  console.log(`Migrating ${jobs.length} jobs...`);
-  for (const j of jobs as any[]) {
-    const slug = j.slug || j.id;
-    const deadlineDate = parseBengaliDate(j.deadline);
-    const categoryId = catMap[j.category] || (j.category?.startsWith('cat-') ? j.category : null);
-    const positions = (Array.isArray(j.positions) && j.positions.length > 0)
-      ? j.positions
-      : [{
-          title: j.title || 'অফিসার',
-          grade: j.grade || '১০ম গ্রেড',
-          posts: Number(j.totalPosts) || 1,
-          salary: j.salary || 'জাতীয় বেতন স্কেল',
-          minEducation: j.minEducation || 'স্নাতক',
-          govtFee: Number(j.govtFee) || 0,
-        }];
+  // 3. Job Circulars (Skipped by default to prevent seeding dummy jobs)
+  if (process.env.SEED_LEGACY_DUMMY_JOBS === 'true') {
+    const jobs = Object.values(data.jobs || {});
+    console.log(`Migrating ${jobs.length} jobs...`);
+    for (const j of jobs as any[]) {
+      const slug = j.slug || j.id;
+      const deadlineDate = parseBengaliDate(j.deadline);
+      const categoryId = catMap[j.category] || (j.category?.startsWith('cat-') ? j.category : null);
+      const positions = (Array.isArray(j.positions) && j.positions.length > 0)
+        ? j.positions
+        : [{
+            title: j.title || 'অফিসার',
+            grade: j.grade || '১০ম গ্রেড',
+            posts: Number(j.totalPosts) || 1,
+            salary: j.salary || 'জাতীয় বেতন স্কেল',
+            minEducation: j.minEducation || 'স্নাতক',
+            govtFee: Number(j.govtFee) || 0,
+          }];
 
-    await prisma.jobCircular.upsert({
-      where: { id: j.id },
-      update: {
-        slug,
-        title: j.title || 'চাকরির বিজ্ঞপ্তি',
-        titleBn: j.title || null,
-        organization: j.organization || 'সরকারি সংস্থা',
-        organizationSlug: j.organizationEn ? j.organizationEn.toLowerCase().replace(/[^a-z0-9]/g, '-') : null,
-        categoryId,
-        deadline: deadlineDate,
-        totalPositions: Number(j.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
-        officialFee: Number(j.govtFee) || 0,
-        serviceFee: Number(j.serviceFee) || 50,
-        sourceUrl: j.officialLink || j.applicationUrl || null,
-        officialPdfUrl: j.pdfUrl || j.circularPdfUrl || null,
-        bannerUrl: j.logo || null,
-        positions,
-        eligibility: {
-          minAge: j.minAge,
-          maxAge: j.maxAge,
-          districts: j.districts,
-          education: j.minEducation,
+      await prisma.jobCircular.upsert({
+        where: { id: j.id },
+        update: {
+          slug,
+          title: j.title || 'চাকরির বিজ্ঞপ্তি',
+          titleBn: j.title || null,
+          organization: j.organization || 'সরকারি সংস্থা',
+          organizationSlug: j.organizationEn ? j.organizationEn.toLowerCase().replace(/[^a-z0-9]/g, '-') : null,
+          categoryId,
+          deadline: deadlineDate,
+          totalPositions: Number(j.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
+          officialFee: Number(j.govtFee) || 0,
+          serviceFee: Number(j.serviceFee) || 50,
+          sourceUrl: j.officialLink || j.applicationUrl || null,
+          officialPdfUrl: j.pdfUrl || j.circularPdfUrl || null,
+          bannerUrl: j.logo || null,
+          positions,
+          eligibility: {
+            minAge: j.minAge,
+            maxAge: j.maxAge,
+            districts: j.districts,
+            education: j.minEducation,
+          },
+          status: JobStatus.PUBLISHED,
         },
-        status: JobStatus.PUBLISHED,
-      },
-      create: {
-        id: j.id,
-        slug,
-        title: j.title || 'চাকরির বিজ্ঞপ্তি',
-        titleBn: j.title || null,
-        organization: j.organization || 'সরকারি সংস্থা',
-        organizationSlug: j.organizationEn ? j.organizationEn.toLowerCase().replace(/[^a-z0-9]/g, '-') : null,
-        categoryId,
-        deadline: deadlineDate,
-        totalPositions: Number(j.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
-        officialFee: Number(j.govtFee) || 0,
-        serviceFee: Number(j.serviceFee) || 50,
-        sourceUrl: j.officialLink || j.applicationUrl || null,
-        officialPdfUrl: j.pdfUrl || j.circularPdfUrl || null,
-        bannerUrl: j.logo || null,
-        positions,
-        eligibility: {
-          minAge: j.minAge,
-          maxAge: j.maxAge,
-          districts: j.districts,
-          education: j.minEducation,
+        create: {
+          id: j.id,
+          slug,
+          title: j.title || 'চাকরির বিজ্ঞপ্তি',
+          titleBn: j.title || null,
+          organization: j.organization || 'সরকারি সংস্থা',
+          organizationSlug: j.organizationEn ? j.organizationEn.toLowerCase().replace(/[^a-z0-9]/g, '-') : null,
+          categoryId,
+          deadline: deadlineDate,
+          totalPositions: Number(j.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
+          officialFee: Number(j.govtFee) || 0,
+          serviceFee: Number(j.serviceFee) || 50,
+          sourceUrl: j.officialLink || j.applicationUrl || null,
+          officialPdfUrl: j.pdfUrl || j.circularPdfUrl || null,
+          bannerUrl: j.logo || null,
+          positions,
+          eligibility: {
+            minAge: j.minAge,
+            maxAge: j.maxAge,
+            districts: j.districts,
+            education: j.minEducation,
+          },
+          status: JobStatus.PUBLISHED,
         },
-        status: JobStatus.PUBLISHED,
-      },
-    }).catch(err => console.error(`Job ${j.id} failed:`, err.message));
-  }
-
-  // 4. Applications
-  const applicationsGroup = Object.values(data.applications || {});
-  const flatApplications: any[] = [];
-  for (const group of applicationsGroup) {
-    if (Array.isArray(group)) {
-      flatApplications.push(...group);
+      }).catch(err => console.error(`Job ${j.id} failed:`, err.message));
     }
-  }
-  console.log(`Migrating ${flatApplications.length} applications...`);
-  for (const app of flatApplications) {
-    if (!app.candidateId || !app.jobId) continue;
-    await prisma.applicationRequest.upsert({
-      where: { id: app.id },
-      update: {
-        positionName: app.positionName || app.jobTitle || 'পদবি',
-        trackingNumber: app.trackingNumber || `CS-${Math.floor(10000 + Math.random() * 90000)}`,
-        status: app.status === 'COMPLETED' ? ApplicationStatus.COMPLETED : ApplicationStatus.PENDING,
-        govtFee: Number(app.govtFee) || 0,
-        serviceFee: Number(app.serviceFee) || 50,
-        totalPaid: Number(app.totalAmount || app.totalPaid) || 50,
-        applicantCopyPdfUrl: app.applicantCopyPdfUrl || null,
-        teletalkUserId: app.teletalkUserId || null,
-      },
-      create: {
-        id: app.id,
-        candidateId: app.candidateId,
-        jobId: app.jobId,
-        positionName: app.positionName || app.jobTitle || 'পদবি',
-        trackingNumber: app.trackingNumber || `CS-${Math.floor(10000 + Math.random() * 90000)}`,
-        status: app.status === 'COMPLETED' ? ApplicationStatus.COMPLETED : ApplicationStatus.PENDING,
-        govtFee: Number(app.govtFee) || 0,
-        serviceFee: Number(app.serviceFee) || 50,
-        totalPaid: Number(app.totalAmount || app.totalPaid) || 50,
-        applicantCopyPdfUrl: app.applicantCopyPdfUrl || null,
-        teletalkUserId: app.teletalkUserId || null,
-      },
-    }).catch(() => {});
+
+    // 4. Applications
+    const applicationsGroup = Object.values(data.applications || {});
+    const flatApplications: any[] = [];
+    for (const group of applicationsGroup) {
+      if (Array.isArray(group)) {
+        flatApplications.push(...group);
+      }
+    }
+    console.log(`Migrating ${flatApplications.length} applications...`);
+    for (const app of flatApplications) {
+      if (!app.candidateId || !app.jobId) continue;
+      await prisma.applicationRequest.upsert({
+        where: { id: app.id },
+        update: {
+          positionName: app.positionName || app.jobTitle || 'পদবি',
+          trackingNumber: app.trackingNumber || `CS-${Math.floor(10000 + Math.random() * 90000)}`,
+          status: app.status === 'COMPLETED' ? ApplicationStatus.COMPLETED : ApplicationStatus.PENDING,
+          govtFee: Number(app.govtFee) || 0,
+          serviceFee: Number(app.serviceFee) || 50,
+          totalPaid: Number(app.totalAmount || app.totalPaid) || 50,
+          applicantCopyPdfUrl: app.applicantCopyPdfUrl || null,
+          teletalkUserId: app.teletalkUserId || null,
+        },
+        create: {
+          id: app.id,
+          candidateId: app.candidateId,
+          jobId: app.jobId,
+          positionName: app.positionName || app.jobTitle || 'পদবি',
+          trackingNumber: app.trackingNumber || `CS-${Math.floor(10000 + Math.random() * 90000)}`,
+          status: app.status === 'COMPLETED' ? ApplicationStatus.COMPLETED : ApplicationStatus.PENDING,
+          govtFee: Number(app.govtFee) || 0,
+          serviceFee: Number(app.serviceFee) || 50,
+          totalPaid: Number(app.totalAmount || app.totalPaid) || 50,
+          applicantCopyPdfUrl: app.applicantCopyPdfUrl || null,
+          teletalkUserId: app.teletalkUserId || null,
+        },
+      }).catch(() => {});
+    }
+  } else {
+    console.log('Skipping legacy dummy jobs & applications (clean database preserved).');
   }
 
   // 5. Pages
