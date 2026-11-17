@@ -13,12 +13,16 @@ export const adminService = {
       totalJobs,
       totalApplications,
       pendingApplications,
+      processingApplications,
+      completedApplications,
       walletSum,
     ] = await Promise.all([
       prisma.candidate.count(),
       prisma.jobCircular.count(),
       prisma.applicationRequest.count(),
       prisma.applicationRequest.count({ where: { status: ApplicationStatus.PENDING } }),
+      prisma.applicationRequest.count({ where: { status: ApplicationStatus.PROCESSING } }),
+      prisma.applicationRequest.count({ where: { status: ApplicationStatus.COMPLETED } }),
       prisma.candidate.aggregate({ _sum: { walletBalance: true } }),
     ]);
 
@@ -27,6 +31,9 @@ export const adminService = {
       totalJobs,
       totalApplications,
       pendingApplications,
+      pendingPayment: pendingApplications,
+      processing: processingApplications,
+      completed: completedApplications,
       totalWalletReserves: Number(walletSum._sum.walletBalance || 0),
     };
   },
@@ -122,9 +129,19 @@ export const adminService = {
       prisma.applicationRequest.count({ where }),
     ]);
 
+    const normalizeAppStatus = (raw: string): string => {
+      const s = String(raw || '').toUpperCase();
+      if (s === 'COMPLETED' || s === 'ADMIT_ISSUED') return 'completed';
+      if (s === 'PROCESSING' || s === 'PAYMENT_COMPLETED') return 'processing';
+      if (s === 'REJECTED' || s === 'CANCELLED') return 'rejected';
+      return 'pending_payment';
+    };
+
     return {
       applications: applications.map((a: any) => ({
         ...a,
+        status: normalizeAppStatus(a.status),
+        rawStatus: a.status,
         candidateName: a.candidate?.name || a.candidate?.nameBn || 'প্রার্থী',
         candidatePhone: a.candidate?.phone || '',
         candidateEmail: a.candidate?.email || '',
@@ -145,7 +162,7 @@ export const adminService = {
 
   updateApplicationStatus: async (
     applicationId: string,
-    newStatus: ApplicationStatus,
+    newStatus: string | ApplicationStatus,
     data?: { teletalkUserId?: string; rollNumber?: string; applicantCopyPdfUrl?: string; notes?: string }
   ) => {
     const application = await prisma.applicationRequest.findUnique({
@@ -156,17 +173,23 @@ export const adminService = {
       throw new AppError(status.NOT_FOUND, 'আবেদনটি পাওয়া যায়নি।');
     }
 
+    let prismaStatus: ApplicationStatus = ApplicationStatus.PENDING;
+    const s = String(newStatus || '').toUpperCase();
+    if (s === 'COMPLETED' || s === 'ADMIT_ISSUED') prismaStatus = ApplicationStatus.COMPLETED;
+    else if (s === 'PROCESSING' || s === 'PAYMENT_COMPLETED') prismaStatus = ApplicationStatus.PROCESSING;
+    else if (s === 'REJECTED' || s === 'CANCELLED') prismaStatus = ApplicationStatus.REJECTED;
+
     const existingHistory = (application.statusHistory as any[]) || [];
     existingHistory.push({
-      status: newStatus,
+      status: prismaStatus,
       timestamp: new Date().toISOString(),
-      note: data?.notes || `স্ট্যাটাস পরিবর্তন: ${newStatus}`,
+      note: data?.notes || `স্ট্যাটাস পরিবর্তন: ${prismaStatus}`,
     });
 
     const updated = await prisma.applicationRequest.update({
       where: { id: applicationId },
       data: {
-        status: newStatus,
+        status: prismaStatus,
         teletalkUserId: data?.teletalkUserId || application.teletalkUserId,
         rollNumber: data?.rollNumber || application.rollNumber,
         applicantCopyPdfUrl: data?.applicantCopyPdfUrl || application.applicantCopyPdfUrl,

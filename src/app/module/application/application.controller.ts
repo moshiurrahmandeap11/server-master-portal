@@ -42,7 +42,7 @@ export const applicationController = {
   }),
 
   updateApplication: catchAsync(async (req: Request, res: Response) => {
-    const result = await applicationService.updateApplication(req.user!.candidateId, req.params.id, req.body);
+    const result = await applicationService.updateApplication(req.user, req.params.id, req.body);
 
     return res.status(200).json({
       httpStatusCode: status.OK,

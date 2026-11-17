@@ -293,20 +293,43 @@ export const applicationService = {
     return application;
   },
 
-  updateApplication: async (candidateId: string, applicationId: string, payload: any) => {
+  updateApplication: async (user: any, applicationId: string, payload: any) => {
+    const isStaff = user?.role === 'ADMIN' || user?.role === 'OPERATOR';
     const existing = await prisma.applicationRequest.findFirst({
-      where: { id: applicationId, candidateId },
+      where: isStaff ? { id: applicationId } : { id: applicationId, candidateId: user?.candidateId || user?.id },
     });
 
     if (!existing) {
       throw new AppError(status.NOT_FOUND, 'আবেদন খুঁজে পাওয়া যায়নি।');
     }
 
+    let nextStatus: ApplicationStatus | undefined = undefined;
+    if (payload.status) {
+      const s = String(payload.status).toUpperCase();
+      if (s === 'COMPLETED' || s === 'ADMIT_ISSUED') nextStatus = ApplicationStatus.COMPLETED;
+      else if (s === 'PROCESSING' || s === 'PAYMENT_COMPLETED') nextStatus = ApplicationStatus.PROCESSING;
+      else if (s === 'REJECTED' || s === 'CANCELLED') nextStatus = ApplicationStatus.REJECTED;
+      else if (s === 'PENDING' || s === 'PENDING_PAYMENT') nextStatus = ApplicationStatus.PENDING;
+    }
+
+    const existingHistory = (existing.statusHistory as any[]) || [];
+    if (nextStatus && nextStatus !== existing.status) {
+      existingHistory.push({
+        status: nextStatus,
+        timestamp: new Date().toISOString(),
+        note: payload.notes || payload.operatorNotes || `স্ট্যাটাস পরিবর্তন: ${nextStatus}`,
+      });
+    }
+
     const updated = await prisma.applicationRequest.update({
       where: { id: existing.id },
       data: {
+        ...(nextStatus ? { status: nextStatus } : {}),
         applicantCopyPdfUrl: payload.applicantCopyPdfUrl || existing.applicantCopyPdfUrl,
-        operatorNotes: payload.operatorNotes || existing.operatorNotes,
+        operatorNotes: payload.notes || payload.operatorNotes || existing.operatorNotes,
+        teletalkUserId: payload.teletalkUserId || existing.teletalkUserId,
+        rollNumber: payload.rollNumber || existing.rollNumber,
+        statusHistory: existingHistory,
       },
     });
 
