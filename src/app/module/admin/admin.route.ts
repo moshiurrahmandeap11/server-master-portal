@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { adminController } from './admin.controller';
 import { checkAuth } from '../../middleware/checkAuth';
 import { UserRole } from '../../../generated/prisma';
+import { circularPdfUpload } from '../../utils/upload';
 
 const router = Router();
 
@@ -33,6 +34,7 @@ router.delete('/categories/:id', adminController.deleteCategory);
 // Gemini Browser Spider Hub & Autonomous AI Parser
 router.get('/spider/gemini-browser', adminController.getSpiderGeminiBrowser);
 router.post('/spider/gemini-browser', adminController.postSpiderGeminiBrowser);
+router.post('/spider/upload-pdf-parse', circularPdfUpload.single('file'), adminController.uploadCircularPdfAndParse);
 router.post('/gemini/parse-circular', adminController.parseCircularWithGemini);
 
 // Sources & Crawlers
