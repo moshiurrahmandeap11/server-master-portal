@@ -114,8 +114,8 @@ export const adminService = {
         skip,
         take: limit,
         include: {
-          candidate: { select: { id: true, name: true, email: true, phone: true } },
-          job: { select: { id: true, title: true, organization: true } },
+          candidate: true,
+          job: { select: { id: true, title: true, titleBn: true, organization: true } },
         },
         orderBy: { submittedAt: 'desc' },
       }),
@@ -123,8 +123,18 @@ export const adminService = {
     ]);
 
     return {
-      applications: applications.map((a) => ({
+      applications: applications.map((a: any) => ({
         ...a,
+        candidateName: a.candidate?.name || a.candidate?.nameBn || 'প্রার্থী',
+        candidatePhone: a.candidate?.phone || '',
+        candidateEmail: a.candidate?.email || '',
+        candidateDistrict: a.candidate?.district || 'ঢাকা',
+        jobTitle: a.job?.title || a.job?.titleBn || 'চাকরির বিজ্ঞপ্তি',
+        organization: a.job?.organization || '',
+        postName: a.positionName || 'পদবী',
+        totalAmount: Number(a.totalPaid ?? (Number(a.govtFee || 0) + Number(a.serviceFee || 0))),
+        trxId: a.transactionId || '',
+        date: a.submittedAt ? new Date(a.submittedAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
         govtFee: Number(a.govtFee),
         serviceFee: Number(a.serviceFee),
         totalPaid: Number(a.totalPaid),
