@@ -4,7 +4,7 @@ import { documentController } from './document.controller';
 import { candidateValidation } from './candidate.validation';
 import { validateRequest } from '../../middleware/validateRequest';
 import { checkAuth } from '../../middleware/checkAuth';
-import { documentUpload } from '../../utils/upload';
+import { documentUpload, circularPdfUpload } from '../../utils/upload';
 
 const router = Router();
 
@@ -15,6 +15,9 @@ router.get('/', candidateController.getProfile);
 router.get('/profile', candidateController.getProfile);
 router.put('/', validateRequest(candidateValidation.updateProfile), candidateController.updateProfile);
 router.put('/profile', validateRequest(candidateValidation.updateProfile), candidateController.updateProfile);
+
+// AI Resume / CV PDF Import & Auto-Fill
+router.post('/import-resume', circularPdfUpload.single('file'), candidateController.importResume);
 
 // Document upload & retrieval routes
 router.post('/upload-document', documentUpload.single('file'), documentController.uploadDocument);
