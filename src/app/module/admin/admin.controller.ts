@@ -528,6 +528,25 @@ export const adminController = {
     return res.status(200).json(result);
   }),
 
+  uploadCircularPdfAndParse: catchAsync(async (req: Request, res: Response) => {
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).json({
+        success: false,
+        error: 'কোনো PDF ফাইল পাওয়া যায়নি। অনুগ্রহ করে একটি সঠিক সার্কুলার PDF ফাইল আপলোড করুন।',
+      });
+    }
+
+    const parsed = await adminService.parseCircularPdfFile(req.file.buffer, req.file.originalname);
+
+    return res.status(200).json({
+      success: true,
+      message: 'সার্কুলার PDF সফলভাবে স্ক্যান ও বিশ্লেষণ করা হয়েছে।',
+      extracted: parsed,
+      job: parsed,
+      data: parsed,
+    });
+  }),
+
   parseCircularWithGemini: catchAsync(async (req: Request, res: Response) => {
     const result = await adminService.parseCircularWithGemini(req.body);
     return res.status(200).json({
