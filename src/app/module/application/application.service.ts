@@ -1,18 +1,115 @@
 import status from 'http-status';
+import fs from 'fs';
+import path from 'path';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import { ICreateApplicationPayload } from './application.interface';
-import { ApplicationStatus, TransactionType, TransactionStatus } from '../../../generated/prisma';
+import { ApplicationStatus, TransactionType, TransactionStatus, JobStatus } from '../../../generated/prisma';
+
+function parseBengaliDate(dateStr?: string): Date {
+  if (!dateStr) return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  let norm = String(dateStr);
+  bnDigits.forEach((d, idx) => { norm = norm.split(d).join(String(idx)); });
+  const direct = Date.parse(norm);
+  if (!isNaN(direct)) return new Date(direct);
+
+  const monthMap: Record<string, string> = {
+    'জানুয়ারি': '01', 'ফেব্রুয়ারি': '02', 'মার্চ': '03', 'এপ্রিল': '04',
+    'মে': '05', 'জুন': '06', 'জুলাই': '07', 'আগস্ট': '08',
+    'সেপ্টেম্বর': '09', 'অক্টোবর': '10', 'নভেম্বর': '11', 'ডিসেম্বর': '12'
+  };
+  for (const [bnMonth, numMonth] of Object.entries(monthMap)) {
+    if (norm.includes(bnMonth)) {
+      const match = norm.match(/(\d{1,2})\s*([^\d\s]+)\s*(\d{4})/);
+      if (match) {
+        const day = match[1].padStart(2, '0');
+        const year = match[3];
+        return new Date(`${year}-${numMonth}-${day}T23:59:59.000Z`);
+      }
+    }
+  }
+  return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+}
+
+async function findOrAutoSyncJob(jobId: string) {
+  let job = await prisma.jobCircular.findFirst({
+    where: {
+      OR: [{ id: jobId }, { slug: jobId }],
+    },
+  });
+  if (job) return job;
+
+  // Search local stores for fallback
+  const candidatePaths = [
+    path.resolve(process.cwd(), '_legacy_archive/db/local_store.json'),
+    path.resolve(process.cwd(), '../client-master-portal/src/db/local_store.json'),
+    path.resolve(process.cwd(), 'src/db/local_store.json'),
+  ];
+
+  for (const filePath of candidatePaths) {
+    if (!fs.existsSync(filePath)) continue;
+    try {
+      const raw = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      const storeJobs = raw.jobs || {};
+      const found = storeJobs[jobId] || Object.values(storeJobs).find((j: any) => j.id === jobId || j.slug === jobId);
+      if (found) {
+        const f = found as any;
+        const positions = (Array.isArray(f.positions) && f.positions.length > 0)
+          ? f.positions
+          : [{
+              title: f.title || 'অফিসার',
+              grade: f.grade || '১০ম গ্রেড',
+              posts: Number(f.totalPosts) || 1,
+              salary: f.salary || 'জাতীয় বেতন স্কেল',
+              minEducation: f.minEducation || 'স্নাতক',
+              govtFee: Number(f.govtFee) || 0,
+            }];
+
+        const created = await prisma.jobCircular.upsert({
+          where: { id: f.id },
+          update: {
+            status: JobStatus.PUBLISHED,
+          },
+          create: {
+            id: f.id,
+            slug: f.slug || f.id,
+            title: f.title || 'চাকরির বিজ্ঞপ্তি',
+            titleBn: f.title || null,
+            organization: f.organization || 'সরকারি সংস্থা',
+            deadline: parseBengaliDate(f.deadline),
+            totalPositions: Number(f.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
+            officialFee: Number(f.govtFee) || 0,
+            serviceFee: Number(f.serviceFee) || 50,
+            sourceUrl: f.officialLink || f.applicationUrl || null,
+            officialPdfUrl: f.pdfUrl || f.circularPdfUrl || null,
+            bannerUrl: f.logo || null,
+            positions,
+            eligibility: {
+              minAge: f.minAge,
+              maxAge: f.maxAge,
+              districts: f.districts,
+              education: f.minEducation,
+            },
+            status: JobStatus.PUBLISHED,
+          },
+        });
+        return created;
+      }
+    } catch {}
+  }
+  return null;
+}
 
 export const applicationService = {
   createApplication: async (candidateId: string, payload: ICreateApplicationPayload) => {
-    const job = await prisma.jobCircular.findUnique({
-      where: { id: payload.jobId },
-    });
+    const job = await findOrAutoSyncJob(payload.jobId);
 
     if (!job) {
       throw new AppError(status.NOT_FOUND, 'চাকরির সার্কুলারটি পাওয়া যায়নি।');
     }
+
+    payload.jobId = job.id;
 
     if (new Date(job.deadline) < new Date()) {
       throw new AppError(status.BAD_REQUEST, 'আবেদনের সময়সীমা শেষ হয়ে গেছে।');
@@ -31,8 +128,11 @@ export const applicationService = {
       throw new AppError(status.CONFLICT, 'আপনি ইতিমধ্যে এই পদে আবেদন করেছেন।');
     }
 
-    const govtFee = Number(payload.govtFee || job.officialFee);
-    const originalServiceFee = Number(payload.serviceFee || job.serviceFee);
+    const isWalletPayment = (payload.paymentMethod || '').toLowerCase() === 'wallet';
+    const postName = payload.postName || payload.positionName || 'অফিসার';
+    const positionIndex = typeof payload.positionIndex === 'number' ? payload.positionIndex : 0;
+    const govtFee = Number(payload.govtFee ?? payload.governmentFee ?? job.officialFee ?? 0);
+    const originalServiceFee = Number(payload.serviceFee ?? payload.serviceCharge ?? job.serviceFee ?? 50);
     let discount = 0;
 
     // Validate coupon if provided
@@ -49,7 +149,7 @@ export const applicationService = {
     }
 
     const finalServiceFee = Math.max(0, originalServiceFee - discount);
-    const totalAmount = govtFee + finalServiceFee;
+    const totalAmount = Number(payload.totalAmount) || (govtFee + finalServiceFee);
 
     // Check candidate wallet balance
     const candidate = await prisma.candidate.findUnique({
@@ -60,12 +160,14 @@ export const applicationService = {
       throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।');
     }
 
-    const currentBalance = Number(candidate.walletBalance);
-    if (currentBalance < totalAmount) {
-      throw new AppError(
-        status.PAYMENT_REQUIRED,
-        `অপর্যাপ্ত ওয়ালেট ব্যালেন্স! প্রয়োজন: ৳${totalAmount}, বর্তমান ব্যালেন্স: ৳${currentBalance}। ওয়ালেট রিচার্জ করুন।`
-      );
+    if (isWalletPayment) {
+      const currentBalance = Number(candidate.walletBalance);
+      if (currentBalance < totalAmount) {
+        throw new AppError(
+          status.PAYMENT_REQUIRED,
+          `অপর্যাপ্ত ওয়ালেট ব্যালেন্স! প্রয়োজন: ৳${totalAmount}, বর্তমান ব্যালেন্স: ৳${currentBalance}। ওয়ালেট রিচার্জ করুন।`
+        );
+      }
     }
 
     const trackingNumber = `CS-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
@@ -73,11 +175,13 @@ export const applicationService = {
 
     // Execute atomic transaction
     const result = await prisma.$transaction(async (tx) => {
-      // 1. Deduct wallet
-      await tx.candidate.update({
-        where: { id: candidateId },
-        data: { walletBalance: { decrement: totalAmount } },
-      });
+      // 1. Deduct wallet if wallet payment
+      if (isWalletPayment) {
+        await tx.candidate.update({
+          where: { id: candidateId },
+          data: { walletBalance: { decrement: totalAmount } },
+        });
+      }
 
       // 2. Create Application
       const application = await tx.applicationRequest.create({
@@ -85,35 +189,39 @@ export const applicationService = {
           id: applicationId,
           candidateId,
           jobId: payload.jobId,
-          positionIndex: payload.positionIndex,
-          positionName: payload.positionName,
+          positionIndex,
+          positionName: postName,
           trackingNumber,
           status: ApplicationStatus.PENDING,
           govtFee,
           serviceFee: finalServiceFee,
           discount,
           totalPaid: totalAmount,
-          paymentMethod: payload.paymentMethod || 'wallet',
+          paymentMethod: payload.paymentMethod || 'bKash',
+          transactionId: payload.trxId || payload.transactionId || null,
           statusHistory: [
             {
               status: 'PENDING',
               timestamp: new Date().toISOString(),
-              note: 'আবেদন ফি সফলভাবে পরিশোধ হয়েছে। অপারেটর কিউতে প্রেরণ করা হয়েছে।',
+              note: isWalletPayment 
+                ? 'আবেদন ফি ওয়ালেট থেকে সফলভাবে পরিশোধ হয়েছে। অপারেটর কিউতে প্রেরণ করা হয়েছে।' 
+                : `আবেদন জমা হয়েছে (${payload.paymentMethod || 'মোবাইল ব্যাংকিং'} TrxID: ${payload.trxId || 'N/A'})। ভেরিফিকেশনের পর প্রসেস শুরু হবে।`,
             },
           ],
         },
       });
 
-      // 3. Create Wallet Transaction Record
+      // 3. Create Transaction Record
       await tx.walletTransaction.create({
         data: {
           id: `TRX-${Date.now()}`,
           candidateId,
           amount: totalAmount,
           type: TransactionType.APPLICATION_FEE,
-          method: 'wallet',
-          status: TransactionStatus.COMPLETED,
-          description: `${payload.positionName} পদে আবেদন ফি পরিশোধ (ট্র্যাকিং: ${trackingNumber})`,
+          method: payload.paymentMethod || (isWalletPayment ? 'wallet' : 'bKash'),
+          status: isWalletPayment ? TransactionStatus.COMPLETED : TransactionStatus.PENDING,
+          trxId: payload.trxId || payload.transactionId || `TRX-${Date.now()}`,
+          description: `${postName} পদে আবেদন ফি (${payload.paymentMethod || 'মোবাইল ব্যাংকিং'}) (ট্র্যাকিং: ${trackingNumber})`,
           referenceId: applicationId,
         },
       });
@@ -124,16 +232,22 @@ export const applicationService = {
           id: `NOTIF-${Date.now()}`,
           candidateId,
           title: 'আবেদন গৃহীত হয়েছে',
-          message: `${job.organization}-এর "${payload.positionName}" পদে আপনার আবেদন সফলভাবে জমা হয়েছে। ট্র্যাকিং নং: ${trackingNumber}`,
+          message: `${job.organization}-এর "${postName}" পদে আপনার আবেদন সফলভাবে জমা হয়েছে। ট্র্যাকিং নং: ${trackingNumber}`,
           type: 'success',
-          actionUrl: `/applications`,
+          actionUrl: `/dashboard/applications`,
         },
       });
 
       return application;
     });
 
-    return result;
+    return {
+      ...result,
+      totalAmount,
+      postName,
+      jobTitle: job.title,
+      organization: job.organization,
+    };
   },
 
   getMyApplications: async (candidateId: string) => {

@@ -12,6 +12,7 @@ export const applicationController = {
       success: true,
       message: 'আবেদন সফলভাবে গৃহীত হয়েছে!',
       application: result,
+      createdApp: result,
       data: result,
     });
   }),

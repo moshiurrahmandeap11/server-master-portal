@@ -7,16 +7,57 @@ import { UserRole, UserStatus, JobStatus, ApplicationStatus, DocumentType } from
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function parseBengaliDate(dateStr?: string): Date {
+  if (!dateStr) return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  let norm = String(dateStr);
+  bnDigits.forEach((d, idx) => { norm = norm.split(d).join(String(idx)); });
+  const direct = Date.parse(norm);
+  if (!isNaN(direct)) return new Date(direct);
+
+  const monthMap: Record<string, string> = {
+    'জানুয়ারি': '01', 'ফেব্রুয়ারি': '02', 'মার্চ': '03', 'এপ্রিল': '04',
+    'মে': '05', 'জুন': '06', 'জুলাই': '07', 'আগস্ট': '08',
+    'সেপ্টেম্বর': '09', 'অক্টোবর': '10', 'নভেম্বর': '11', 'ডিসেম্বর': '12'
+  };
+  for (const [bnMonth, numMonth] of Object.entries(monthMap)) {
+    if (norm.includes(bnMonth)) {
+      const match = norm.match(/(\d{1,2})\s*([^\d\s]+)\s*(\d{4})/);
+      if (match) {
+        const day = match[1].padStart(2, '0');
+        const year = match[3];
+        return new Date(`${year}-${numMonth}-${day}T23:59:59.000Z`);
+      }
+    }
+  }
+  return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+}
+
+const catMap: Record<string, string> = {
+  'govt': 'cat-govt',
+  'bank': 'cat-bank',
+  'teacher': 'cat-teacher',
+  'health': 'cat-health',
+  'it': 'cat-it',
+  'engineer': 'cat-engineer',
+  'defense': 'cat-defense',
+  'ngo': 'cat-ngo',
+  'private': 'cat-private',
+  'company': 'cat-private',
+  'international': 'cat-international',
+};
+
 async function main() {
   const archiveJsonPath = path.join(__dirname, '../_legacy_archive/db/local_store.json');
+  const clientJsonPath = path.join(__dirname, '../../client-master-portal/src/db/local_store.json');
   const legacyJsonPath = path.join(__dirname, '../src/db/local_store.json');
-  const jsonPath = fs.existsSync(archiveJsonPath) ? archiveJsonPath : legacyJsonPath;
+  const jsonPath = fs.existsSync(clientJsonPath) ? clientJsonPath : (fs.existsSync(archiveJsonPath) ? archiveJsonPath : legacyJsonPath);
   if (!fs.existsSync(jsonPath)) {
     console.log('No local_store.json found to migrate.');
     return;
   }
 
-  console.log('Reading local_store.json for migration to Neon PostgreSQL...');
+  console.log(`Reading ${jsonPath} for migration to Neon PostgreSQL...`);
   const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 
   // 1. Categories
@@ -111,12 +152,18 @@ async function main() {
   console.log(`Migrating ${jobs.length} jobs...`);
   for (const j of jobs as any[]) {
     const slug = j.slug || j.id;
-    let deadlineDate: Date;
-    try {
-      deadlineDate = j.deadline && !isNaN(Date.parse(j.deadline)) ? new Date(j.deadline) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-    } catch {
-      deadlineDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-    }
+    const deadlineDate = parseBengaliDate(j.deadline);
+    const categoryId = catMap[j.category] || (j.category?.startsWith('cat-') ? j.category : null);
+    const positions = (Array.isArray(j.positions) && j.positions.length > 0)
+      ? j.positions
+      : [{
+          title: j.title || 'অফিসার',
+          grade: j.grade || '১০ম গ্রেড',
+          posts: Number(j.totalPosts) || 1,
+          salary: j.salary || 'জাতীয় বেতন স্কেল',
+          minEducation: j.minEducation || 'স্নাতক',
+          govtFee: Number(j.govtFee) || 0,
+        }];
 
     await prisma.jobCircular.upsert({
       where: { id: j.id },
@@ -126,14 +173,15 @@ async function main() {
         titleBn: j.title || null,
         organization: j.organization || 'সরকারি সংস্থা',
         organizationSlug: j.organizationEn ? j.organizationEn.toLowerCase().replace(/[^a-z0-9]/g, '-') : null,
+        categoryId,
         deadline: deadlineDate,
-        totalPositions: Number(j.totalPosts) || 1,
+        totalPositions: Number(j.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
         officialFee: Number(j.govtFee) || 0,
         serviceFee: Number(j.serviceFee) || 50,
         sourceUrl: j.officialLink || j.applicationUrl || null,
         officialPdfUrl: j.pdfUrl || j.circularPdfUrl || null,
         bannerUrl: j.logo || null,
-        positions: Array.isArray(j.positions) ? j.positions : [],
+        positions,
         eligibility: {
           minAge: j.minAge,
           maxAge: j.maxAge,
@@ -149,14 +197,15 @@ async function main() {
         titleBn: j.title || null,
         organization: j.organization || 'সরকারি সংস্থা',
         organizationSlug: j.organizationEn ? j.organizationEn.toLowerCase().replace(/[^a-z0-9]/g, '-') : null,
+        categoryId,
         deadline: deadlineDate,
-        totalPositions: Number(j.totalPosts) || 1,
+        totalPositions: Number(j.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
         officialFee: Number(j.govtFee) || 0,
         serviceFee: Number(j.serviceFee) || 50,
         sourceUrl: j.officialLink || j.applicationUrl || null,
         officialPdfUrl: j.pdfUrl || j.circularPdfUrl || null,
         bannerUrl: j.logo || null,
-        positions: Array.isArray(j.positions) ? j.positions : [],
+        positions,
         eligibility: {
           minAge: j.minAge,
           maxAge: j.maxAge,
