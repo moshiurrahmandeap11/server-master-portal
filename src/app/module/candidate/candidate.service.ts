@@ -1,5 +1,10 @@
 import status from 'http-status';
+import path from 'path';
+import fs from 'fs';
 import { prisma } from '../../lib/prisma';
+import { env } from '../../config/env';
+import { DocumentType } from '../../../generated/prisma';
+import { geminiUtils } from '../../utils/gemini';
 import AppError from '../../errorHelpers/AppError';
 import { IUpdateCandidateProfilePayload, IEducationPayload, IDocumentPayload } from './candidate.interface';
 
@@ -584,5 +589,40 @@ export const candidateService = {
     });
 
     return payload;
+  },
+
+  importResumePdf: async (candidateId: string, fileBuffer: Buffer, filename?: string) => {
+    // 1. Parse using Gemini Multimodal OCR
+    const parsed = await geminiUtils.parseResumeFromPdfBuffer(fileBuffer);
+
+    // 2. Save original resume in document vault
+    let savedDocUrl: string | undefined;
+    try {
+      const uploadDir = env.CHAKRI_UPLOAD_DIR;
+      const docFilename = `${candidateId}_resume_${Date.now()}.pdf`;
+      const docPath = path.join(uploadDir, 'candidate-documents', docFilename);
+      fs.mkdirSync(path.dirname(docPath), { recursive: true });
+      fs.writeFileSync(docPath, fileBuffer);
+
+      savedDocUrl = `/uploads/candidate-documents/${docFilename}`;
+      await prisma.candidateDocument.create({
+        data: {
+          candidateId,
+          type: DocumentType.OTHER,
+          title: filename ? `অফিসিয়াল সিভি (${filename})` : 'অফিসিয়াল রিজিউমে / সিভি (PDF)',
+          fileUrl: savedDocUrl,
+          fileSize: fileBuffer.length,
+          mimeType: 'application/pdf',
+          isVerified: true,
+        },
+      });
+    } catch (docErr) {
+      console.warn('[importResumePdf] Failed to auto-save to document vault:', docErr);
+    }
+
+    return {
+      parsed,
+      documentUrl: savedDocUrl,
+    };
   },
 };
