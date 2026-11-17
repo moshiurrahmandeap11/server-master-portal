@@ -258,4 +258,23 @@ export const candidateController = {
       data: result,
     });
   }),
+
+  importResume: catchAsync(async (req: Request, res: Response) => {
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).json({
+        success: false,
+        error: 'কোনো সিভি/রেজিউমে PDF ফাইল পাওয়া যায়নি। অনুগ্রহ করে একটি সঠিক PDF ফাইল আপলোড করুন।',
+      });
+    }
+
+    const candidateId = req.user!.candidateId;
+    const result = await candidateService.importResumePdf(candidateId, req.file.buffer, req.file.originalname);
+
+    return res.status(200).json({
+      success: true,
+      message: 'সিভি সফলভাবে স্ক্যান ও বিশ্লেষণ করা হয়েছে।',
+      parsed: result.parsed,
+      documentUrl: result.documentUrl,
+    });
+  }),
 };
