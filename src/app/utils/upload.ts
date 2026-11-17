@@ -37,3 +37,19 @@ export const documentUpload = multer({
     }
   },
 });
+
+export const circularPdfUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 25 * 1024 * 1024, // 25MB limit for large multi-page circular PDFs
+  },
+  fileFilter: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext === '.pdf' || file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('শুধুমাত্র PDF (.pdf) ফাইল আপলোড করা যাবে।'));
+    }
+  },
+});
+
