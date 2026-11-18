@@ -21,6 +21,8 @@ router.put('/applications/:id/status', adminController.updateApplicationStatus);
 // Jobs CRUD
 router.get('/jobs', adminController.getJobs);
 router.post('/jobs', adminController.createJob);
+router.patch('/jobs', adminController.bulkUpdateJobStatus);
+router.delete('/jobs', adminController.bulkDeleteJobs);
 router.put('/jobs/:id', adminController.updateJob);
 router.delete('/jobs/:id', adminController.deleteJob);
 

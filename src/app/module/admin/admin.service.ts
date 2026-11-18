@@ -6,6 +6,33 @@ import { geminiUtils } from '../../utils/gemini';
 import { scraperEngine } from '../../utils/scraper';
 import { formatJobItem } from '../job/job.service';
 
+function parseBengaliDate(dateStr?: string | Date): Date {
+  if (!dateStr) return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  if (dateStr instanceof Date) return isNaN(dateStr.getTime()) ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) : dateStr;
+  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  let norm = String(dateStr).trim();
+  bnDigits.forEach((d, idx) => { norm = norm.split(d).join(String(idx)); });
+  const direct = Date.parse(norm);
+  if (!isNaN(direct)) return new Date(direct);
+
+  const monthMap: Record<string, string> = {
+    'জানুয়ারি': '01', 'ফেব্রুয়ারি': '02', 'মার্চ': '03', 'এপ্রিল': '04',
+    'মে': '05', 'জুন': '06', 'জুলাই': '07', 'আগস্ট': '08',
+    'সেপ্টেম্বর': '09', 'অক্টোবর': '10', 'নভেম্বর': '11', 'ডিসেম্বর': '12'
+  };
+  for (const [bnMonth, numMonth] of Object.entries(monthMap)) {
+    if (norm.includes(bnMonth)) {
+      const match = norm.match(/(\d{1,2})\s*([^\d\s]+)\s*(\d{4})/);
+      if (match) {
+        const day = match[1].padStart(2, '0');
+        const year = match[3];
+        return new Date(`${year}-${numMonth}-${day}T23:59:59.000Z`);
+      }
+    }
+  }
+  return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+}
+
 export const adminService = {
   getDashboardStats: async () => {
     const [
@@ -244,7 +271,37 @@ export const adminService = {
 
   createJob: async (data: any) => {
     const id = data.id || `job-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`;
-    const slug = data.slug || id;
+    const slug = data.slug?.trim() || id;
+
+    // Resolve categoryId if category slug or string was passed
+    let categoryId = data.categoryId || null;
+    if (!categoryId && data.category) {
+      const cat = await prisma.category.findFirst({
+        where: { OR: [{ slug: String(data.category) }, { id: String(data.category) }] },
+      });
+      if (cat) categoryId = cat.id;
+    }
+
+    const officialFee = String(data.officialFee ?? data.govtFee ?? '200');
+    const serviceFee = String(data.serviceFee ?? '50');
+    const totalPositions = Number(data.totalPositions ?? data.totalPosts ?? 1);
+    const sourceUrl = data.sourceUrl ?? data.officialLink ?? null;
+    const officialPdfUrl = data.officialPdfUrl ?? data.circularPdfUrl ?? null;
+    const deadline = parseBengaliDate(data.deadline);
+
+    // Build eligibility JSON if passed flat
+    let eligibility = data.eligibility || {};
+    if (typeof eligibility !== 'object' || Array.isArray(eligibility)) eligibility = {};
+    if (data.minEducation && !eligibility.education) eligibility.education = data.minEducation;
+    if (data.salary && !eligibility.salary) eligibility.salary = data.salary;
+    if (data.grade && !eligibility.grade) eligibility.grade = data.grade;
+    if (data.districts && !eligibility.districts) eligibility.districts = data.districts;
+    if (data.minAge && !eligibility.minAge) eligibility.minAge = Number(data.minAge);
+    if (data.maxAge && !eligibility.maxAge) eligibility.maxAge = Number(data.maxAge);
+    if (data.ageCutOffDate && !eligibility.ageCutOffDate) eligibility.ageCutOffDate = data.ageCutOffDate;
+    if (data.allowThirdDivision !== undefined && eligibility.allowThirdDivision === undefined) {
+      eligibility.allowThirdDivision = Boolean(data.allowThirdDivision);
+    }
 
     const job = await prisma.jobCircular.create({
       data: {
@@ -254,18 +311,27 @@ export const adminService = {
         titleBn: data.titleBn || data.title,
         organization: data.organization,
         organizationSlug: data.organizationSlug || null,
-        categoryId: data.categoryId || null,
-        deadline: new Date(data.deadline || Date.now() + 30 * 24 * 60 * 60 * 1000),
-        totalPositions: Number(data.totalPositions || 1),
-        officialFee: data.officialFee || '0',
-        serviceFee: data.serviceFee || '50',
-        sourceUrl: data.sourceUrl || null,
-        officialPdfUrl: data.officialPdfUrl || null,
+        categoryId,
+        deadline,
+        totalPositions,
+        officialFee,
+        serviceFee,
+        sourceUrl,
+        officialPdfUrl,
         bannerUrl: data.bannerUrl || null,
-        positions: data.positions || [],
-        eligibility: data.eligibility || {},
+        positions: Array.isArray(data.positions) && data.positions.length > 0 ? data.positions : [
+          {
+            name: data.title,
+            posts: totalPositions,
+            salary: data.salary || 'নিয়ম অনুযায়ী',
+            grade: data.grade || 'গ্রেড',
+            govtFee: Number(officialFee) || 200,
+            minEducation: data.minEducation || 'স্নাতক',
+          }
+        ],
+        eligibility,
         instructions: data.instructions || null,
-        status: data.status || JobStatus.PUBLISHED,
+        status: data.status === 'OPEN' ? JobStatus.PUBLISHED : (data.status || JobStatus.PUBLISHED),
         isFeatured: Boolean(data.isFeatured),
       },
     });
@@ -284,8 +350,30 @@ export const adminService = {
     delete updatePayload.category;
     delete updatePayload._count;
 
+    if (data.category && !data.categoryId) {
+      const cat = await prisma.category.findFirst({
+        where: { OR: [{ slug: String(data.category) }, { id: String(data.category) }] },
+      });
+      if (cat) updatePayload.categoryId = cat.id;
+    }
+    if (data.govtFee !== undefined && data.officialFee === undefined) {
+      updatePayload.officialFee = String(data.govtFee);
+    }
+    if (data.totalPosts !== undefined && data.totalPositions === undefined) {
+      updatePayload.totalPositions = Number(data.totalPosts);
+    }
+    if (data.officialLink !== undefined && data.sourceUrl === undefined) {
+      updatePayload.sourceUrl = data.officialLink;
+    }
+    if (data.circularPdfUrl !== undefined && data.officialPdfUrl === undefined) {
+      updatePayload.officialPdfUrl = data.circularPdfUrl;
+    }
+    if (data.status === 'OPEN') {
+      updatePayload.status = JobStatus.PUBLISHED;
+    }
+
     if (data.deadline) {
-      updatePayload.deadline = new Date(data.deadline);
+      updatePayload.deadline = parseBengaliDate(data.deadline);
     }
 
     return await prisma.jobCircular.update({
@@ -302,6 +390,34 @@ export const adminService = {
 
     await prisma.jobCircular.delete({ where: { id } });
     return { success: true, message: 'চাকরি সফলভাবে মুছে ফেলা হয়েছে।' };
+  },
+
+  bulkDeleteJobs: async (jobIds: string[]) => {
+    if (!Array.isArray(jobIds) || jobIds.length === 0) {
+      throw new AppError(status.BAD_REQUEST, 'মুছে ফেলার মতো কোনো সার্কুলার আইডি পাওয়া যায়নি।');
+    }
+    const result = await prisma.jobCircular.deleteMany({
+      where: { id: { in: jobIds } },
+    });
+    return { success: true, count: result.count, message: `${result.count}টি সার্কুলার সফলভাবে মুছে ফেলা হয়েছে।` };
+  },
+
+  bulkUpdateJobStatus: async (jobIds: string[], rawStatus: string) => {
+    if (!Array.isArray(jobIds) || jobIds.length === 0) {
+      throw new AppError(status.BAD_REQUEST, 'হালনাগাদের জন্য কোনো সার্কুলার আইডি পাওয়া যায়নি।');
+    }
+    const s = String(rawStatus || '').toUpperCase();
+    let targetStatus: JobStatus = JobStatus.PUBLISHED;
+    if (s === 'DRAFT') targetStatus = JobStatus.DRAFT;
+    else if (s === 'EXPIRED') targetStatus = JobStatus.EXPIRED;
+    else if (s === 'ARCHIVED') targetStatus = JobStatus.ARCHIVED;
+    else targetStatus = JobStatus.PUBLISHED; // handles 'OPEN'
+
+    const result = await prisma.jobCircular.updateMany({
+      where: { id: { in: jobIds } },
+      data: { status: targetStatus },
+    });
+    return { success: true, count: result.count, message: `${result.count}টি সার্কুলারের স্ট্যাটাস সফলভাবে আপডেট হয়েছে!` };
   },
 
   // Categories CRUD
@@ -1828,13 +1944,13 @@ export const adminService = {
 
     const users = candidates.map((c: any) => ({
       id: c.id,
-      name: c.fullName || 'প্রার্থী',
+      name: c.name || c.nameBn || 'প্রার্থী',
       phone: c.phone || '01700000000',
-      district: c.permanentDistrict || 'ঢাকা',
-      division: 'ঢাকা বিভাগ',
+      district: c.district || 'ঢাকা',
+      division: c.division || 'ঢাকা বিভাগ',
       educationLevel: 'স্নাতক / অনার্স',
-      quota: c.quotaCategory || 'জেনারেল',
-      status: 'ACTIVE',
+      quota: c.quota || 'none',
+      status: c.status || 'ACTIVE',
     }));
 
     const districtsList = [

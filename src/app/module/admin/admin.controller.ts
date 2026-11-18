@@ -120,6 +120,28 @@ export const adminController = {
     });
   }),
 
+  bulkDeleteJobs: catchAsync(async (req: Request, res: Response) => {
+    const jobIds = req.body.jobIds || [];
+    const result = await adminService.bulkDeleteJobs(jobIds);
+
+    return res.status(200).json({
+      success: true,
+      message: result.message,
+      count: result.count,
+    });
+  }),
+
+  bulkUpdateJobStatus: catchAsync(async (req: Request, res: Response) => {
+    const { jobIds, status } = req.body;
+    const result = await adminService.bulkUpdateJobStatus(jobIds || [], status);
+
+    return res.status(200).json({
+      success: true,
+      message: result.message,
+      count: result.count,
+    });
+  }),
+
   // Categories CRUD
   getCategories: catchAsync(async (_req: Request, res: Response) => {
     const result = await adminService.getAllCategories();

@@ -251,12 +251,13 @@ export const applicationService = {
   },
 
   getMyApplications: async (candidateId: string) => {
-    return await prisma.applicationRequest.findMany({
+    const apps = await prisma.applicationRequest.findMany({
       where: { candidateId },
       include: {
         job: {
           select: {
             title: true,
+            titleBn: true,
             organization: true,
             deadline: true,
             officialPdfUrl: true,
@@ -265,6 +266,25 @@ export const applicationService = {
       },
       orderBy: { submittedAt: 'desc' },
     });
+
+    const normalizeAppStatus = (raw: string): string => {
+      const s = String(raw || '').toUpperCase();
+      if (s === 'COMPLETED' || s === 'ADMIT_ISSUED') return 'completed';
+      if (s === 'PROCESSING' || s === 'PAYMENT_COMPLETED') return 'processing';
+      if (s === 'REJECTED' || s === 'CANCELLED') return 'rejected';
+      return 'pending_payment';
+    };
+
+    return apps.map((a: any) => ({
+      ...a,
+      status: normalizeAppStatus(a.status),
+      rawStatus: a.status,
+      jobTitle: a.job?.title || a.job?.titleBn || a.positionName || 'চাকরির বিজ্ঞপ্তি',
+      organization: a.job?.organization || '',
+      date: a.submittedAt ? new Date(a.submittedAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+      totalAmount: Number(a.totalPaid ?? (Number(a.govtFee || 0) + Number(a.serviceFee || 0))),
+      trxId: a.transactionId || '',
+    }));
   },
 
   getApplicationDetails: async (candidateId: string, applicationId: string) => {
