@@ -47,3 +47,39 @@ model PlatformSettings {
 
   @@map("platform_settings")
 }
+
+model BlogPost {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  kind        String   @default("blog") // blog | guide
+  title       String
+  excerpt     String?
+  content     String
+  category    String?
+  author      String?
+  coverImage  String?
+  readTime    String?
+  tags        Json?
+  status      String   @default("published")
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([kind, status])
+  @@map("blog_posts")
+}
+
+model CandidateReview {
+  id          String   @id @default(uuid())
+  name        String
+  role        String?
+  institution String?
+  quote       String
+  rating      Int      @default(5)
+  isApproved  Boolean  @default(true)
+  orderIndex  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("candidate_reviews")
+}
