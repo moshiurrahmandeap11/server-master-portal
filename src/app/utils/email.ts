@@ -51,10 +51,13 @@ export const emailUtils = {
         console.log(`[DEV EMAIL] Target: ${to} | Type: ${type} | OTP: ${otp}`);
       }
 
-      return { success: true, devOtp: otp };
+      if (env.NODE_ENV !== 'production') {
+        return { success: true, devOtp: otp };
+      }
+      return { success: true };
     } catch (err) {
       console.error('[emailUtils] Failed to send email:', err);
-      return { success: false, devOtp: otp };
+      return { success: false, ...(env.NODE_ENV !== 'production' ? { devOtp: otp } : {}) };
     }
   },
 };
