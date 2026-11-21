@@ -22,18 +22,74 @@ const storage = multer.diskStorage({
   },
 });
 
+const allowedDocExt = ['.pdf', '.jpg', '.jpeg', '.png', '.webp'];
+const allowedDocMime = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+
 export const documentUpload = multer({
   storage,
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB limit
   },
   fileFilter: (_req, file, cb) => {
-    const allowed = ['.pdf', '.jpg', '.jpeg', '.png', '.webp'];
     const ext = path.extname(file.originalname).toLowerCase();
-    if (allowed.includes(ext) || file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
+    if (allowedDocExt.includes(ext) && allowedDocMime.includes(file.mimetype)) {
       cb(null, true);
     } else {
       cb(new Error('শুধুমাত্র PDF, JPG, JPEG, PNG অথবা WEBP ফাইল আপলোড করা যাবে।'));
+    }
+  },
+});
+
+const applicantCopyDir = path.join(env.CHAKRI_UPLOAD_DIR, 'applicant-copies');
+if (!fs.existsSync(applicantCopyDir)) {
+  fs.mkdirSync(applicantCopyDir, { recursive: true });
+}
+
+export const applicantCopyUpload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, applicantCopyDir),
+    filename: (req: any, file, cb) => {
+      const appId = String(req.body?.applicationId || req.body?.trackingNumber || 'app').replace(/[^a-zA-Z0-9_-]/g, '_');
+      const ext = path.extname(file.originalname).toLowerCase();
+      const safeExt = allowedDocExt.includes(ext) ? ext : '.pdf';
+      cb(null, `${appId}_copy_${Date.now()}${safeExt}`);
+    },
+  }),
+  limits: { fileSize: 15 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (allowedDocExt.includes(ext) && allowedDocMime.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('শুধুমাত্র PDF অথবা ছবি (JPG/PNG/WEBP) ফাইল আপলোড করা যাবে।'));
+    }
+  },
+});
+
+const mediaDir = path.join(env.CHAKRI_UPLOAD_DIR, 'media');
+if (!fs.existsSync(mediaDir)) {
+  fs.mkdirSync(mediaDir, { recursive: true });
+}
+
+export const mediaUpload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, mediaDir),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      const safeBase = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 40) || 'media';
+      const safeExt = [...allowedDocExt, '.gif'].includes(ext) ? ext : '.png';
+      cb(null, `${safeBase}_${Date.now()}${safeExt}`);
+    },
+  }),
+  limits: { fileSize: 15 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    const okExt = [...allowedDocExt, '.gif'].includes(ext);
+    const okMime = [...allowedDocMime, 'image/gif'].includes(file.mimetype);
+    if (okExt && okMime) {
+      cb(null, true);
+    } else {
+      cb(new Error('অনুমোদিত ফাইল ফরম্যাট: PDF, JPG, PNG, WEBP, GIF।'));
     }
   },
 });
@@ -45,7 +101,7 @@ export const circularPdfUpload = multer({
   },
   fileFilter: (_req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
-    if (ext === '.pdf' || file.mimetype === 'application/pdf') {
+    if (ext === '.pdf' && file.mimetype === 'application/pdf') {
       cb(null, true);
     } else {
       cb(new Error('শুধুমাত্র PDF (.pdf) ফাইল আপলোড করা যাবে।'));
