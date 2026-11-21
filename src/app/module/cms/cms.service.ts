@@ -38,11 +38,48 @@ export const cmsService = {
           id: 'global',
           siteName: 'চাকরি সেবা',
           tagline: 'বাংলাদেশের বিশ্বস্ত সরকারি ও ব্যাংক চাকরি আবেদন প্ল্যাটফর্ম',
+          contactEmail: 'support@chakrisheba.com',
+          supportPhone: '+8801700000000',
         },
       });
     }
 
-    return settings;
+    const general = {
+      siteName: settings.siteName || 'চাকরি সেবা',
+      tagline: settings.tagline || 'বাংলাদেশের বিশ্বস্ত সরকারি ও ব্যাংক চাকরি আবেদন প্ল্যাটফর্ম',
+      contactEmail: settings.contactEmail || 'support@chakrisheba.com',
+      supportPhone: settings.supportPhone || '+8801700000000',
+      whatsappNumber: '+8801700000000',
+      heroHeadline: 'সঠিক তথ্যে নির্ভুল সরকারি ও ব্যাংক চাকরি আবেদন',
+      footerCopyright: `© ${new Date().getFullYear()} চাকরি সেবা (Chakri Sheba)। সর্বস্বত্ব সংরক্ষিত।`,
+      ...(typeof settings.general === 'object' && settings.general !== null ? (settings.general as Record<string, any>) : {}),
+    };
+
+    const workflow = {
+      defaultServiceFee: 50,
+      autoVerifyEmails: false,
+      allowWalletSplit: true,
+      enableAiResumeImport: true,
+      ...(typeof settings.workflow === 'object' && settings.workflow !== null ? (settings.workflow as Record<string, any>) : {}),
+    };
+
+    const operational = {
+      maintenanceMode: false,
+      allowRegistration: true,
+      bkashNumber: '01700-000000',
+      nagadNumber: '01700-000000',
+      ...(typeof settings.operational === 'object' && settings.operational !== null ? (settings.operational as Record<string, any>) : {}),
+    };
+
+    return {
+      ...settings,
+      general,
+      workflow,
+      operational,
+      headerLinks: Array.isArray(settings.headerMenu) ? settings.headerMenu : [],
+      footerLinks: settings.footerMenu || { columns: [] },
+      seo: settings.seoDefaults || {},
+    };
   },
 
   getMediaItems: async () => {
