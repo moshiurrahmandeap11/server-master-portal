@@ -7,6 +7,9 @@ import { env } from './app/config/env';
 import { IndexRoutes } from './app/routes';
 import { globalErrorHandler } from './app/middleware/globalErrorHandler';
 import { notFound } from './app/middleware/notFound';
+import { checkAuth } from './app/middleware/checkAuth';
+import { prisma } from './app/lib/prisma';
+import { UserRole } from './generated/prisma';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +22,7 @@ const allowedOrigins = [
   'http://localhost:3050',
   'http://127.0.0.1:3050',
   'http://localhost:3000',
+  'http://127.0.0.1:3000',
   'https://chakrisheba.com',
   'https://www.chakrisheba.com',
 ];
@@ -26,14 +30,16 @@ const allowedOrigins = [
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(null, true); // Dev-tolerant
+      return callback(null, true);
     }
+    if (env.NODE_ENV !== 'production' && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS origin not allowed'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-secret', 'x-user-id', 'x-user-role', 'Cache-Control'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-secret', 'Cache-Control'],
 }));
 
 app.use(cookieParser());
@@ -48,10 +54,56 @@ app.use((req: Request, _res: Response, next) => {
   next();
 });
 
-// Static uploads serving
+// Protected private uploads (candidate documents & applicant copies)
 const uploadsDir = env.CHAKRI_UPLOAD_DIR;
-app.use('/uploads', express.static(uploadsDir));
-app.use('/api/uploads', express.static(uploadsDir));
+
+const serveProtectedCandidateDoc = (req: Request, res: Response) => {
+  const safeFile = path.basename(req.params.filename || '');
+  if (!safeFile) return res.status(400).json({ success: false, message: 'Invalid file' });
+  const isStaff = req.user?.role === UserRole.ADMIN || req.user?.role === UserRole.OPERATOR;
+  const ownsPrefix = Boolean(req.user?.candidateId && safeFile.startsWith(`${req.user.candidateId}_`));
+  if (!isStaff && !ownsPrefix) {
+    return res.status(403).json({ success: false, message: 'এই নথিতে প্রবেশের অনুমতি নেই।' });
+  }
+  const filePath = path.join(uploadsDir, 'candidate-documents', safeFile);
+  return res.sendFile(filePath, (err) => {
+    if (err && !res.headersSent) res.status(404).json({ success: false, message: 'ফাইল পাওয়া যায়নি।' });
+  });
+};
+
+const serveProtectedApplicantCopy = async (req: Request, res: Response) => {
+  const safeFile = path.basename(req.params.filename || '');
+  if (!safeFile) return res.status(400).json({ success: false, message: 'Invalid file' });
+  const isStaff = req.user?.role === UserRole.ADMIN || req.user?.role === UserRole.OPERATOR;
+  if (!isStaff) {
+    const ownedApp = await prisma.applicationRequest.findFirst({
+      where: {
+        candidateId: req.user?.candidateId,
+        OR: [
+          { applicantCopyPdfUrl: { contains: safeFile } },
+          { admitCardUrl: { contains: safeFile } },
+        ],
+      },
+      select: { id: true },
+    });
+    if (!ownedApp) {
+      return res.status(403).json({ success: false, message: 'এই অ্যাডমিট/কপিতে প্রবেশের অনুমতি নেই।' });
+    }
+  }
+  const filePath = path.join(uploadsDir, 'applicant-copies', safeFile);
+  return res.sendFile(filePath, (err) => {
+    if (err && !res.headersSent) res.status(404).json({ success: false, message: 'ফাইল পাওয়া যায়নি।' });
+  });
+};
+
+app.get('/uploads/candidate-documents/:filename', checkAuth(), serveProtectedCandidateDoc);
+app.get('/api/uploads/candidate-documents/:filename', checkAuth(), serveProtectedCandidateDoc);
+app.get('/uploads/applicant-copies/:filename', checkAuth(), serveProtectedApplicantCopy);
+app.get('/api/uploads/applicant-copies/:filename', checkAuth(), serveProtectedApplicantCopy);
+
+// Public CMS/marketing media uploads only
+app.use('/uploads/media', express.static(path.join(uploadsDir, 'media')));
+app.use('/api/uploads/media', express.static(path.join(uploadsDir, 'media')));
 
 // Health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
