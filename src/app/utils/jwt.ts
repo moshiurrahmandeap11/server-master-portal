@@ -8,11 +8,11 @@ export const jwtUtils = {
     return jwt.sign(payload, env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
   },
 
-  createRefreshToken: (payload: { candidateId: string }): string => {
+  createRefreshToken: (payload: { candidateId: string }, expiresIn: '24h' | '30d' | '7d' = '7d'): string => {
     return jwt.sign(
       { ...payload, jti: crypto.randomUUID() },
       env.REFRESH_TOKEN_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn }
     );
   },
 
