@@ -24,6 +24,7 @@ router.post('/report', jobController.reportJob);
 
 // 4. Job specific sub-resource
 router.get('/:id/deadline-status', jobController.getDeadlineStatus);
+router.get('/:id/download', jobController.downloadJobPdf);
 
 // 5. Dynamic fallback for single job by ID or Slug (MUST BE LAST)
 router.get('/:idOrSlug', jobController.getJobDetails);
