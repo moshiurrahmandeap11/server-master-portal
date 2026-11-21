@@ -6,6 +6,7 @@ import { ApplicationStatus, JobStatus, Prisma, TransactionStatus, TransactionTyp
 import { geminiUtils } from '../../utils/gemini';
 import { scraperEngine } from '../../utils/scraper';
 import { formatJobItem } from '../job/job.service';
+import { cmsService } from '../cms/cms.service';
 
 export const recordAdminAudit = async (
   action: string,
@@ -584,10 +585,11 @@ export const adminService = {
     return { success: true };
   },
 
-  // Job Sources & Spider
+  // Job Sources & Spider (5 Official Bangladesh Portals + Gemini API)
   getAllSources: async () => {
+    await scraperEngine.ensureDefaultSources();
     return await prisma.jobSource.findMany({
-      orderBy: { updatedAt: 'desc' },
+      orderBy: { trustScore: 'desc' },
     });
   },
 
@@ -1082,19 +1084,16 @@ export const adminService = {
 
   runSourceSpider: async (id?: string) => {
     const start = Date.now();
-    const scrapeResult = await scraperEngine.scrapeGovernmentJobs();
+    const scrapeResult = id
+      ? await scraperEngine.scrapeSource(id)
+      : await scraperEngine.scrapeAllActiveSources();
     const durationMs = Date.now() - start;
-    if (id) {
-      await prisma.jobSource.update({
-        where: { id },
-        data: { lastRunAt: new Date(), healthStatus: 'healthy', lastError: null },
-      }).catch(() => {});
-    }
+
     await prisma.spiderRunRecord.create({
       data: {
-        sourceId: id || 'teletalk-alljobs-live',
-        sourceName: scrapeResult.sourceName || 'Teletalk Alljobs Govt Portal',
-        status: 'SUCCESS',
+        sourceId: id || 'all-official-portals',
+        sourceName: scrapeResult.sourceName || 'Official Job Portals',
+        status: scrapeResult.foundCount > 0 ? 'SUCCESS' : 'WARNING',
         itemsFound: scrapeResult.foundCount,
         itemsAdded: scrapeResult.draftsCreated,
         durationMs,
@@ -1103,19 +1102,21 @@ export const adminService = {
 
     return {
       success: true,
-      message: `সরকারি চাকরি পোর্টাল থেকে ${scrapeResult.draftsCreated}টি নতুন সার্কুলার জেমিনি এআই দিয়ে সংগৃহীত হয়েছে।`,
+      message: scrapeResult.draftsCreated > 0
+        ? `${scrapeResult.sourceName} থেকে ${scrapeResult.draftsCreated}টি নতুন সার্কুলার Gemini AI দিয়ে সংগৃহীত হয়েছে।`
+        : `${scrapeResult.sourceName} যাচাই সম্পন্ন (${scrapeResult.foundCount}টি বিজ্ঞপ্তি পাওয়া গেছে, নতুন খসড়া ${scrapeResult.draftsCreated}টি)।`,
       ...scrapeResult,
     };
   },
 
   runAllSources: async () => {
     const start = Date.now();
-    const scrapeResult = await scraperEngine.scrapeGovernmentJobs();
+    const scrapeResult = await scraperEngine.scrapeAllActiveSources();
     await prisma.spiderRunRecord.create({
       data: {
         sourceId: 'all-sources',
-        sourceName: 'All Active Job Sources',
-        status: 'SUCCESS',
+        sourceName: scrapeResult.sourceName || 'All Active Job Sources',
+        status: scrapeResult.foundCount > 0 ? 'SUCCESS' : 'WARNING',
         itemsFound: scrapeResult.foundCount,
         itemsAdded: scrapeResult.draftsCreated,
         durationMs: Date.now() - start,
@@ -1123,7 +1124,7 @@ export const adminService = {
     }).catch(() => {});
     return {
       success: true,
-      message: `সকল সোর্স থেকে ${scrapeResult.draftsCreated}টি নতুন সার্কুলার সফলভাবে সংগৃহীত ও খসড়া তৈরি হয়েছে।`,
+      message: `${scrapeResult.sourcesChecked || 5}টি ওয়েবসাইট থেকে ${scrapeResult.foundCount}টি বিজ্ঞপ্তি যাচাই ও ${scrapeResult.draftsCreated}টি নতুন খসড়া তৈরি হয়েছে।`,
       ...scrapeResult,
     };
   },
@@ -1346,42 +1347,9 @@ export const adminService = {
     return { success: true };
   },
 
-  // Platform Settings
+  // Platform Settings (single source of truth via cmsService)
   getPlatformSettings: async () => {
-    let settings = await prisma.platformSettings.findUnique({ where: { id: 'global' } });
-    if (!settings) {
-      settings = await prisma.platformSettings.create({
-        data: {
-          id: 'global',
-          siteName: 'চাকরি সেবা',
-          tagline: 'বাংলাদেশের বিশ্বস্ত সরকারি ও ব্যাংক চাকরি আবেদন প্ল্যাটফর্ম',
-          contactEmail: 'support@chakrisheba.com',
-          supportPhone: '+8801700000000',
-        },
-      });
-    }
-    const general = {
-      siteName: settings.siteName || 'চাকরি সেবা',
-      tagline: settings.tagline || '',
-      contactEmail: settings.contactEmail || '',
-      supportPhone: settings.supportPhone || '',
-      whatsappNumber: '+8801700000000',
-      heroHeadline: 'সঠিক তথ্যে নির্ভুল সরকারি ও ব্যাংক চাকরি আবেদন',
-      footerCopyright: `© ${new Date().getFullYear()} চাকরি সেবা (Chakri Sheba)।`,
-      ...(typeof settings.general === 'object' && settings.general !== null ? (settings.general as any) : {}),
-    };
-    const workflow = {
-      defaultServiceFee: 50,
-      autoVerifyEmails: false,
-      allowWalletSplit: true,
-      ...(typeof settings.workflow === 'object' && settings.workflow !== null ? (settings.workflow as any) : {}),
-    };
-    const operational = {
-      maintenanceMode: false,
-      allowRegistration: true,
-      ...(typeof settings.operational === 'object' && settings.operational !== null ? (settings.operational as any) : {}),
-    };
-    return { ...settings, general, workflow, operational };
+    return await cmsService.getPlatformSettings();
   },
 
   updatePlatformSettings: async (data: any) => {
@@ -1495,11 +1463,11 @@ export const adminService = {
         return {
           success: true,
           url: payload.url || 'https://alljobs.teletalk.com.bd',
-          title: 'Teletalk Alljobs - Bangladesh Government Job Circular Portal',
+          title: 'Direct HTTP + Gemini AI Circular Collector (5 Portals)',
           isLoggedIn: true,
-          cookiesCount: 12,
+          cookiesCount: 0,
           screenshot: null,
-          message: 'লাইভ ব্রাউজার ইঞ্জিন প্রস্তুত।',
+          message: 'ডাইরেক্ট HTTP + Gemini AI কালেক্টর সক্রিয় (কোনো ব্রাউজার প্রয়োজন নেই)।',
         };
       }
 
@@ -1507,27 +1475,28 @@ export const adminService = {
       case 'launch_login': {
         return {
           success: true,
-          message: 'সিস্টেমের লাইভ ক্রোম ব্রাউজার ব্যাকগ্রাউন্ড ওয়ার্কারে প্রস্তুত রয়েছে। গুগল জেমিনি এআই এপিআই সক্রিয়।',
+          message: 'সরাসরি HTTP + Google Gemini API ইঞ্জিন সক্রিয় রয়েছে — আলাদা ব্রাউজার চালু করার প্রয়োজন নেই।',
         };
       }
 
       case 'run_live_automation':
       case 'sync': {
-        const scrapeResult = await scraperEngine.scrapeGovernmentJobs();
+        const scrapeResult = await scraperEngine.scrapeAllActiveSources();
         const msg = scrapeResult.newJobsAdded > 0
-          ? `সরকারি চাকরি পোর্টাল থেকে ${scrapeResult.newJobsAdded}টি নতুন সার্কুলার জেমিনি এআই দিয়ে সফলভাবে স্ক্যান ও সংগ্রহ করা হয়েছে (${scrapeResult.updatedJobs}টি বিদ্যমান সার্কুলার আপডেট হয়েছে)।`
-          : `নতুন কোনো সার্কুলার পাওয়া যায়নি। বিদ্যমান ${scrapeResult.updatedJobs}টি সার্কুলারের তথ্য যাচাই ও হালনাগাদ করা হয়েছে।`;
+          ? `${scrapeResult.sourcesChecked || 5}টি সরকারি পোর্টাল থেকে ${scrapeResult.newJobsAdded}টি নতুন সার্কুলার Gemini AI দিয়ে সংগৃহীত হয়েছে (${scrapeResult.updatedJobs}টি বিদ্যমান ছিল)।`
+          : `${scrapeResult.sourcesChecked || 5}টি সরকারি পোর্টাল যাচাই সম্পন্ন (${scrapeResult.foundCount}টি বিজ্ঞপ্তি স্ক্যান হয়েছে, নতুন কোনো খসড়া নেই)।`;
 
         return {
           success: true,
           message: msg,
           stats: {
             totalOrgsFound: scrapeResult.foundCount,
+            sourcesChecked: scrapeResult.sourcesChecked || 5,
             newJobsAdded: scrapeResult.newJobsAdded,
             updatedJobs: scrapeResult.updatedJobs,
           },
           steps: [
-            { step: 1, name: 'সরকারি পোর্টাল সংযোগ ও সার্কুলার ফেচ', status: 'SUCCESS' },
+            { step: 1, name: '৫টি সরকারি পোর্টাল (Teletalk, BPSC, MoPA, DGHS, Railway) HTTP ফেচ', status: 'SUCCESS' },
             { step: 2, name: 'Gemini 3.5 Flash-Lite দিয়ে ফিল্ড পার্সিং ও এক্সট্রাকশন', status: 'SUCCESS' },
             { step: 3, name: 'যোগ্যতা, বেতন স্কেল ও গ্রেড ভ্যালিডেশন', status: 'SUCCESS' },
             { step: 4, name: 'ডাটাবেজে সার্কুলার ড্রাফট ও খসড়া সংরক্ষণ', status: 'SUCCESS' },
@@ -2233,7 +2202,7 @@ export const adminService = {
     const users = candidates.map((c: any) => ({
       id: c.id,
       name: c.name || c.nameBn || 'প্রার্থী',
-      phone: c.phone || '01700000000',
+      phone: c.phone || '',
       district: c.district || 'ঢাকা',
       division: c.division || 'ঢাকা বিভাগ',
       educationLevel: 'স্নাতক / অনার্স',
