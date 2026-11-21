@@ -15,6 +15,8 @@ router.get('/', candidateController.getProfile);
 router.get('/profile', candidateController.getProfile);
 router.put('/', validateRequest(candidateValidation.updateProfile), candidateController.updateProfile);
 router.put('/profile', validateRequest(candidateValidation.updateProfile), candidateController.updateProfile);
+router.patch('/', validateRequest(candidateValidation.updateProfile), candidateController.updateProfile);
+router.patch('/profile', validateRequest(candidateValidation.updateProfile), candidateController.updateProfile);
 
 // AI Resume / CV PDF Import & Auto-Fill
 router.post('/import-resume', circularPdfUpload.single('file'), candidateController.importResume);
@@ -29,9 +31,13 @@ router.delete('/documents/:id', documentController.deleteDocument);
 router.post('/educations', validateRequest(candidateValidation.addEducation), candidateController.addEducation);
 router.delete('/educations/:id', candidateController.deleteEducation);
 
+router.post('/saved-jobs', candidateController.toggleSaveJob);
 router.post('/saved-jobs/:jobId', candidateController.toggleSaveJob);
 router.get('/saved-jobs', candidateController.getSavedJobs);
 router.get('/notifications', candidateController.getNotifications);
+router.patch('/notifications', candidateController.markNotificationsRead);
+router.delete('/notifications', candidateController.deleteNotification);
+router.delete('/notifications/:id', candidateController.deleteNotification);
 
 // Skills
 router.get('/skills', candidateController.getSkills);
@@ -60,6 +66,7 @@ router.delete('/job-reminders/:jobId', candidateController.deleteJobReminder);
 
 router.get('/alerts', candidateController.getAlertPreferences);
 router.post('/alerts', candidateController.saveAlertPreferences);
-router.post('/alerts/test', candidateController.saveAlertPreferences);
+router.put('/alerts', candidateController.saveAlertPreferences);
+router.post('/alerts/test', candidateController.sendTestAlert);
 
 export const candidateRoutes = router;
