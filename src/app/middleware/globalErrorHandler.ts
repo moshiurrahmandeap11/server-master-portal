@@ -48,6 +48,7 @@ export const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) =
     success: false,
     message,
     errorSources,
+    ...(err instanceof AppError && err.extraData ? err.extraData : {}),
     stack: env.NODE_ENV === 'development' ? err?.stack : undefined,
   });
 };
