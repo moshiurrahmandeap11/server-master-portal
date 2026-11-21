@@ -6,8 +6,14 @@ import { JobStatus, Prisma } from '../../../generated/prisma';
 
 export const formatJobItem = (j: any) => {
   if (!j) return j;
-  const officialFeeNum = Number(j.officialFee) || Number(j.positions?.[0]?.govtFee) || 200;
-  const serviceFeeNum = Number(j.serviceFee) || 50;
+  const parsedOfficial = Number(j.officialFee);
+  const officialFeeNum = j.officialFee !== null && j.officialFee !== undefined && Number.isFinite(parsedOfficial)
+    ? parsedOfficial
+    : (Number(j.positions?.[0]?.govtFee) || 0);
+  const parsedService = Number(j.serviceFee);
+  const serviceFeeNum = j.serviceFee !== null && j.serviceFee !== undefined && Number.isFinite(parsedService)
+    ? parsedService
+    : 50;
   const totalPostsNum = Number(j.totalPositions) || Number(j.positions?.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0)) || 1;
   const minEdu = j.eligibility?.education || j.positions?.[0]?.minEducation || 'বিজ্ঞপ্তি অনুসারে';
   const sal = j.positions?.[0]?.salary || 'জাতীয় পে স্কেল অনুযায়ী';
@@ -139,6 +145,12 @@ export const jobService = {
       prisma.jobCircular.count({ where }),
     ]);
 
+    if (searchTerm) {
+      prisma.searchAnalyticsLog.create({
+        data: { query: searchTerm, resultCount: total, category: category || 'all' },
+      }).catch(() => {});
+    }
+
     return {
       jobs: jobs.map(formatJobItem),
       total,
@@ -178,14 +190,18 @@ export const jobService = {
       orderBy: { createdAt: 'desc' },
     });
 
+    const resultJobs = jobs.length > 0 || dateStr
+      ? jobs
+      : await prisma.jobCircular.findMany({
+          where: { status: JobStatus.PUBLISHED },
+          include: { category: true },
+          take: 10,
+          orderBy: { createdAt: 'desc' },
+        });
+
     return {
       date: startOfDay.toISOString().split('T')[0],
-      jobs: jobs.length > 0 ? jobs : await prisma.jobCircular.findMany({
-        where: { status: JobStatus.PUBLISHED },
-        include: { category: true },
-        take: 10,
-        orderBy: { createdAt: 'desc' },
-      }),
+      jobs: resultJobs.map(formatJobItem),
     };
   },
 
@@ -236,22 +252,12 @@ export const jobService = {
         orderBy = { createdAt: 'desc' };
     }
 
-    let jobs = await prisma.jobCircular.findMany({
+    const jobs = await prisma.jobCircular.findMany({
       where,
       take,
       include: { category: true },
       orderBy,
     });
-
-    // Fallback if specific feed is empty
-    if (jobs.length === 0 && feedType !== 'featured-jobs') {
-      jobs = await prisma.jobCircular.findMany({
-        where: { status: JobStatus.PUBLISHED },
-        take,
-        include: { category: true },
-        orderBy: { createdAt: 'desc' },
-      });
-    }
 
     return { jobs: jobs.map(formatJobItem) };
   },
@@ -272,6 +278,17 @@ export const jobService = {
     const isExpired = diffMs <= 0;
     const daysRemaining = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
     const hoursRemaining = Math.max(0, Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    const minutesRemaining = Math.max(0, Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)));
+
+    const evalStatus = isExpired ? 'EXPIRED' : daysRemaining === 0 ? 'CLOSING_TODAY' : daysRemaining <= 3 ? 'CLOSING_SOON' : 'ACTIVE';
+    const labelBn = isExpired
+      ? 'সময়সীমা শেষ'
+      : daysRemaining === 0
+      ? 'আজই শেষ দিন'
+      : daysRemaining <= 3
+      ? `মাত্র ${daysRemaining} দিন বাকি`
+      : `${daysRemaining} দিন বাকি`;
+    const badgeColor = isExpired ? 'red' : daysRemaining <= 3 ? 'amber' : 'emerald';
 
     return {
       jobId: job.id,
@@ -279,7 +296,39 @@ export const jobService = {
       isExpired,
       daysRemaining,
       hoursRemaining,
+      minutesRemaining,
       urgency: isExpired ? 'expired' : daysRemaining === 0 ? 'today' : daysRemaining <= 3 ? 'urgent' : 'normal',
+      evaluation: {
+        daysRemaining,
+        hoursRemaining,
+        minutesRemaining,
+        status: evalStatus,
+        labelBn,
+        badgeColor,
+        hasExactTime: true,
+      },
+    };
+  },
+
+  getJobDownloadInfo: async (jobId: string) => {
+    const job = await prisma.jobCircular.findFirst({
+      where: { OR: [{ id: jobId }, { slug: jobId }], status: JobStatus.PUBLISHED },
+      select: { id: true, slug: true, title: true, officialPdfUrl: true, sourceUrl: true },
+    });
+    if (!job) {
+      throw new AppError(status.NOT_FOUND, 'চাকরির সার্কুলার পাওয়া যায়নি।');
+    }
+    const target = job.officialPdfUrl || job.sourceUrl;
+    if (target && /^https?:\/\//i.test(target)) {
+      return {
+        redirectUrl: `/api/pdf-proxy?url=${encodeURIComponent(target)}&download=1&filename=${encodeURIComponent((job.slug || job.id) + '.pdf')}`,
+        officialPdfUrl: target,
+      };
+    }
+    return {
+      redirectUrl: null,
+      officialPdfUrl: target || null,
+      sheetUrl: `/api/circulars/${encodeURIComponent(job.id)}/page-1.svg`,
     };
   },
 
@@ -383,23 +432,26 @@ export const jobService = {
   },
 
   getJobAlertStats: async () => {
-    const [totalSubscribers, totalJobs] = await Promise.all([
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const [totalSubscribers, totalJobs, dailyDelivered] = await Promise.all([
       prisma.jobAlertSubscription.count(),
       prisma.jobCircular.count({ where: { status: JobStatus.PUBLISHED } }),
+      prisma.notificationDelivery.count({ where: { createdAt: { gte: todayStart } } }),
     ]);
 
     return {
       stats: {
-        totalSubscribers: totalSubscribers + 1420, // baseline community size
+        totalSubscribers,
         totalActiveAlerts: totalJobs,
-        dailyDelivered: 3850,
+        dailyDelivered,
       },
     };
   },
 
-  checkEligibility: async (candidateId: string | null, jobId: string, _positionId?: string) => {
+  checkEligibility: async (candidateId: string | null, jobId: string, positionId?: string) => {
     const job = await prisma.jobCircular.findFirst({
-      where: { OR: [{ id: jobId }, { slug: jobId }] },
+      where: { OR: [{ id: jobId }, { slug: jobId }], status: JobStatus.PUBLISHED },
     });
 
     if (!job) {
@@ -411,12 +463,7 @@ export const jobService = {
         status: 'need_info',
         statusLabel: 'লগইন করে প্রোফাইল যাচাই করুন',
         reasons: ['সম্পূর্ণ যোগ্যতা মূল্যায়নের জন্য অনুগ্রহ করে আপনার অ্যাকাউন্টে লগইন করুন।'],
-        ageCalculated: {
-          years: 25,
-          months: 0,
-          days: 0,
-          meetsAge: true,
-        },
+        ageCalculated: null,
       };
     }
 
@@ -430,58 +477,117 @@ export const jobService = {
         status: 'need_info',
         statusLabel: 'প্রোফাইল অসম্পূর্ণ',
         reasons: ['প্রোফাইল তথ্য পাওয়া যায়নি।'],
+        ageCalculated: null,
       };
     }
 
     const reasons: string[] = [];
     let isEligible = true;
+    let missingInfo = false;
 
     const jobEligibility = (job.eligibility as any) || {};
+    const positionsArr = Array.isArray(job.positions) ? (job.positions as any[]) : [];
+    const selectedPos = positionId
+      ? positionsArr.find((p, idx) => String(idx) === String(positionId) || p.id === positionId || p.title === positionId)
+      : positionsArr[0];
 
-    // Check education
-    const requiredEducation = jobEligibility.education || jobEligibility.minEducationLevel;
+    // Check education requirement
+    const requiredEducation = String(selectedPos?.minEducation || jobEligibility.education || jobEligibility.minEducationLevel || '').trim();
     if (requiredEducation) {
-      const hasEducation = (candidate.educations || []).length > 0;
-      if (!hasEducation) {
-        reasons.push(`ন্যূনতম শিক্ষাগত যোগ্যতা (${requiredEducation}) যোগ করা প্রয়োজন।`);
+      const educations = candidate.educations || [];
+      if (educations.length === 0) {
+        missingInfo = true;
         isEligible = false;
-      }
-    }
-
-    // Check age
-    let years = 26;
-    let meetsAge = true;
-    if (candidate.dob) {
-      const birth = new Date(candidate.dob);
-      if (!isNaN(birth.getTime())) {
-        const diff = Date.now() - birth.getTime();
-        years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-        const maxAge = Number(jobEligibility.maxAge || 32);
-        const minAge = Number(jobEligibility.minAge || 18);
-        if (years < minAge || years > maxAge) {
-          meetsAge = false;
+        reasons.push(`ন্যূনতম শিক্ষাগত যোগ্যতা (${requiredEducation}) প্রোফাইলে যোগ করা প্রয়োজন।`);
+      } else {
+        const eduHierarchy: Record<string, number> = { ssc: 1, hsc: 2, diploma: 2, honours: 3, graduate: 3, bachelor: 3, masters: 4 };
+        const reqLower = requiredEducation.toLowerCase();
+        const reqRank = reqLower.includes('মাস্টার্স') || reqLower.includes('master') ? 4
+          : reqLower.includes('স্নাতক') || reqLower.includes('honour') || reqLower.includes('graduate') || reqLower.includes('bachelor') ? 3
+          : reqLower.includes('এইচএসসি') || reqLower.includes('hsc') || reqLower.includes('ডিপ্লোমা') ? 2
+          : reqLower.includes('এসএসসি') || reqLower.includes('ssc') ? 1 : 0;
+        const maxCandidateRank = educations.reduce((mx, e) => {
+          const lv = `${e.level} ${e.examTitle}`.toLowerCase();
+          for (const [k, r] of Object.entries(eduHierarchy)) {
+            if (lv.includes(k)) mx = Math.max(mx, r);
+          }
+          if (lv.includes('স্নাতকোত্তর') || lv.includes('মাস্টার্স')) mx = Math.max(mx, 4);
+          else if (lv.includes('স্নাতক')) mx = Math.max(mx, 3);
+          else if (lv.includes('এইচএসসি')) mx = Math.max(mx, 2);
+          else if (lv.includes('এসএসসি')) mx = Math.max(mx, 1);
+          return mx;
+        }, 0);
+        if (reqRank > 0 && maxCandidateRank > 0 && maxCandidateRank < reqRank) {
           isEligible = false;
-          reasons.push(`বয়স সীমা (${minAge}-${maxAge} বছর)। আপনার বর্তমান বয়স ${years} বছর।`);
+          reasons.push(`প্রয়োজনীয় শিক্ষাগত যোগ্যতা (${requiredEducation}) পূর্ণ হয়নি।`);
         }
       }
     }
 
+    // Check district restriction
+    const allowedDistricts = String(jobEligibility.districts || '').trim();
+    if (allowedDistricts && !allowedDistricts.includes('সকল') && !allowedDistricts.toLowerCase().includes('all')) {
+      if (!candidate.district) {
+        missingInfo = true;
+        reasons.push('জেলা যাচাইয়ের জন্য আপনার প্রোফাইলে স্থায়ী জেলা যোগ করুন।');
+      } else if (!allowedDistricts.toLowerCase().includes(candidate.district.toLowerCase())) {
+        isEligible = false;
+        reasons.push(`আপনার জেলা (${candidate.district}) এই নিয়োগের অনুমোদিত জেলার তালিকায় নেই।`);
+      }
+    }
+
+    // Check exact age
+    let ageCalculated: { years: number; months: number; days: number; meetsAge: boolean } | null = null;
+    if (!candidate.dob) {
+      missingInfo = true;
+      reasons.push('বয়স যাচাইয়ের জন্য আপনার জন্মতারিখ প্রোফাইলে যোগ করুন।');
+    } else {
+      const birth = new Date(candidate.dob);
+      if (!isNaN(birth.getTime())) {
+        const refDate = new Date();
+        let years = refDate.getFullYear() - birth.getFullYear();
+        let months = refDate.getMonth() - birth.getMonth();
+        let days = refDate.getDate() - birth.getDate();
+        if (days < 0) {
+          months -= 1;
+          days += new Date(refDate.getFullYear(), refDate.getMonth(), 0).getDate();
+        }
+        if (months < 0) {
+          years -= 1;
+          months += 12;
+        }
+        const maxAge = Number(jobEligibility.maxAge || 32);
+        const minAge = Number(jobEligibility.minAge || 18);
+        const meetsAge = years >= minAge && years <= maxAge;
+        if (!meetsAge) {
+          isEligible = false;
+          reasons.push(`বয়স সীমা (${minAge}-${maxAge} বছর)। আপনার বর্তমান বয়স ${years} বছর ${months} মাস।`);
+        }
+        ageCalculated = { years, months, days, meetsAge };
+      } else {
+        missingInfo = true;
+        reasons.push('প্রোফাইলের জন্মতারিখের ফরম্যাট সঠিক নয়।');
+      }
+    }
+
+    const finalStatus = !isEligible ? 'not_eligible' : missingInfo ? 'need_info' : 'eligible';
     return {
-      status: isEligible ? 'eligible' : 'not_eligible',
-      statusLabel: isEligible ? 'আপনি আবেদনের যোগ্য' : 'যোগ্যতার ঘাটতি রয়েছে',
-      reasons: reasons.length > 0 ? reasons : ['আপনার বয়স ও শিক্ষাগত যোগ্যতা সার্কুলারের শর্ত পূরণ করেছে।'],
-      ageCalculated: {
-        years,
-        months: 6,
-        days: 12,
-        meetsAge,
-      },
+      status: finalStatus,
+      statusLabel:
+        finalStatus === 'eligible'
+          ? 'আপনি আবেদনের যোগ্য'
+          : finalStatus === 'need_info'
+          ? 'প্রোফাইল তথ্য অসম্পূর্ণ'
+          : 'যোগ্যতার ঘাটতি রয়েছে',
+      reasons: reasons.length > 0 ? reasons : ['আপনার বয়স, জেলা ও শিক্ষাগত যোগ্যতা সার্কুলারের শর্ত পূরণ করেছে।'],
+      ageCalculated,
     };
   },
 
   getJobByIdOrSlug: async (identifier: string) => {
     const job = await prisma.jobCircular.findFirst({
       where: {
+        status: JobStatus.PUBLISHED,
         OR: [
           { id: identifier },
           { slug: identifier },
