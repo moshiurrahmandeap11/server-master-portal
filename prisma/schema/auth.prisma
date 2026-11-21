@@ -9,6 +9,8 @@ model Candidate {
   role            UserRole    @default(CANDIDATE)
   status          UserStatus  @default(ACTIVE)
   isEmailVerified Boolean     @default(false)
+  isVerified      Boolean     @default(false)
+  adminNote       String?
   walletBalance   Decimal     @default(0.00) @db.Decimal(12, 2)
   district        String?
   division        String?
