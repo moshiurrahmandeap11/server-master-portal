@@ -126,6 +126,17 @@ export const jobController = {
     });
   }),
 
+  downloadJobPdf: catchAsync(async (req: Request, res: Response) => {
+    const result = await jobService.getJobDownloadInfo(req.params.id);
+    if (result.redirectUrl) {
+      return res.redirect(result.redirectUrl);
+    }
+    return res.status(200).json({
+      success: true,
+      ...result,
+    });
+  }),
+
   reportJob: catchAsync(async (req: Request, res: Response) => {
     if (req.method === 'GET') {
       const id = (req.query.id || req.params.id) as string;
@@ -164,7 +175,11 @@ export const jobController = {
 
   checkEligibility: catchAsync(async (req: Request, res: Response) => {
     const candidateId = req.user?.candidateId || null;
-    const { jobId, positionId } = req.body;
+    const jobId = (req.body?.jobId || req.query?.jobId) as string;
+    const positionId = (req.body?.positionId || req.query?.positionId) as string | undefined;
+    if (!jobId) {
+      return res.status(400).json({ success: false, message: 'চাকরির আইডি (jobId) প্রদান করুন।' });
+    }
     const result = await jobService.checkEligibility(candidateId, jobId, positionId);
 
     return res.status(200).json({
