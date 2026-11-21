@@ -66,11 +66,16 @@ model DeadlineAlertRule {
 model JobReport {
   id             String   @id @default(uuid())
   jobId          String
+  jobTitle       String?
   candidateEmail String?
+  reporterName   String?
+  reporterPhone  String?
   reason         String
   details        String?
   status         String   @default("pending")
+  resolutionNote String?
   createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
 
   @@map("job_reports")
 }
@@ -86,16 +91,183 @@ model JobAlertSubscription {
 }
 
 model ContactMessage {
-  id        String   @id @default(uuid())
-  name      String
-  email     String
-  phone     String?
-  subject   String
-  message   String
-  status    String   @default("unread")
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  ticketId   String?
+  name       String
+  email      String
+  phone      String?
+  subject    String
+  category   String?  @default("general")
+  message    String
+  status     String   @default("unread")
+  replyNotes String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("contact_messages")
+}
+
+model ExpenseRecord {
+  id          String   @id @default(uuid())
+  title       String
+  category    String   @default("operations")
+  amount      Decimal  @db.Decimal(12, 2)
+  notes       String?
+  incurredAt  DateTime @default(now())
+  createdBy   String?
+  createdAt   DateTime @default(now())
+
+  @@map("expense_records")
+}
+
+model OperationBudget {
+  id            String   @id @default("global")
+  monthlyBudget Decimal  @default(100000) @db.Decimal(12, 2)
+  marketingCap  Decimal  @default(25000) @db.Decimal(12, 2)
+  infraCap      Decimal  @default(30000) @db.Decimal(12, 2)
+  updatedBy     String?
+  updatedAt     DateTime @updatedAt
+
+  @@map("operation_budgets")
+}
+
+model PublishingQueueItem {
+  id          String   @id @default(uuid())
+  jobId       String?
+  title       String
+  channel     String   @default("website")
+  status      String   @default("scheduled")
+  payload     Json?
+  scheduledAt DateTime?
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("publishing_queue_items")
+}
+
+model RedirectRule {
+  id          String   @id @default(uuid())
+  fromPath    String   @unique
+  toPath      String
+  statusCode  Int      @default(301)
+  isEnabled   Boolean  @default(true)
+  hitCount    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("redirect_rules")
+}
+
+model FeaturedPlacement {
+  id         String    @id @default(uuid())
+  jobId      String
+  slot       String    @default("hero")
+  priority   Int       @default(0)
+  isActive   Boolean   @default(true)
+  startsAt   DateTime?
+  endsAt     DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@map("featured_placements")
+}
+
+model JobFeedConfig {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  feedType    String   @default("curated")
+  rules       Json?
+  jobIds      Json?
+  isActive    Boolean  @default(true)
+  orderIndex  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("job_feed_configs")
+}
+
+model MatchingConfig {
+  id               String   @id @default("global")
+  educationWeight  Int      @default(40)
+  skillsWeight     Int      @default(30)
+  districtWeight   Int      @default(15)
+  ageWeight        Int      @default(15)
+  minScore         Int      @default(40)
+  enableAiFallback Boolean  @default(false)
+  lastRebuiltAt    DateTime?
+  updatedAt        DateTime @updatedAt
+
+  @@map("matching_configs")
+}
+
+model ContentStudioDraft {
+  id              String   @id @default(uuid())
+  jobId           String?
+  title           String
+  status          String   @default("draft")
+  qualityScore    Int      @default(0)
+  content         Json?
+  validationNotes Json?
+  revisions       Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("content_studio_drafts")
+}
+
+model CircularChangeProposal {
+  id          String   @id @default(uuid())
+  jobId       String
+  field       String
+  oldValue    Json?
+  newValue    Json?
+  reason      String?
+  status      String   @default("pending")
+  reviewedBy  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("circular_change_proposals")
+}
+
+model NotificationDelivery {
+  id          String   @id @default(uuid())
+  channel     String   @default("in_app")
+  recipient   String
+  title       String
+  message     String
+  status      String   @default("sent")
+  jobId       String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@map("notification_deliveries")
+}
+
+model SpiderRunRecord {
+  id         String   @id @default(uuid())
+  sourceId   String?
+  sourceName String
+  status     String   @default("completed")
+  itemsFound Int      @default(0)
+  itemsAdded Int      @default(0)
+  durationMs Int      @default(0)
+  error      String?
+  createdAt  DateTime @default(now())
+
+  @@map("spider_run_records")
+}
+
+model SearchAnalyticsLog {
+  id          String   @id @default(uuid())
+  query       String
+  resultCount Int      @default(0)
+  category    String?
+  createdAt   DateTime @default(now())
+
+  @@map("search_analytics_logs")
 }
 
 
@@ -116,15 +288,21 @@ model ApplicationRequest {
   serviceFee          Decimal           @db.Decimal(10, 2)
   discount            Decimal           @default(0.00) @db.Decimal(10, 2)
   totalPaid           Decimal           @db.Decimal(10, 2)
-  paymentMethod       String            @default("wallet")
-  transactionId       String?
-  applicantCopyPdfUrl String?
-  teletalkUserId      String?
-  rollNumber          String?
-  operatorNotes       String?
-  statusHistory       Json?             // Array of status changes [{status, timestamp, note}]
-  submittedAt         DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
+  paymentMethod        String            @default("wallet")
+  splitWalletAmount    Decimal?          @db.Decimal(10, 2)
+  transactionId        String?
+  paymentScreenshotUrl String?
+  submissionChannel    String?
+  applicantCopyPdfUrl  String?
+  admitCardUrl         String?
+  teletalkUserId       String?
+  teleTalkPassword     String?
+  corporateTrackingId  String?
+  rollNumber           String?
+  operatorNotes        String?
+  statusHistory        Json?             // Array of status changes [{status, timestamp, note}]
+  submittedAt          DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
 
   @@map("application_requests")
 }
@@ -132,6 +310,11 @@ model ApplicationRequest {
 model CompanyProfile {
   id          String   @id
   companyName String
+  slug        String?
+  type        String?  @default("private")
+  websiteUrl  String?
+  logoUrl     String?
+  isVerified  Boolean  @default(false)
   email       String?
   phone       String?
   createdAt   DateTime @default(now())
@@ -167,6 +350,8 @@ model Candidate {
   role            UserRole    @default(CANDIDATE)
   status          UserStatus  @default(ACTIVE)
   isEmailVerified Boolean     @default(false)
+  isVerified      Boolean     @default(false)
+  adminNote       String?
   walletBalance   Decimal     @default(0.00) @db.Decimal(12, 2)
   district        String?
   division        String?
@@ -283,26 +468,32 @@ model EducationRecord {
   regNumber       String?
   passingYear     Int
   resultType      String?
-  gpaCgpa         Float?
-  scale           Float?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  gpaCgpa             Float?
+  scale               Float?
+  verificationStatus  String    @default("pending")
+  verificationRemarks String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   @@map("education_records")
 }
 
 model CandidateDocument {
-  id          String       @id @default(uuid())
-  candidateId String
-  candidate   Candidate    @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  type        DocumentType
-  title       String
-  fileUrl     String
-  fileSize    Int?
-  mimeType    String?
-  isVerified  Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id                  String       @id @default(uuid())
+  candidateId         String
+  candidate           Candidate    @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  type                DocumentType
+  slotType            String?
+  category            String?
+  title               String
+  fileUrl             String
+  fileSize            Int?
+  mimeType            String?
+  isVerified          Boolean      @default(false)
+  verificationStatus  String       @default("pending")
+  verificationRemarks String?
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
 
   @@map("candidate_documents")
 }
@@ -341,13 +532,17 @@ model PageRecord {
 }
 
 model MediaItem {
-  id         String   @id @default(uuid())
-  filename   String
-  fileUrl    String
-  fileSize   Int?
-  mimeType   String?
-  dimensions Json?
-  createdAt  DateTime @default(now())
+  id           String   @id @default(uuid())
+  filename     String
+  originalName String?
+  fileUrl      String
+  fileSize     Int?
+  mimeType     String?
+  altText      String?
+  caption      String?
+  category     String?  @default("general")
+  dimensions   Json?
+  createdAt    DateTime @default(now())
 
   @@map("media_items")
 }
@@ -361,6 +556,9 @@ model PlatformSettings {
   headerMenu   Json?
   footerMenu   Json?
   seoDefaults  Json?
+  general      Json?
+  workflow     Json?
+  operational  Json?
   updatedAt    DateTime @updatedAt
 
   @@map("platform_settings")
@@ -567,13 +765,16 @@ model JobCircular {
 }
 
 model Category {
-  id         String        @id
-  slug       String        @unique
-  titleBn    String
-  titleEn    String
-  icon       String?
-  orderIndex Int           @default(0)
-  jobs       JobCircular[]
+  id          String        @id
+  slug        String        @unique
+  titleBn     String
+  titleEn     String
+  icon        String?
+  description String?
+  parentSlug  String?
+  isActive    Boolean       @default(true)
+  orderIndex  Int           @default(0)
+  jobs        JobCircular[]
 
   @@map("categories")
 }
@@ -596,9 +797,13 @@ model JobSource {
   id           String    @id
   name         String
   targetUrl    String
+  type         String?   @default("rss")
   frequency    String    @default("hourly")
+  isEnabled    Boolean   @default(true)
+  trustScore   Int       @default(90)
   lastRunAt    DateTime?
   healthStatus String    @default("healthy")
+  lastError    String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
@@ -646,6 +851,8 @@ model Coupon {
   usageLimit    Int?
   usedCount     Int                @default(0)
   status        CouponStatus       @default(ACTIVE)
+  description   String?
+  stackable     Boolean            @default(true)
   expiresAt     DateTime?
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
@@ -668,12 +875,16 @@ model CouponRedemption {
 }
 
 model RaffleCampaign {
-  id           String        @id @default(uuid())
-  title        String
-  rewardAmount Decimal       @db.Decimal(10, 2)
-  status       String        @default("active")
-  createdAt    DateTime      @default(now())
-  entries      RaffleEntry[]
+  id               String        @id @default(uuid())
+  title            String
+  description      String?
+  prizeDescription String?
+  rewardAmount     Decimal       @db.Decimal(10, 2)
+  status           String        @default("active")
+  endsAt           DateTime?
+  winnerId         String?
+  createdAt        DateTime      @default(now())
+  entries          RaffleEntry[]
 
   @@map("raffle_campaigns")
 }
