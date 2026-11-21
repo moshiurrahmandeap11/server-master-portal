@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import status from 'http-status';
 import path from 'path';
 import fs from 'fs';
@@ -49,17 +50,47 @@ export const candidateService = {
       documents: (safeProfile.documents || []).map((d: any) => ({
         ...d,
         dataUrl: d.fileUrl,
-        type: d.type === 'PHOTO_300x300' ? 'photo' : d.type === 'SIGNATURE_300x80' ? 'signature' : String(d.type).toLowerCase(),
+        type: d.slotType || (d.type === 'PHOTO_300x300' ? 'photo' : d.type === 'SIGNATURE_300x80' ? 'signature' : String(d.type).toLowerCase()),
       })),
       walletBalance: Number(safeProfile.walletBalance || 0),
     };
   },
 
   getNotifications: async (candidateId: string) => {
-    return await prisma.notificationItem.findMany({
+    const items = await prisma.notificationItem.findMany({
       where: { candidateId },
       orderBy: { createdAt: 'desc' },
     });
+    return items.map((n) => ({
+      ...n,
+      read: n.isRead,
+      date: n.createdAt.toISOString(),
+      link: n.actionUrl || undefined,
+    }));
+  },
+
+  markNotificationsRead: async (candidateId: string, notificationId?: string, markAll = false) => {
+    if (markAll || !notificationId) {
+      await prisma.notificationItem.updateMany({
+        where: { candidateId, isRead: false },
+        data: { isRead: true },
+      });
+    } else {
+      await prisma.notificationItem.updateMany({
+        where: { id: notificationId, candidateId },
+        data: { isRead: true },
+      });
+    }
+    return { updated: true };
+  },
+
+  deleteNotification: async (candidateId: string, notificationId?: string, clearAll = false) => {
+    if (clearAll || !notificationId) {
+      await prisma.notificationItem.deleteMany({ where: { candidateId } });
+    } else {
+      await prisma.notificationItem.deleteMany({ where: { id: notificationId, candidateId } });
+    }
+    return { deleted: true };
   },
 
   updateProfile: async (candidateId: string, payload: any) => {
@@ -216,13 +247,16 @@ export const candidateService = {
     }));
 
     return {
-      ...payload, // Preserve full form state (address, permanentAddress, fatherName, dob, nid, etc.)
       ...safeProfile,
       education: mappedEducations,
       educations: mappedEducations,
-      skills: (safeProfile as any).skills || payload.skills || [],
-      experiences: (safeProfile as any).experiences || payload.experiences || [],
-      documents: safeProfile.documents || payload.documents || [],
+      skills: (safeProfile as any).skills || [],
+      experiences: (safeProfile as any).experiences || [],
+      documents: (safeProfile.documents || []).map((d: any) => ({
+        ...d,
+        dataUrl: d.fileUrl,
+        type: d.slotType || (d.type === 'PHOTO_300x300' ? 'photo' : d.type === 'SIGNATURE_300x80' ? 'signature' : String(d.type).toLowerCase()),
+      })),
       walletBalance: Number(safeProfile.walletBalance || 0),
     };
   },
@@ -274,30 +308,44 @@ export const candidateService = {
   },
 
   // Saved Jobs Bookmark
-  toggleSaveJob: async (candidateId: string, jobId: string) => {
+  toggleSaveJob: async (candidateId: string, jobId: string, action?: 'save' | 'unsave') => {
     const existing = await prisma.savedJob.findUnique({
       where: { candidateId_jobId: { candidateId, jobId } },
     });
 
-    if (existing) {
-      await prisma.savedJob.delete({
-        where: { id: existing.id },
-      });
-      return { saved: false, message: 'চাকরিটি বুকমার্ক তালিকা থেকে সরানো হয়েছে।' };
-    } else {
-      await prisma.savedJob.create({
-        data: { candidateId, jobId },
-      });
-      return { saved: true, message: 'চাকরিটি সফলভাবে বুকমার্ক করা হয়েছে।' };
+    if (action === 'unsave' || (!action && existing)) {
+      if (existing) {
+        await prisma.savedJob.delete({ where: { id: existing.id } });
+      }
+      const remaining = await prisma.savedJob.findMany({ where: { candidateId }, select: { jobId: true } });
+      return {
+        saved: false,
+        savedIds: remaining.map((r) => r.jobId),
+        message: 'চাকরিটি বুকমার্ক তালিকা থেকে সরানো হয়েছে।',
+      };
     }
+
+    if (!existing) {
+      await prisma.savedJob.create({ data: { candidateId, jobId } });
+    }
+    const remaining = await prisma.savedJob.findMany({ where: { candidateId }, select: { jobId: true } });
+    return {
+      saved: true,
+      savedIds: remaining.map((r) => r.jobId),
+      message: 'চাকরিটি সফলভাবে বুকমার্ক করা হয়েছে।',
+    };
   },
 
   getSavedJobs: async (candidateId: string) => {
-    return await prisma.savedJob.findMany({
+    const rows = await prisma.savedJob.findMany({
       where: { candidateId },
       include: { job: true },
       orderBy: { createdAt: 'desc' },
     });
+    return {
+      savedIds: rows.map((r) => r.jobId),
+      items: rows,
+    };
   },
 
   // Skills CRUD
@@ -453,7 +501,7 @@ export const candidateService = {
   // Job Recommendations
   getRecommendations: async (candidateId: string, query: any) => {
     const limit = Math.max(1, Math.min(100, Number(query?.limit) || 20));
-    const minScore = Number(query?.minScore) || 20;
+    const minScore = Number(query?.minScore) || 25;
 
     const [candidate, jobs] = await Promise.all([
       prisma.candidate.findUnique({
@@ -462,7 +510,7 @@ export const candidateService = {
       }),
       prisma.jobCircular.findMany({
         where: { status: 'PUBLISHED' },
-        take: 100,
+        take: 120,
         orderBy: { createdAt: 'desc' },
       }),
     ]);
@@ -470,43 +518,95 @@ export const candidateService = {
     if (!candidate) throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট পাওয়া যায়নি।');
 
     const userDistrict = (candidate.district || '').toLowerCase();
-    const userEduLevels = (candidate.educations || []).map((e) => e.level.toLowerCase());
+    const userEduList = (candidate.educations || []).map((e) =>
+      `${e.level} ${e.examTitle} ${e.groupMajor || ''}`.toLowerCase()
+    );
+    const hasGraduate = userEduList.some((s) =>
+      /(honours|honors|bachelor|bsc|ba|bba|bcom|graduate|স্নাতক|masters|msc|ma|mba)/.test(s)
+    );
+    const hasHsc = userEduList.some((s) => /(hsc|এইচএসসি|diploma|ডিপ্লোমা)/.test(s));
+    const hasSsc = userEduList.some((s) => /(ssc|এসএসসি)/.test(s));
     const candidateSkills: string[] = (Array.isArray(candidate.skills) ? (candidate.skills as any[]) : [])
-      .map((s) => (typeof s === 'string' ? s : s.name || '').toLowerCase());
+      .map((s) => (typeof s === 'string' ? s : s.name || '').toLowerCase())
+      .filter(Boolean);
+    const prefCategories: string[] = Array.isArray((candidate.careerPreferences as any)?.categories)
+      ? (candidate.careerPreferences as any).categories.map((c: any) => String(c).toLowerCase())
+      : [];
 
     const scoredJobs = jobs.map((job) => {
-      let score = 50;
-      const reasons: string[] = ['সাধারণ উন্মুক্ত নিয়োগ'];
+      let score = 20;
+      const reasons: string[] = [];
+      let skillMatched = false;
+      let eduMatched = false;
 
       const jobEligibility = (job.eligibility as any) || {};
-      const jobDistricts = String(jobEligibility.districts || '').toLowerCase();
+      const jobDistricts = String(jobEligibility.districts || jobEligibility.district || 'সকল জেলা').toLowerCase();
+      const jobBlob = `${job.title} ${job.titleBn || ''} ${job.organization} ${JSON.stringify(job.positions || [])} ${JSON.stringify(jobEligibility)}`.toLowerCase();
 
       if (jobDistricts.includes('সকল') || jobDistricts.includes('all') || (userDistrict && jobDistricts.includes(userDistrict))) {
         score += 20;
         reasons.push('জেলার যোগ্যতা মিলেছে');
       }
 
-      if (userEduLevels.length > 0) {
+      if (prefCategories.length > 0 && prefCategories.some((c) => jobBlob.includes(c))) {
         score += 15;
-        reasons.push('শিক্ষাগত যোগ্যতা উপযুক্ত');
+        reasons.push('পছন্দের ক্যাটাগরির সাথে মিলেছে');
       }
 
-      if (candidateSkills.length > 0) {
-        score += 15;
-        reasons.push('প্রাসঙ্গিক দক্ষতা প্রযোজ্য');
+      const matchedSkills = candidateSkills.filter((sk) => sk.length >= 2 && jobBlob.includes(sk));
+      if (matchedSkills.length > 0) {
+        score += Math.min(30, 15 + matchedSkills.length * 5);
+        skillMatched = true;
+        reasons.push(`দক্ষতা মিলেছে: ${matchedSkills.slice(0, 3).join(', ')}`);
       }
 
+      if (
+        (hasGraduate && /(graduate|honours|bachelor|স্নাতক|degree|masters)/.test(jobBlob)) ||
+        (hasHsc && /(hsc|এইচএসসি|ডিপ্লোমা|diploma)/.test(jobBlob)) ||
+        (hasSsc && /(ssc|এসএসসি|৮ম|অষ্টম)/.test(jobBlob)) ||
+        userEduList.some((edu) => edu.split(/\s+/).some((tok) => tok.length >= 3 && jobBlob.includes(tok)))
+      ) {
+        score += 25;
+        eduMatched = true;
+        reasons.push('শিক্ষাগত যোগ্যতা মিলেছে');
+      } else if (userEduList.length > 0) {
+        score += 5;
+      }
+
+      if (reasons.length === 0) {
+        reasons.push('চলমান প্রকাশিত বিজ্ঞপ্তি');
+      }
+
+      const positionsArr = Array.isArray(job.positions) ? (job.positions as any[]) : [];
+      const firstPos = positionsArr[0] || {};
       return {
         ...job,
+        id: job.id,
+        slug: job.slug,
+        title: job.titleBn || job.title,
+        organization: job.organization,
+        deadline: job.deadline,
+        officialFee: Number(job.officialFee),
+        serviceFee: Number(job.serviceFee),
+        vacancy: job.totalPositions,
+        salaryGrade: firstPos.salaryGrade || 'গ্রেড অনুযায়ী',
         matchScore: Math.min(100, score),
         matchReasons: reasons,
+        skillMatched,
+        eduMatched,
       };
     });
 
-    return scoredJobs
+    const filtered = scoredJobs
       .filter((j) => j.matchScore >= minScore)
-      .sort((a, b) => b.matchScore - a.matchScore)
-      .slice(0, limit);
+      .sort((a, b) => b.matchScore - a.matchScore);
+
+    return {
+      recommendations: filtered.slice(0, limit),
+      bestMatches: filtered.slice(0, Math.min(8, limit)),
+      skillsMatches: filtered.filter((j) => j.skillMatched).slice(0, limit),
+      educationMatches: filtered.filter((j) => j.eduMatched).slice(0, limit),
+    };
   },
 
   getJobReminders: async (candidateId: string) => {
@@ -591,6 +691,38 @@ export const candidateService = {
     return payload;
   },
 
+  sendTestAlert: async (candidateId: string, payload: any) => {
+    const channel = payload?.channel || 'in_app';
+    const notifId = `NOTIF-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: candidateId },
+      select: { email: true, name: true },
+    });
+
+    const notif = await prisma.notificationItem.create({
+      data: {
+        id: notifId,
+        candidateId,
+        title: 'টেস্ট ডেডলাইন অ্যালার্ট সক্রিয়',
+        message: `হ্যালো ${candidate?.name || 'প্রার্থী'}, আপনার ${channel.toUpperCase()} জব অ্যালার্ট সিস্টেম সঠিকভাবে কাজ করছে।`,
+        type: 'info',
+        actionUrl: '/dashboard/alerts',
+      },
+    });
+
+    await prisma.notificationDelivery.create({
+      data: {
+        channel,
+        recipient: candidate?.email || candidateId,
+        title: notif.title,
+        message: notif.message,
+        status: 'delivered',
+      },
+    });
+
+    return notif;
+  },
+
   importResumePdf: async (candidateId: string, fileBuffer: Buffer, filename?: string) => {
     // 1. Parse using Gemini Multimodal OCR
     const parsed = await geminiUtils.parseResumeFromPdfBuffer(fileBuffer);
@@ -604,16 +736,18 @@ export const candidateService = {
       fs.mkdirSync(path.dirname(docPath), { recursive: true });
       fs.writeFileSync(docPath, fileBuffer);
 
-      savedDocUrl = `/uploads/candidate-documents/${docFilename}`;
+      savedDocUrl = `/api/uploads/candidate-documents/${docFilename}`;
       await prisma.candidateDocument.create({
         data: {
           candidateId,
           type: DocumentType.OTHER,
+          slotType: 'resume',
+          category: 'resume',
           title: filename ? `অফিসিয়াল সিভি (${filename})` : 'অফিসিয়াল রিজিউমে / সিভি (PDF)',
           fileUrl: savedDocUrl,
           fileSize: fileBuffer.length,
           mimeType: 'application/pdf',
-          isVerified: true,
+          isVerified: false,
         },
       });
     } catch (docErr) {
