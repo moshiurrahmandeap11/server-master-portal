@@ -564,6 +564,42 @@ model PlatformSettings {
   @@map("platform_settings")
 }
 
+model BlogPost {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  kind        String   @default("blog") // blog | guide
+  title       String
+  excerpt     String?
+  content     String
+  category    String?
+  author      String?
+  coverImage  String?
+  readTime    String?
+  tags        Json?
+  status      String   @default("published")
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([kind, status])
+  @@map("blog_posts")
+}
+
+model CandidateReview {
+  id          String   @id @default(uuid())
+  name        String
+  role        String?
+  institution String?
+  quote       String
+  rating      Int      @default(5)
+  isApproved  Boolean  @default(true)
+  orderIndex  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("candidate_reviews")
+}
+
 
 // -----------------------------------------------------
 // Module: enums.prisma
@@ -655,46 +691,76 @@ enum DocumentType {
 // Module: exam.prisma
 // -----------------------------------------------------
 model ExamNotice {
-  id        String       @id @default(uuid())
-  jobId     String?
-  job       JobCircular? @relation(fields: [jobId], references: [id], onDelete: SetNull)
-  title     String
-  stage     ExamStage    @default(WRITTEN)
-  examDate  DateTime?
-  venue     String?
-  noticeUrl String?
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id           String       @id @default(uuid())
+  jobId        String?
+  job          JobCircular? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  title        String
+  organization String?
+  category     String?
+  stage        ExamStage    @default(WRITTEN)
+  examDate     DateTime?
+  examTime     String?
+  venue        String?
+  description  String?
+  noticeUrl    String?
+  status       String       @default("published")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   @@map("exam_notices")
 }
 
 model AdmitCard {
-  id               String      @id @default(uuid())
-  jobId            String
-  job              JobCircular @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  id               String       @id @default(uuid())
+  jobId            String?
+  job              JobCircular? @relation(fields: [jobId], references: [id], onDelete: SetNull)
   title            String
+  organization     String?
+  category         String?
+  examDate         DateTime?
+  deadline         DateTime?
   downloadUrl      String?
   rollInstructions String?
-  isAvailable      Boolean     @default(false)
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  isAvailable      Boolean      @default(true)
+  status           String       @default("available")
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 
   @@map("admit_cards")
 }
 
 model ExamResult {
-  id          String      @id @default(uuid())
-  jobId       String
-  job         JobCircular @relation(fields: [jobId], references: [id], onDelete: Cascade)
-  title       String
-  stage       ExamStage   @default(WRITTEN)
-  pdfUrl      String?
-  passedRolls Json?       // Array of passed roll numbers
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id           String       @id @default(uuid())
+  jobId        String?
+  job          JobCircular? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  title        String
+  organization String?
+  category     String?
+  stage        ExamStage    @default(WRITTEN)
+  summary      String?
+  pdfUrl       String?
+  passedRolls  Json?        // Array of passed roll numbers
+  publishedAt  DateTime     @default(now())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   @@map("exam_results")
+}
+
+model VivaNotice {
+  id           String    @id @default(uuid())
+  title        String
+  organization String?
+  category     String?
+  vivaDate     DateTime?
+  venue        String?
+  instructions String?
+  noticeUrl    String?
+  status       String    @default("published")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("viva_notices")
 }
 
 model Question {
@@ -713,16 +779,42 @@ model Question {
 }
 
 model ModelTest {
-  id              String   @id @default(uuid())
+  id              String             @id @default(uuid())
   title           String
   category        String
-  totalMarks      Int      @default(100)
-  durationMinutes Int      @default(60)
-  questions       Json     // Array of questions / question IDs
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  description     String?
+  totalMarks      Int                @default(100)
+  durationMinutes Int                @default(60)
+  negativeMark    Float              @default(0.25)
+  isPublished     Boolean            @default(true)
+  questions       Json               // Array of questions / question IDs
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  attempts        ModelTestAttempt[]
 
   @@map("model_tests")
+}
+
+model ModelTestAttempt {
+  id             String    @id @default(uuid())
+  candidateId    String
+  modelTestId    String
+  modelTest      ModelTest @relation(fields: [modelTestId], references: [id], onDelete: Cascade)
+  category       String
+  totalQuestions Int
+  correctCount   Int
+  wrongCount     Int
+  skippedCount   Int       @default(0)
+  score          Float
+  totalMarks     Int
+  accuracy       Float
+  durationSec    Int?
+  answers        Json?
+  createdAt      DateTime  @default(now())
+
+  @@index([candidateId])
+  @@index([modelTestId])
+  @@map("model_test_attempts")
 }
 
 
@@ -780,15 +872,17 @@ model Category {
 }
 
 model Organization {
-  id         String   @id
-  name       String
-  nameBn     String?
-  slug       String   @unique
-  logoUrl    String?
-  websiteUrl String?
-  type       String?  // Govt, Autonomous, Bank, Private
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String
+  nameBn      String?
+  slug        String   @unique
+  logoUrl     String?
+  websiteUrl  String?
+  description String?
+  type        String?  // Govt, Autonomous, Bank, Private
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("organizations")
 }
