@@ -164,11 +164,16 @@ exports.Prisma.DeadlineAlertRuleScalarFieldEnum = {
 exports.Prisma.JobReportScalarFieldEnum = {
   id: 'id',
   jobId: 'jobId',
+  jobTitle: 'jobTitle',
   candidateEmail: 'candidateEmail',
+  reporterName: 'reporterName',
+  reporterPhone: 'reporterPhone',
   reason: 'reason',
   details: 'details',
   status: 'status',
-  createdAt: 'createdAt'
+  resolutionNote: 'resolutionNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.JobAlertSubscriptionScalarFieldEnum = {
@@ -181,12 +186,155 @@ exports.Prisma.JobAlertSubscriptionScalarFieldEnum = {
 
 exports.Prisma.ContactMessageScalarFieldEnum = {
   id: 'id',
+  ticketId: 'ticketId',
   name: 'name',
   email: 'email',
   phone: 'phone',
   subject: 'subject',
+  category: 'category',
   message: 'message',
   status: 'status',
+  replyNotes: 'replyNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ExpenseRecordScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  category: 'category',
+  amount: 'amount',
+  notes: 'notes',
+  incurredAt: 'incurredAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OperationBudgetScalarFieldEnum = {
+  id: 'id',
+  monthlyBudget: 'monthlyBudget',
+  marketingCap: 'marketingCap',
+  infraCap: 'infraCap',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PublishingQueueItemScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  title: 'title',
+  channel: 'channel',
+  status: 'status',
+  payload: 'payload',
+  scheduledAt: 'scheduledAt',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RedirectRuleScalarFieldEnum = {
+  id: 'id',
+  fromPath: 'fromPath',
+  toPath: 'toPath',
+  statusCode: 'statusCode',
+  isEnabled: 'isEnabled',
+  hitCount: 'hitCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FeaturedPlacementScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  slot: 'slot',
+  priority: 'priority',
+  isActive: 'isActive',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.JobFeedConfigScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  feedType: 'feedType',
+  rules: 'rules',
+  jobIds: 'jobIds',
+  isActive: 'isActive',
+  orderIndex: 'orderIndex',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MatchingConfigScalarFieldEnum = {
+  id: 'id',
+  educationWeight: 'educationWeight',
+  skillsWeight: 'skillsWeight',
+  districtWeight: 'districtWeight',
+  ageWeight: 'ageWeight',
+  minScore: 'minScore',
+  enableAiFallback: 'enableAiFallback',
+  lastRebuiltAt: 'lastRebuiltAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ContentStudioDraftScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  title: 'title',
+  status: 'status',
+  qualityScore: 'qualityScore',
+  content: 'content',
+  validationNotes: 'validationNotes',
+  revisions: 'revisions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CircularChangeProposalScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  field: 'field',
+  oldValue: 'oldValue',
+  newValue: 'newValue',
+  reason: 'reason',
+  status: 'status',
+  reviewedBy: 'reviewedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationDeliveryScalarFieldEnum = {
+  id: 'id',
+  channel: 'channel',
+  recipient: 'recipient',
+  title: 'title',
+  message: 'message',
+  status: 'status',
+  jobId: 'jobId',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SpiderRunRecordScalarFieldEnum = {
+  id: 'id',
+  sourceId: 'sourceId',
+  sourceName: 'sourceName',
+  status: 'status',
+  itemsFound: 'itemsFound',
+  itemsAdded: 'itemsAdded',
+  durationMs: 'durationMs',
+  error: 'error',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SearchAnalyticsLogScalarFieldEnum = {
+  id: 'id',
+  query: 'query',
+  resultCount: 'resultCount',
+  category: 'category',
   createdAt: 'createdAt'
 };
 
@@ -203,9 +351,15 @@ exports.Prisma.ApplicationRequestScalarFieldEnum = {
   discount: 'discount',
   totalPaid: 'totalPaid',
   paymentMethod: 'paymentMethod',
+  splitWalletAmount: 'splitWalletAmount',
   transactionId: 'transactionId',
+  paymentScreenshotUrl: 'paymentScreenshotUrl',
+  submissionChannel: 'submissionChannel',
   applicantCopyPdfUrl: 'applicantCopyPdfUrl',
+  admitCardUrl: 'admitCardUrl',
   teletalkUserId: 'teletalkUserId',
+  teleTalkPassword: 'teleTalkPassword',
+  corporateTrackingId: 'corporateTrackingId',
   rollNumber: 'rollNumber',
   operatorNotes: 'operatorNotes',
   statusHistory: 'statusHistory',
@@ -216,6 +370,11 @@ exports.Prisma.ApplicationRequestScalarFieldEnum = {
 exports.Prisma.CompanyProfileScalarFieldEnum = {
   id: 'id',
   companyName: 'companyName',
+  slug: 'slug',
+  type: 'type',
+  websiteUrl: 'websiteUrl',
+  logoUrl: 'logoUrl',
+  isVerified: 'isVerified',
   email: 'email',
   phone: 'phone',
   createdAt: 'createdAt',
@@ -243,6 +402,8 @@ exports.Prisma.CandidateScalarFieldEnum = {
   role: 'role',
   status: 'status',
   isEmailVerified: 'isEmailVerified',
+  isVerified: 'isVerified',
+  adminNote: 'adminNote',
   walletBalance: 'walletBalance',
   district: 'district',
   division: 'division',
@@ -334,6 +495,8 @@ exports.Prisma.EducationRecordScalarFieldEnum = {
   resultType: 'resultType',
   gpaCgpa: 'gpaCgpa',
   scale: 'scale',
+  verificationStatus: 'verificationStatus',
+  verificationRemarks: 'verificationRemarks',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -342,11 +505,15 @@ exports.Prisma.CandidateDocumentScalarFieldEnum = {
   id: 'id',
   candidateId: 'candidateId',
   type: 'type',
+  slotType: 'slotType',
+  category: 'category',
   title: 'title',
   fileUrl: 'fileUrl',
   fileSize: 'fileSize',
   mimeType: 'mimeType',
   isVerified: 'isVerified',
+  verificationStatus: 'verificationStatus',
+  verificationRemarks: 'verificationRemarks',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -376,9 +543,13 @@ exports.Prisma.PageRecordScalarFieldEnum = {
 exports.Prisma.MediaItemScalarFieldEnum = {
   id: 'id',
   filename: 'filename',
+  originalName: 'originalName',
   fileUrl: 'fileUrl',
   fileSize: 'fileSize',
   mimeType: 'mimeType',
+  altText: 'altText',
+  caption: 'caption',
+  category: 'category',
   dimensions: 'dimensions',
   createdAt: 'createdAt'
 };
@@ -392,6 +563,9 @@ exports.Prisma.PlatformSettingsScalarFieldEnum = {
   headerMenu: 'headerMenu',
   footerMenu: 'footerMenu',
   seoDefaults: 'seoDefaults',
+  general: 'general',
+  workflow: 'workflow',
+  operational: 'operational',
   updatedAt: 'updatedAt'
 };
 
@@ -484,6 +658,9 @@ exports.Prisma.CategoryScalarFieldEnum = {
   titleBn: 'titleBn',
   titleEn: 'titleEn',
   icon: 'icon',
+  description: 'description',
+  parentSlug: 'parentSlug',
+  isActive: 'isActive',
   orderIndex: 'orderIndex'
 };
 
@@ -503,9 +680,13 @@ exports.Prisma.JobSourceScalarFieldEnum = {
   id: 'id',
   name: 'name',
   targetUrl: 'targetUrl',
+  type: 'type',
   frequency: 'frequency',
+  isEnabled: 'isEnabled',
+  trustScore: 'trustScore',
   lastRunAt: 'lastRunAt',
   healthStatus: 'healthStatus',
+  lastError: 'lastError',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -542,6 +723,8 @@ exports.Prisma.CouponScalarFieldEnum = {
   usageLimit: 'usageLimit',
   usedCount: 'usedCount',
   status: 'status',
+  description: 'description',
+  stackable: 'stackable',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -558,8 +741,12 @@ exports.Prisma.CouponRedemptionScalarFieldEnum = {
 exports.Prisma.RaffleCampaignScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  description: 'description',
+  prizeDescription: 'prizeDescription',
   rewardAmount: 'rewardAmount',
   status: 'status',
+  endsAt: 'endsAt',
+  winnerId: 'winnerId',
   createdAt: 'createdAt'
 };
 
@@ -689,6 +876,18 @@ exports.Prisma.ModelName = {
   JobReport: 'JobReport',
   JobAlertSubscription: 'JobAlertSubscription',
   ContactMessage: 'ContactMessage',
+  ExpenseRecord: 'ExpenseRecord',
+  OperationBudget: 'OperationBudget',
+  PublishingQueueItem: 'PublishingQueueItem',
+  RedirectRule: 'RedirectRule',
+  FeaturedPlacement: 'FeaturedPlacement',
+  JobFeedConfig: 'JobFeedConfig',
+  MatchingConfig: 'MatchingConfig',
+  ContentStudioDraft: 'ContentStudioDraft',
+  CircularChangeProposal: 'CircularChangeProposal',
+  NotificationDelivery: 'NotificationDelivery',
+  SpiderRunRecord: 'SpiderRunRecord',
+  SearchAnalyticsLog: 'SearchAnalyticsLog',
   ApplicationRequest: 'ApplicationRequest',
   CompanyProfile: 'CompanyProfile',
   CompanyApplication: 'CompanyApplication',
