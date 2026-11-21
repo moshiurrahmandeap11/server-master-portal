@@ -1,5 +1,8 @@
 import { Router } from 'express';
 import { authRoutes } from '../module/auth/auth.route';
+import { authController } from '../module/auth/auth.controller';
+import { authValidation } from '../module/auth/auth.validation';
+import { validateRequest } from '../middleware/validateRequest';
 import { candidateRoutes } from '../module/candidate/candidate.route';
 import { documentRoutes } from '../module/candidate/document.route';
 import { jobRoutes } from '../module/job/job.route';
@@ -12,11 +15,12 @@ import { contactRoutes } from '../module/contact/contact.route';
 import { discountRoutes } from '../module/wallet/discount.route';
 import { jobAlertRoutes } from '../module/job/job-alerts.route';
 import { eligibilityRoutes } from '../module/job/eligibility.route';
+import { utilityRoutes } from '../module/job/utility.route';
 
 const router = Router();
 
 router.use('/auth', authRoutes);
-router.use('/social', authRoutes);
+router.post('/social/google', validateRequest(authValidation.googleSignIn), authController.googleSignIn);
 router.use('/candidate', candidateRoutes);
 router.use('/profile', candidateRoutes);
 router.use('/user', candidateRoutes);
@@ -33,5 +37,6 @@ router.use('/discounts', discountRoutes);
 router.use('/job-alerts', jobAlertRoutes);
 router.use('/eligibility', eligibilityRoutes);
 router.use('/admin', adminRoutes);
+router.use('/', utilityRoutes);
 
 export const IndexRoutes = router;
