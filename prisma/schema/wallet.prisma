@@ -24,6 +24,8 @@ model Coupon {
   usageLimit    Int?
   usedCount     Int                @default(0)
   status        CouponStatus       @default(ACTIVE)
+  description   String?
+  stackable     Boolean            @default(true)
   expiresAt     DateTime?
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
@@ -46,12 +48,16 @@ model CouponRedemption {
 }
 
 model RaffleCampaign {
-  id           String        @id @default(uuid())
-  title        String
-  rewardAmount Decimal       @db.Decimal(10, 2)
-  status       String        @default("active")
-  createdAt    DateTime      @default(now())
-  entries      RaffleEntry[]
+  id               String        @id @default(uuid())
+  title            String
+  description      String?
+  prizeDescription String?
+  rewardAmount     Decimal       @db.Decimal(10, 2)
+  status           String        @default("active")
+  endsAt           DateTime?
+  winnerId         String?
+  createdAt        DateTime      @default(now())
+  entries          RaffleEntry[]
 
   @@map("raffle_campaigns")
 }
