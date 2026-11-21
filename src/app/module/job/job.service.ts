@@ -622,4 +622,55 @@ export const jobService = {
       },
     });
   },
+
+  getOrganizations: async () => {
+    const [orgs, publishedJobs] = await Promise.all([
+      prisma.organization.findMany({
+        where: { isActive: true },
+        orderBy: { name: 'asc' },
+      }),
+      prisma.jobCircular.findMany({
+        where: { status: JobStatus.PUBLISHED },
+        select: { id: true, organization: true, organizationSlug: true, totalPositions: true },
+      }),
+    ]);
+
+    return orgs.map((org) => {
+      const matched = publishedJobs.filter(
+        (j) =>
+          (j.organizationSlug && j.organizationSlug === org.slug) ||
+          j.organization === org.name ||
+          (org.nameBn && j.organization === org.nameBn),
+      );
+      return {
+        ...org,
+        activeJobsCount: matched.length,
+        totalVacancies: matched.reduce((sum, j) => sum + (j.totalPositions || 0), 0),
+      };
+    });
+  },
+
+  getOrganizationBySlug: async (slug: string) => {
+    const org = await prisma.organization.findUnique({ where: { slug } });
+    if (!org) {
+      throw new AppError(status.NOT_FOUND, 'প্রতিষ্ঠানটি খুঁজে পাওয়া যায়নি।');
+    }
+    const jobs = await prisma.jobCircular.findMany({
+      where: {
+        status: JobStatus.PUBLISHED,
+        OR: [
+          { organizationSlug: org.slug },
+          { organization: org.name },
+          ...(org.nameBn ? [{ organization: org.nameBn }] : []),
+        ],
+      },
+      include: { category: true },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      organization: org,
+      jobs: jobs.map(formatJobItem),
+    };
+  },
 };
