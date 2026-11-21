@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import status from 'http-status';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
@@ -6,7 +7,15 @@ import { jwtUtils } from '../../utils/jwt';
 import { emailUtils } from '../../utils/email';
 import { env } from '../../config/env';
 import { ISignUpPayload, ILoginPayload, IVerifyOtpPayload, IAuthResponse } from './auth.interface';
-import { OtpType, UserRole } from '../../../generated/prisma';
+import { OtpType, UserRole, UserStatus } from '../../../generated/prisma';
+
+const timingSafeMatch = (provided: string, expected?: string): boolean => {
+  if (!provided || !expected) return false;
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+};
 
 // In-memory grace period map for rotated tokens (60s buffer to absorb concurrent pipeline/middleware requests)
 const rotatedTokensGraceMap = new Map<string, {
@@ -76,13 +85,15 @@ export const authService = {
   },
 
   login: async (payload: ILoginPayload): Promise<IAuthResponse> => {
+    const rememberMe = payload.rememberMe !== false;
+    const refreshExpiryMs = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+    const refreshJwtExp = rememberMe ? '30d' : '24h';
+
     // 1. ADMIN LOGIN (via role === 'admin', adminPin, or loginId === 'admin')
     const isAdminRequest = payload.role === 'admin' || Boolean(payload.adminPin) || payload.loginId?.toLowerCase() === 'admin';
     if (isAdminRequest) {
       const pin = (payload.adminPin || payload.password || '').trim();
-      const validSecret = env.ADMIN_SECRET_KEY || 'admin_dev_secret_2026';
-
-      if (!pin || (pin !== validSecret && pin !== 'admin123' && pin !== '123456' && pin !== '1234')) {
+      if (!pin || !timingSafeMatch(pin, env.ADMIN_SECRET_KEY)) {
         throw new AppError(status.UNAUTHORIZED, 'ভুল অ্যাডমিন সিক্রেট পিন বা পাসওয়ার্ড!');
       }
 
@@ -91,7 +102,7 @@ export const authService = {
         where: { id: 'ADMIN-SUPER' },
         update: {
           role: UserRole.ADMIN,
-          status: 'ACTIVE',
+          status: UserStatus.ACTIVE,
         },
         create: {
           id: 'ADMIN-SUPER',
@@ -115,13 +126,13 @@ export const authService = {
       };
 
       const accessToken = jwtUtils.createAccessToken(tokenPayload);
-      const refreshToken = jwtUtils.createRefreshToken({ candidateId: adminCandidate.id });
+      const refreshToken = jwtUtils.createRefreshToken({ candidateId: adminCandidate.id }, refreshJwtExp);
 
       await prisma.session.create({
         data: {
           candidateId: adminCandidate.id,
           refreshToken,
-          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          expiresAt: new Date(Date.now() + refreshExpiryMs),
         },
       });
 
@@ -163,9 +174,33 @@ export const authService = {
       throw new AppError(status.UNAUTHORIZED, 'ভুল ইউজারনেম/ইমেইল অথবা পাসওয়ার্ড।');
     }
 
+    if (candidate.status !== UserStatus.ACTIVE) {
+      throw new AppError(status.FORBIDDEN, 'আপনার অ্যাকাউন্টটি বর্তমানে নিষ্ক্রিয় বা স্থগিত রয়েছে। সাপোর্টে যোগাযোগ করুন।');
+    }
+
     const isValid = await bcryptUtils.comparePassword(payload.password, candidate.passwordHash);
     if (!isValid) {
       throw new AppError(status.UNAUTHORIZED, 'ভুল ইউজারনেম/ইমেইল অথবা পাসওয়ার্ড।');
+    }
+
+    if (!candidate.isEmailVerified) {
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      await prisma.verificationOtp.create({
+        data: {
+          email: candidate.email,
+          otp,
+          type: OtpType.VERIFY_EMAIL,
+          candidateId: candidate.id,
+          expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+        },
+      });
+      const emailRes = await emailUtils.sendOtpEmail(candidate.email, otp, 'verify');
+      throw new AppError(
+        status.FORBIDDEN,
+        'আপনার ইমেইল ভেরিফাই করা হয়নি। ইমেইলে পাঠানো ওটিপি কোড দিয়ে ভেরিফাই করুন।',
+        '',
+        { requiresVerification: true, email: candidate.email, ...(emailRes.devOtp ? { devOtp: emailRes.devOtp } : {}) }
+      );
     }
 
     const tokenPayload = {
@@ -177,14 +212,14 @@ export const authService = {
     };
 
     const accessToken = jwtUtils.createAccessToken(tokenPayload);
-    const refreshToken = jwtUtils.createRefreshToken({ candidateId: candidate.id });
+    const refreshToken = jwtUtils.createRefreshToken({ candidateId: candidate.id }, refreshJwtExp);
 
     // Save refresh session in DB
     await prisma.session.create({
       data: {
         candidateId: candidate.id,
         refreshToken,
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        expiresAt: new Date(Date.now() + refreshExpiryMs),
       },
     });
 
@@ -212,6 +247,7 @@ export const authService = {
       where: {
         email: cleanEmail,
         otp: payload.otp.trim(),
+        type: OtpType.VERIFY_EMAIL,
         isUsed: false,
         expiresAt: { gt: new Date() },
       },
@@ -270,9 +306,13 @@ export const authService = {
     };
   },
 
-  resendOtp: async (email: string) => {
-    const cleanEmail = email.trim().toLowerCase();
-    const candidate = await prisma.candidate.findUnique({ where: { email: cleanEmail } });
+  resendOtp: async (identifier: string) => {
+    const cleanId = (identifier || '').trim().toLowerCase();
+    const candidate = await prisma.candidate.findFirst({
+      where: {
+        OR: [{ email: cleanId }, { username: cleanId }, { phone: cleanId }],
+      },
+    });
     if (!candidate) {
       throw new AppError(status.NOT_FOUND, 'এই ইমেইলে কোনো অ্যাকাউন্ট পাওয়া যায়নি।');
     }
@@ -282,7 +322,7 @@ export const authService = {
 
     await prisma.verificationOtp.create({
       data: {
-        email: cleanEmail,
+        email: candidate.email,
         otp,
         type: OtpType.VERIFY_EMAIL,
         candidateId: candidate.id,
@@ -290,8 +330,8 @@ export const authService = {
       },
     });
 
-    const emailRes = await emailUtils.sendOtpEmail(cleanEmail, otp, 'verify');
-    return { success: true, devOtp: emailRes.devOtp };
+    const emailRes = await emailUtils.sendOtpEmail(candidate.email, otp, 'verify');
+    return { success: true, ...(emailRes.devOtp ? { devOtp: emailRes.devOtp } : {}) };
   },
 
   refreshToken: async (token: string) => {
@@ -488,13 +528,14 @@ export const authService = {
     };
   },
 
-  changePassword: async (candidateId: string, payload: { oldPassword: string; newPassword: string }) => {
+  changePassword: async (candidateId: string, payload: { oldPassword?: string; currentPassword?: string; newPassword: string }) => {
+    const currentPass = payload.oldPassword || payload.currentPassword || '';
     const candidate = await prisma.candidate.findUnique({ where: { id: candidateId } });
     if (!candidate) {
       throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।');
     }
 
-    const isValid = await bcryptUtils.comparePassword(payload.oldPassword, candidate.passwordHash);
+    const isValid = await bcryptUtils.comparePassword(currentPass, candidate.passwordHash);
     if (!isValid) {
       throw new AppError(status.BAD_REQUEST, 'বর্তমান পাসওয়ার্ডটি সঠিক নয়।');
     }
@@ -548,7 +589,7 @@ export const authService = {
       throw new AppError(status.NOT_FOUND, 'এই তথ্যে কোনো অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।');
     }
 
-    if (payload.action === 'request_otp') {
+    if (payload.action === 'request_otp' || payload.action === 'send_otp') {
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
@@ -566,7 +607,7 @@ export const authService = {
       return {
         success: true,
         maskedTarget: candidate.email.replace(/(.{2})(.*)(@.*)/, '$1***$3'),
-        devOtp: emailRes.devOtp,
+        ...(emailRes.devOtp ? { devOtp: emailRes.devOtp } : {}),
       };
     }
 
@@ -579,6 +620,7 @@ export const authService = {
         where: {
           email: candidate.email,
           otp: payload.otp.trim(),
+          type: OtpType.RESET_PASSWORD,
           isUsed: false,
           expiresAt: { gt: new Date() },
         },
@@ -601,6 +643,7 @@ export const authService = {
         where: {
           email: candidate.email,
           otp: payload.otp.trim(),
+          type: OtpType.RESET_PASSWORD,
           isUsed: false,
           expiresAt: { gt: new Date() },
         },
