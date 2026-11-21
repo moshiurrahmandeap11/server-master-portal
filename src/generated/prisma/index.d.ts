@@ -174,6 +174,16 @@ export type MediaItem = $Result.DefaultSelection<Prisma.$MediaItemPayload>
  */
 export type PlatformSettings = $Result.DefaultSelection<Prisma.$PlatformSettingsPayload>
 /**
+ * Model BlogPost
+ * 
+ */
+export type BlogPost = $Result.DefaultSelection<Prisma.$BlogPostPayload>
+/**
+ * Model CandidateReview
+ * 
+ */
+export type CandidateReview = $Result.DefaultSelection<Prisma.$CandidateReviewPayload>
+/**
  * Model ExamNotice
  * 
  */
@@ -189,6 +199,11 @@ export type AdmitCard = $Result.DefaultSelection<Prisma.$AdmitCardPayload>
  */
 export type ExamResult = $Result.DefaultSelection<Prisma.$ExamResultPayload>
 /**
+ * Model VivaNotice
+ * 
+ */
+export type VivaNotice = $Result.DefaultSelection<Prisma.$VivaNoticePayload>
+/**
  * Model Question
  * 
  */
@@ -198,6 +213,11 @@ export type Question = $Result.DefaultSelection<Prisma.$QuestionPayload>
  * 
  */
 export type ModelTest = $Result.DefaultSelection<Prisma.$ModelTestPayload>
+/**
+ * Model ModelTestAttempt
+ * 
+ */
+export type ModelTestAttempt = $Result.DefaultSelection<Prisma.$ModelTestAttemptPayload>
 /**
  * Model JobCircular
  * 
@@ -855,6 +875,26 @@ export class PrismaClient<
   get platformSettings(): Prisma.PlatformSettingsDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.blogPost`: Exposes CRUD operations for the **BlogPost** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BlogPosts
+    * const blogPosts = await prisma.blogPost.findMany()
+    * ```
+    */
+  get blogPost(): Prisma.BlogPostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.candidateReview`: Exposes CRUD operations for the **CandidateReview** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CandidateReviews
+    * const candidateReviews = await prisma.candidateReview.findMany()
+    * ```
+    */
+  get candidateReview(): Prisma.CandidateReviewDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.examNotice`: Exposes CRUD operations for the **ExamNotice** model.
     * Example usage:
     * ```ts
@@ -885,6 +925,16 @@ export class PrismaClient<
   get examResult(): Prisma.ExamResultDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.vivaNotice`: Exposes CRUD operations for the **VivaNotice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VivaNotices
+    * const vivaNotices = await prisma.vivaNotice.findMany()
+    * ```
+    */
+  get vivaNotice(): Prisma.VivaNoticeDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.question`: Exposes CRUD operations for the **Question** model.
     * Example usage:
     * ```ts
@@ -903,6 +953,16 @@ export class PrismaClient<
     * ```
     */
   get modelTest(): Prisma.ModelTestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.modelTestAttempt`: Exposes CRUD operations for the **ModelTestAttempt** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ModelTestAttempts
+    * const modelTestAttempts = await prisma.modelTestAttempt.findMany()
+    * ```
+    */
+  get modelTestAttempt(): Prisma.ModelTestAttemptDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.jobCircular`: Exposes CRUD operations for the **JobCircular** model.
@@ -1482,11 +1542,15 @@ export namespace Prisma {
     PageRecord: 'PageRecord',
     MediaItem: 'MediaItem',
     PlatformSettings: 'PlatformSettings',
+    BlogPost: 'BlogPost',
+    CandidateReview: 'CandidateReview',
     ExamNotice: 'ExamNotice',
     AdmitCard: 'AdmitCard',
     ExamResult: 'ExamResult',
+    VivaNotice: 'VivaNotice',
     Question: 'Question',
     ModelTest: 'ModelTest',
+    ModelTestAttempt: 'ModelTestAttempt',
     JobCircular: 'JobCircular',
     Category: 'Category',
     Organization: 'Organization',
@@ -1512,7 +1576,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "adminAuditLog" | "notificationItem" | "userJobReminder" | "deadlineAlertRule" | "jobReport" | "jobAlertSubscription" | "contactMessage" | "expenseRecord" | "operationBudget" | "publishingQueueItem" | "redirectRule" | "featuredPlacement" | "jobFeedConfig" | "matchingConfig" | "contentStudioDraft" | "circularChangeProposal" | "notificationDelivery" | "spiderRunRecord" | "searchAnalyticsLog" | "applicationRequest" | "companyProfile" | "companyApplication" | "candidate" | "session" | "verificationOtp" | "staffMember" | "educationRecord" | "candidateDocument" | "savedJob" | "pageRecord" | "mediaItem" | "platformSettings" | "examNotice" | "admitCard" | "examResult" | "question" | "modelTest" | "jobCircular" | "category" | "organization" | "jobSource" | "circularDraft" | "walletTransaction" | "coupon" | "couponRedemption" | "raffleCampaign" | "raffleEntry"
+      modelProps: "adminAuditLog" | "notificationItem" | "userJobReminder" | "deadlineAlertRule" | "jobReport" | "jobAlertSubscription" | "contactMessage" | "expenseRecord" | "operationBudget" | "publishingQueueItem" | "redirectRule" | "featuredPlacement" | "jobFeedConfig" | "matchingConfig" | "contentStudioDraft" | "circularChangeProposal" | "notificationDelivery" | "spiderRunRecord" | "searchAnalyticsLog" | "applicationRequest" | "companyProfile" | "companyApplication" | "candidate" | "session" | "verificationOtp" | "staffMember" | "educationRecord" | "candidateDocument" | "savedJob" | "pageRecord" | "mediaItem" | "platformSettings" | "blogPost" | "candidateReview" | "examNotice" | "admitCard" | "examResult" | "vivaNotice" | "question" | "modelTest" | "modelTestAttempt" | "jobCircular" | "category" | "organization" | "jobSource" | "circularDraft" | "walletTransaction" | "coupon" | "couponRedemption" | "raffleCampaign" | "raffleEntry"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3884,6 +3948,154 @@ export namespace Prisma {
           }
         }
       }
+      BlogPost: {
+        payload: Prisma.$BlogPostPayload<ExtArgs>
+        fields: Prisma.BlogPostFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BlogPostFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BlogPostFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
+          }
+          findFirst: {
+            args: Prisma.BlogPostFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BlogPostFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
+          }
+          findMany: {
+            args: Prisma.BlogPostFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>[]
+          }
+          create: {
+            args: Prisma.BlogPostCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
+          }
+          createMany: {
+            args: Prisma.BlogPostCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BlogPostCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>[]
+          }
+          delete: {
+            args: Prisma.BlogPostDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
+          }
+          update: {
+            args: Prisma.BlogPostUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
+          }
+          deleteMany: {
+            args: Prisma.BlogPostDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BlogPostUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BlogPostUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>[]
+          }
+          upsert: {
+            args: Prisma.BlogPostUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
+          }
+          aggregate: {
+            args: Prisma.BlogPostAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBlogPost>
+          }
+          groupBy: {
+            args: Prisma.BlogPostGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BlogPostGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BlogPostCountArgs<ExtArgs>
+            result: $Utils.Optional<BlogPostCountAggregateOutputType> | number
+          }
+        }
+      }
+      CandidateReview: {
+        payload: Prisma.$CandidateReviewPayload<ExtArgs>
+        fields: Prisma.CandidateReviewFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CandidateReviewFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CandidateReviewFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>
+          }
+          findFirst: {
+            args: Prisma.CandidateReviewFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CandidateReviewFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>
+          }
+          findMany: {
+            args: Prisma.CandidateReviewFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>[]
+          }
+          create: {
+            args: Prisma.CandidateReviewCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>
+          }
+          createMany: {
+            args: Prisma.CandidateReviewCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CandidateReviewCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>[]
+          }
+          delete: {
+            args: Prisma.CandidateReviewDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>
+          }
+          update: {
+            args: Prisma.CandidateReviewUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>
+          }
+          deleteMany: {
+            args: Prisma.CandidateReviewDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CandidateReviewUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CandidateReviewUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>[]
+          }
+          upsert: {
+            args: Prisma.CandidateReviewUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidateReviewPayload>
+          }
+          aggregate: {
+            args: Prisma.CandidateReviewAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCandidateReview>
+          }
+          groupBy: {
+            args: Prisma.CandidateReviewGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CandidateReviewGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CandidateReviewCountArgs<ExtArgs>
+            result: $Utils.Optional<CandidateReviewCountAggregateOutputType> | number
+          }
+        }
+      }
       ExamNotice: {
         payload: Prisma.$ExamNoticePayload<ExtArgs>
         fields: Prisma.ExamNoticeFieldRefs
@@ -4106,6 +4318,80 @@ export namespace Prisma {
           }
         }
       }
+      VivaNotice: {
+        payload: Prisma.$VivaNoticePayload<ExtArgs>
+        fields: Prisma.VivaNoticeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VivaNoticeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VivaNoticeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>
+          }
+          findFirst: {
+            args: Prisma.VivaNoticeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VivaNoticeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>
+          }
+          findMany: {
+            args: Prisma.VivaNoticeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>[]
+          }
+          create: {
+            args: Prisma.VivaNoticeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>
+          }
+          createMany: {
+            args: Prisma.VivaNoticeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VivaNoticeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>[]
+          }
+          delete: {
+            args: Prisma.VivaNoticeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>
+          }
+          update: {
+            args: Prisma.VivaNoticeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>
+          }
+          deleteMany: {
+            args: Prisma.VivaNoticeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VivaNoticeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VivaNoticeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>[]
+          }
+          upsert: {
+            args: Prisma.VivaNoticeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VivaNoticePayload>
+          }
+          aggregate: {
+            args: Prisma.VivaNoticeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVivaNotice>
+          }
+          groupBy: {
+            args: Prisma.VivaNoticeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VivaNoticeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VivaNoticeCountArgs<ExtArgs>
+            result: $Utils.Optional<VivaNoticeCountAggregateOutputType> | number
+          }
+        }
+      }
       Question: {
         payload: Prisma.$QuestionPayload<ExtArgs>
         fields: Prisma.QuestionFieldRefs
@@ -4251,6 +4537,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ModelTestCountArgs<ExtArgs>
             result: $Utils.Optional<ModelTestCountAggregateOutputType> | number
+          }
+        }
+      }
+      ModelTestAttempt: {
+        payload: Prisma.$ModelTestAttemptPayload<ExtArgs>
+        fields: Prisma.ModelTestAttemptFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ModelTestAttemptFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ModelTestAttemptFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>
+          }
+          findFirst: {
+            args: Prisma.ModelTestAttemptFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ModelTestAttemptFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>
+          }
+          findMany: {
+            args: Prisma.ModelTestAttemptFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>[]
+          }
+          create: {
+            args: Prisma.ModelTestAttemptCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>
+          }
+          createMany: {
+            args: Prisma.ModelTestAttemptCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ModelTestAttemptCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>[]
+          }
+          delete: {
+            args: Prisma.ModelTestAttemptDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>
+          }
+          update: {
+            args: Prisma.ModelTestAttemptUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>
+          }
+          deleteMany: {
+            args: Prisma.ModelTestAttemptDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ModelTestAttemptUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ModelTestAttemptUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>[]
+          }
+          upsert: {
+            args: Prisma.ModelTestAttemptUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelTestAttemptPayload>
+          }
+          aggregate: {
+            args: Prisma.ModelTestAttemptAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateModelTestAttempt>
+          }
+          groupBy: {
+            args: Prisma.ModelTestAttemptGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ModelTestAttemptGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ModelTestAttemptCountArgs<ExtArgs>
+            result: $Utils.Optional<ModelTestAttemptCountAggregateOutputType> | number
           }
         }
       }
@@ -5149,11 +5509,15 @@ export namespace Prisma {
     pageRecord?: PageRecordOmit
     mediaItem?: MediaItemOmit
     platformSettings?: PlatformSettingsOmit
+    blogPost?: BlogPostOmit
+    candidateReview?: CandidateReviewOmit
     examNotice?: ExamNoticeOmit
     admitCard?: AdmitCardOmit
     examResult?: ExamResultOmit
+    vivaNotice?: VivaNoticeOmit
     question?: QuestionOmit
     modelTest?: ModelTestOmit
+    modelTestAttempt?: ModelTestAttemptOmit
     jobCircular?: JobCircularOmit
     category?: CategoryOmit
     organization?: OrganizationOmit
@@ -5348,6 +5712,37 @@ export namespace Prisma {
    */
   export type CandidateCountOutputTypeCountRaffleEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RaffleEntryWhereInput
+  }
+
+
+  /**
+   * Count Type ModelTestCountOutputType
+   */
+
+  export type ModelTestCountOutputType = {
+    attempts: number
+  }
+
+  export type ModelTestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attempts?: boolean | ModelTestCountOutputTypeCountAttemptsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ModelTestCountOutputType without action
+   */
+  export type ModelTestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestCountOutputType
+     */
+    select?: ModelTestCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ModelTestCountOutputType without action
+   */
+  export type ModelTestCountOutputTypeCountAttemptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelTestAttemptWhereInput
   }
 
 
@@ -41322,6 +41717,2235 @@ export namespace Prisma {
 
 
   /**
+   * Model BlogPost
+   */
+
+  export type AggregateBlogPost = {
+    _count: BlogPostCountAggregateOutputType | null
+    _min: BlogPostMinAggregateOutputType | null
+    _max: BlogPostMaxAggregateOutputType | null
+  }
+
+  export type BlogPostMinAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    kind: string | null
+    title: string | null
+    excerpt: string | null
+    content: string | null
+    category: string | null
+    author: string | null
+    coverImage: string | null
+    readTime: string | null
+    status: string | null
+    publishedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BlogPostMaxAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    kind: string | null
+    title: string | null
+    excerpt: string | null
+    content: string | null
+    category: string | null
+    author: string | null
+    coverImage: string | null
+    readTime: string | null
+    status: string | null
+    publishedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BlogPostCountAggregateOutputType = {
+    id: number
+    slug: number
+    kind: number
+    title: number
+    excerpt: number
+    content: number
+    category: number
+    author: number
+    coverImage: number
+    readTime: number
+    tags: number
+    status: number
+    publishedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BlogPostMinAggregateInputType = {
+    id?: true
+    slug?: true
+    kind?: true
+    title?: true
+    excerpt?: true
+    content?: true
+    category?: true
+    author?: true
+    coverImage?: true
+    readTime?: true
+    status?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BlogPostMaxAggregateInputType = {
+    id?: true
+    slug?: true
+    kind?: true
+    title?: true
+    excerpt?: true
+    content?: true
+    category?: true
+    author?: true
+    coverImage?: true
+    readTime?: true
+    status?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BlogPostCountAggregateInputType = {
+    id?: true
+    slug?: true
+    kind?: true
+    title?: true
+    excerpt?: true
+    content?: true
+    category?: true
+    author?: true
+    coverImage?: true
+    readTime?: true
+    tags?: true
+    status?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BlogPostAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BlogPost to aggregate.
+     */
+    where?: BlogPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlogPosts to fetch.
+     */
+    orderBy?: BlogPostOrderByWithRelationInput | BlogPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BlogPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlogPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlogPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BlogPosts
+    **/
+    _count?: true | BlogPostCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BlogPostMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BlogPostMaxAggregateInputType
+  }
+
+  export type GetBlogPostAggregateType<T extends BlogPostAggregateArgs> = {
+        [P in keyof T & keyof AggregateBlogPost]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBlogPost[P]>
+      : GetScalarType<T[P], AggregateBlogPost[P]>
+  }
+
+
+
+
+  export type BlogPostGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlogPostWhereInput
+    orderBy?: BlogPostOrderByWithAggregationInput | BlogPostOrderByWithAggregationInput[]
+    by: BlogPostScalarFieldEnum[] | BlogPostScalarFieldEnum
+    having?: BlogPostScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BlogPostCountAggregateInputType | true
+    _min?: BlogPostMinAggregateInputType
+    _max?: BlogPostMaxAggregateInputType
+  }
+
+  export type BlogPostGroupByOutputType = {
+    id: string
+    slug: string
+    kind: string
+    title: string
+    excerpt: string | null
+    content: string
+    category: string | null
+    author: string | null
+    coverImage: string | null
+    readTime: string | null
+    tags: JsonValue | null
+    status: string
+    publishedAt: Date
+    createdAt: Date
+    updatedAt: Date
+    _count: BlogPostCountAggregateOutputType | null
+    _min: BlogPostMinAggregateOutputType | null
+    _max: BlogPostMaxAggregateOutputType | null
+  }
+
+  type GetBlogPostGroupByPayload<T extends BlogPostGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BlogPostGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BlogPostGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BlogPostGroupByOutputType[P]>
+            : GetScalarType<T[P], BlogPostGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BlogPostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    kind?: boolean
+    title?: boolean
+    excerpt?: boolean
+    content?: boolean
+    category?: boolean
+    author?: boolean
+    coverImage?: boolean
+    readTime?: boolean
+    tags?: boolean
+    status?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["blogPost"]>
+
+  export type BlogPostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    kind?: boolean
+    title?: boolean
+    excerpt?: boolean
+    content?: boolean
+    category?: boolean
+    author?: boolean
+    coverImage?: boolean
+    readTime?: boolean
+    tags?: boolean
+    status?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["blogPost"]>
+
+  export type BlogPostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    kind?: boolean
+    title?: boolean
+    excerpt?: boolean
+    content?: boolean
+    category?: boolean
+    author?: boolean
+    coverImage?: boolean
+    readTime?: boolean
+    tags?: boolean
+    status?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["blogPost"]>
+
+  export type BlogPostSelectScalar = {
+    id?: boolean
+    slug?: boolean
+    kind?: boolean
+    title?: boolean
+    excerpt?: boolean
+    content?: boolean
+    category?: boolean
+    author?: boolean
+    coverImage?: boolean
+    readTime?: boolean
+    tags?: boolean
+    status?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BlogPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "kind" | "title" | "excerpt" | "content" | "category" | "author" | "coverImage" | "readTime" | "tags" | "status" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPost"]>
+
+  export type $BlogPostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BlogPost"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      slug: string
+      kind: string
+      title: string
+      excerpt: string | null
+      content: string
+      category: string | null
+      author: string | null
+      coverImage: string | null
+      readTime: string | null
+      tags: Prisma.JsonValue | null
+      status: string
+      publishedAt: Date
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["blogPost"]>
+    composites: {}
+  }
+
+  type BlogPostGetPayload<S extends boolean | null | undefined | BlogPostDefaultArgs> = $Result.GetResult<Prisma.$BlogPostPayload, S>
+
+  type BlogPostCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BlogPostFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BlogPostCountAggregateInputType | true
+    }
+
+  export interface BlogPostDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BlogPost'], meta: { name: 'BlogPost' } }
+    /**
+     * Find zero or one BlogPost that matches the filter.
+     * @param {BlogPostFindUniqueArgs} args - Arguments to find a BlogPost
+     * @example
+     * // Get one BlogPost
+     * const blogPost = await prisma.blogPost.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BlogPostFindUniqueArgs>(args: SelectSubset<T, BlogPostFindUniqueArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BlogPost that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BlogPostFindUniqueOrThrowArgs} args - Arguments to find a BlogPost
+     * @example
+     * // Get one BlogPost
+     * const blogPost = await prisma.blogPost.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BlogPostFindUniqueOrThrowArgs>(args: SelectSubset<T, BlogPostFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BlogPost that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogPostFindFirstArgs} args - Arguments to find a BlogPost
+     * @example
+     * // Get one BlogPost
+     * const blogPost = await prisma.blogPost.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BlogPostFindFirstArgs>(args?: SelectSubset<T, BlogPostFindFirstArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BlogPost that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogPostFindFirstOrThrowArgs} args - Arguments to find a BlogPost
+     * @example
+     * // Get one BlogPost
+     * const blogPost = await prisma.blogPost.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BlogPostFindFirstOrThrowArgs>(args?: SelectSubset<T, BlogPostFindFirstOrThrowArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BlogPosts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogPostFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BlogPosts
+     * const blogPosts = await prisma.blogPost.findMany()
+     * 
+     * // Get first 10 BlogPosts
+     * const blogPosts = await prisma.blogPost.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const blogPostWithIdOnly = await prisma.blogPost.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BlogPostFindManyArgs>(args?: SelectSubset<T, BlogPostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BlogPost.
+     * @param {BlogPostCreateArgs} args - Arguments to create a BlogPost.
+     * @example
+     * // Create one BlogPost
+     * const BlogPost = await prisma.blogPost.create({
+     *   data: {
+     *     // ... data to create a BlogPost
+     *   }
+     * })
+     * 
+     */
+    create<T extends BlogPostCreateArgs>(args: SelectSubset<T, BlogPostCreateArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BlogPosts.
+     * @param {BlogPostCreateManyArgs} args - Arguments to create many BlogPosts.
+     * @example
+     * // Create many BlogPosts
+     * const blogPost = await prisma.blogPost.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BlogPostCreateManyArgs>(args?: SelectSubset<T, BlogPostCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BlogPosts and returns the data saved in the database.
+     * @param {BlogPostCreateManyAndReturnArgs} args - Arguments to create many BlogPosts.
+     * @example
+     * // Create many BlogPosts
+     * const blogPost = await prisma.blogPost.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BlogPosts and only return the `id`
+     * const blogPostWithIdOnly = await prisma.blogPost.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BlogPostCreateManyAndReturnArgs>(args?: SelectSubset<T, BlogPostCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BlogPost.
+     * @param {BlogPostDeleteArgs} args - Arguments to delete one BlogPost.
+     * @example
+     * // Delete one BlogPost
+     * const BlogPost = await prisma.blogPost.delete({
+     *   where: {
+     *     // ... filter to delete one BlogPost
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BlogPostDeleteArgs>(args: SelectSubset<T, BlogPostDeleteArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BlogPost.
+     * @param {BlogPostUpdateArgs} args - Arguments to update one BlogPost.
+     * @example
+     * // Update one BlogPost
+     * const blogPost = await prisma.blogPost.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BlogPostUpdateArgs>(args: SelectSubset<T, BlogPostUpdateArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BlogPosts.
+     * @param {BlogPostDeleteManyArgs} args - Arguments to filter BlogPosts to delete.
+     * @example
+     * // Delete a few BlogPosts
+     * const { count } = await prisma.blogPost.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BlogPostDeleteManyArgs>(args?: SelectSubset<T, BlogPostDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BlogPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogPostUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BlogPosts
+     * const blogPost = await prisma.blogPost.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BlogPostUpdateManyArgs>(args: SelectSubset<T, BlogPostUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BlogPosts and returns the data updated in the database.
+     * @param {BlogPostUpdateManyAndReturnArgs} args - Arguments to update many BlogPosts.
+     * @example
+     * // Update many BlogPosts
+     * const blogPost = await prisma.blogPost.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BlogPosts and only return the `id`
+     * const blogPostWithIdOnly = await prisma.blogPost.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BlogPostUpdateManyAndReturnArgs>(args: SelectSubset<T, BlogPostUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BlogPost.
+     * @param {BlogPostUpsertArgs} args - Arguments to update or create a BlogPost.
+     * @example
+     * // Update or create a BlogPost
+     * const blogPost = await prisma.blogPost.upsert({
+     *   create: {
+     *     // ... data to create a BlogPost
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BlogPost we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BlogPostUpsertArgs>(args: SelectSubset<T, BlogPostUpsertArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BlogPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogPostCountArgs} args - Arguments to filter BlogPosts to count.
+     * @example
+     * // Count the number of BlogPosts
+     * const count = await prisma.blogPost.count({
+     *   where: {
+     *     // ... the filter for the BlogPosts we want to count
+     *   }
+     * })
+    **/
+    count<T extends BlogPostCountArgs>(
+      args?: Subset<T, BlogPostCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BlogPostCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BlogPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogPostAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BlogPostAggregateArgs>(args: Subset<T, BlogPostAggregateArgs>): Prisma.PrismaPromise<GetBlogPostAggregateType<T>>
+
+    /**
+     * Group by BlogPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogPostGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BlogPostGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BlogPostGroupByArgs['orderBy'] }
+        : { orderBy?: BlogPostGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BlogPostGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBlogPostGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BlogPost model
+   */
+  readonly fields: BlogPostFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BlogPost.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BlogPostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BlogPost model
+   */
+  interface BlogPostFieldRefs {
+    readonly id: FieldRef<"BlogPost", 'String'>
+    readonly slug: FieldRef<"BlogPost", 'String'>
+    readonly kind: FieldRef<"BlogPost", 'String'>
+    readonly title: FieldRef<"BlogPost", 'String'>
+    readonly excerpt: FieldRef<"BlogPost", 'String'>
+    readonly content: FieldRef<"BlogPost", 'String'>
+    readonly category: FieldRef<"BlogPost", 'String'>
+    readonly author: FieldRef<"BlogPost", 'String'>
+    readonly coverImage: FieldRef<"BlogPost", 'String'>
+    readonly readTime: FieldRef<"BlogPost", 'String'>
+    readonly tags: FieldRef<"BlogPost", 'Json'>
+    readonly status: FieldRef<"BlogPost", 'String'>
+    readonly publishedAt: FieldRef<"BlogPost", 'DateTime'>
+    readonly createdAt: FieldRef<"BlogPost", 'DateTime'>
+    readonly updatedAt: FieldRef<"BlogPost", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BlogPost findUnique
+   */
+  export type BlogPostFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * Filter, which BlogPost to fetch.
+     */
+    where: BlogPostWhereUniqueInput
+  }
+
+  /**
+   * BlogPost findUniqueOrThrow
+   */
+  export type BlogPostFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * Filter, which BlogPost to fetch.
+     */
+    where: BlogPostWhereUniqueInput
+  }
+
+  /**
+   * BlogPost findFirst
+   */
+  export type BlogPostFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * Filter, which BlogPost to fetch.
+     */
+    where?: BlogPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlogPosts to fetch.
+     */
+    orderBy?: BlogPostOrderByWithRelationInput | BlogPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BlogPosts.
+     */
+    cursor?: BlogPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlogPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlogPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlogPosts.
+     */
+    distinct?: BlogPostScalarFieldEnum | BlogPostScalarFieldEnum[]
+  }
+
+  /**
+   * BlogPost findFirstOrThrow
+   */
+  export type BlogPostFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * Filter, which BlogPost to fetch.
+     */
+    where?: BlogPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlogPosts to fetch.
+     */
+    orderBy?: BlogPostOrderByWithRelationInput | BlogPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BlogPosts.
+     */
+    cursor?: BlogPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlogPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlogPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlogPosts.
+     */
+    distinct?: BlogPostScalarFieldEnum | BlogPostScalarFieldEnum[]
+  }
+
+  /**
+   * BlogPost findMany
+   */
+  export type BlogPostFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * Filter, which BlogPosts to fetch.
+     */
+    where?: BlogPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlogPosts to fetch.
+     */
+    orderBy?: BlogPostOrderByWithRelationInput | BlogPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BlogPosts.
+     */
+    cursor?: BlogPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlogPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlogPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlogPosts.
+     */
+    distinct?: BlogPostScalarFieldEnum | BlogPostScalarFieldEnum[]
+  }
+
+  /**
+   * BlogPost create
+   */
+  export type BlogPostCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * The data needed to create a BlogPost.
+     */
+    data: XOR<BlogPostCreateInput, BlogPostUncheckedCreateInput>
+  }
+
+  /**
+   * BlogPost createMany
+   */
+  export type BlogPostCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BlogPosts.
+     */
+    data: BlogPostCreateManyInput | BlogPostCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BlogPost createManyAndReturn
+   */
+  export type BlogPostCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * The data used to create many BlogPosts.
+     */
+    data: BlogPostCreateManyInput | BlogPostCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BlogPost update
+   */
+  export type BlogPostUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * The data needed to update a BlogPost.
+     */
+    data: XOR<BlogPostUpdateInput, BlogPostUncheckedUpdateInput>
+    /**
+     * Choose, which BlogPost to update.
+     */
+    where: BlogPostWhereUniqueInput
+  }
+
+  /**
+   * BlogPost updateMany
+   */
+  export type BlogPostUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BlogPosts.
+     */
+    data: XOR<BlogPostUpdateManyMutationInput, BlogPostUncheckedUpdateManyInput>
+    /**
+     * Filter which BlogPosts to update
+     */
+    where?: BlogPostWhereInput
+    /**
+     * Limit how many BlogPosts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BlogPost updateManyAndReturn
+   */
+  export type BlogPostUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * The data used to update BlogPosts.
+     */
+    data: XOR<BlogPostUpdateManyMutationInput, BlogPostUncheckedUpdateManyInput>
+    /**
+     * Filter which BlogPosts to update
+     */
+    where?: BlogPostWhereInput
+    /**
+     * Limit how many BlogPosts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BlogPost upsert
+   */
+  export type BlogPostUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * The filter to search for the BlogPost to update in case it exists.
+     */
+    where: BlogPostWhereUniqueInput
+    /**
+     * In case the BlogPost found by the `where` argument doesn't exist, create a new BlogPost with this data.
+     */
+    create: XOR<BlogPostCreateInput, BlogPostUncheckedCreateInput>
+    /**
+     * In case the BlogPost was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BlogPostUpdateInput, BlogPostUncheckedUpdateInput>
+  }
+
+  /**
+   * BlogPost delete
+   */
+  export type BlogPostDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * Filter which BlogPost to delete.
+     */
+    where: BlogPostWhereUniqueInput
+  }
+
+  /**
+   * BlogPost deleteMany
+   */
+  export type BlogPostDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BlogPosts to delete
+     */
+    where?: BlogPostWhereInput
+    /**
+     * Limit how many BlogPosts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BlogPost without action
+   */
+  export type BlogPostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CandidateReview
+   */
+
+  export type AggregateCandidateReview = {
+    _count: CandidateReviewCountAggregateOutputType | null
+    _avg: CandidateReviewAvgAggregateOutputType | null
+    _sum: CandidateReviewSumAggregateOutputType | null
+    _min: CandidateReviewMinAggregateOutputType | null
+    _max: CandidateReviewMaxAggregateOutputType | null
+  }
+
+  export type CandidateReviewAvgAggregateOutputType = {
+    rating: number | null
+    orderIndex: number | null
+  }
+
+  export type CandidateReviewSumAggregateOutputType = {
+    rating: number | null
+    orderIndex: number | null
+  }
+
+  export type CandidateReviewMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    role: string | null
+    institution: string | null
+    quote: string | null
+    rating: number | null
+    isApproved: boolean | null
+    orderIndex: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CandidateReviewMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    role: string | null
+    institution: string | null
+    quote: string | null
+    rating: number | null
+    isApproved: boolean | null
+    orderIndex: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CandidateReviewCountAggregateOutputType = {
+    id: number
+    name: number
+    role: number
+    institution: number
+    quote: number
+    rating: number
+    isApproved: number
+    orderIndex: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CandidateReviewAvgAggregateInputType = {
+    rating?: true
+    orderIndex?: true
+  }
+
+  export type CandidateReviewSumAggregateInputType = {
+    rating?: true
+    orderIndex?: true
+  }
+
+  export type CandidateReviewMinAggregateInputType = {
+    id?: true
+    name?: true
+    role?: true
+    institution?: true
+    quote?: true
+    rating?: true
+    isApproved?: true
+    orderIndex?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CandidateReviewMaxAggregateInputType = {
+    id?: true
+    name?: true
+    role?: true
+    institution?: true
+    quote?: true
+    rating?: true
+    isApproved?: true
+    orderIndex?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CandidateReviewCountAggregateInputType = {
+    id?: true
+    name?: true
+    role?: true
+    institution?: true
+    quote?: true
+    rating?: true
+    isApproved?: true
+    orderIndex?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CandidateReviewAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CandidateReview to aggregate.
+     */
+    where?: CandidateReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CandidateReviews to fetch.
+     */
+    orderBy?: CandidateReviewOrderByWithRelationInput | CandidateReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CandidateReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CandidateReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CandidateReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CandidateReviews
+    **/
+    _count?: true | CandidateReviewCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CandidateReviewAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CandidateReviewSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CandidateReviewMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CandidateReviewMaxAggregateInputType
+  }
+
+  export type GetCandidateReviewAggregateType<T extends CandidateReviewAggregateArgs> = {
+        [P in keyof T & keyof AggregateCandidateReview]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCandidateReview[P]>
+      : GetScalarType<T[P], AggregateCandidateReview[P]>
+  }
+
+
+
+
+  export type CandidateReviewGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CandidateReviewWhereInput
+    orderBy?: CandidateReviewOrderByWithAggregationInput | CandidateReviewOrderByWithAggregationInput[]
+    by: CandidateReviewScalarFieldEnum[] | CandidateReviewScalarFieldEnum
+    having?: CandidateReviewScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CandidateReviewCountAggregateInputType | true
+    _avg?: CandidateReviewAvgAggregateInputType
+    _sum?: CandidateReviewSumAggregateInputType
+    _min?: CandidateReviewMinAggregateInputType
+    _max?: CandidateReviewMaxAggregateInputType
+  }
+
+  export type CandidateReviewGroupByOutputType = {
+    id: string
+    name: string
+    role: string | null
+    institution: string | null
+    quote: string
+    rating: number
+    isApproved: boolean
+    orderIndex: number
+    createdAt: Date
+    updatedAt: Date
+    _count: CandidateReviewCountAggregateOutputType | null
+    _avg: CandidateReviewAvgAggregateOutputType | null
+    _sum: CandidateReviewSumAggregateOutputType | null
+    _min: CandidateReviewMinAggregateOutputType | null
+    _max: CandidateReviewMaxAggregateOutputType | null
+  }
+
+  type GetCandidateReviewGroupByPayload<T extends CandidateReviewGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CandidateReviewGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CandidateReviewGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CandidateReviewGroupByOutputType[P]>
+            : GetScalarType<T[P], CandidateReviewGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CandidateReviewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    role?: boolean
+    institution?: boolean
+    quote?: boolean
+    rating?: boolean
+    isApproved?: boolean
+    orderIndex?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["candidateReview"]>
+
+  export type CandidateReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    role?: boolean
+    institution?: boolean
+    quote?: boolean
+    rating?: boolean
+    isApproved?: boolean
+    orderIndex?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["candidateReview"]>
+
+  export type CandidateReviewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    role?: boolean
+    institution?: boolean
+    quote?: boolean
+    rating?: boolean
+    isApproved?: boolean
+    orderIndex?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["candidateReview"]>
+
+  export type CandidateReviewSelectScalar = {
+    id?: boolean
+    name?: boolean
+    role?: boolean
+    institution?: boolean
+    quote?: boolean
+    rating?: boolean
+    isApproved?: boolean
+    orderIndex?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CandidateReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "role" | "institution" | "quote" | "rating" | "isApproved" | "orderIndex" | "createdAt" | "updatedAt", ExtArgs["result"]["candidateReview"]>
+
+  export type $CandidateReviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CandidateReview"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      role: string | null
+      institution: string | null
+      quote: string
+      rating: number
+      isApproved: boolean
+      orderIndex: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["candidateReview"]>
+    composites: {}
+  }
+
+  type CandidateReviewGetPayload<S extends boolean | null | undefined | CandidateReviewDefaultArgs> = $Result.GetResult<Prisma.$CandidateReviewPayload, S>
+
+  type CandidateReviewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CandidateReviewFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CandidateReviewCountAggregateInputType | true
+    }
+
+  export interface CandidateReviewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CandidateReview'], meta: { name: 'CandidateReview' } }
+    /**
+     * Find zero or one CandidateReview that matches the filter.
+     * @param {CandidateReviewFindUniqueArgs} args - Arguments to find a CandidateReview
+     * @example
+     * // Get one CandidateReview
+     * const candidateReview = await prisma.candidateReview.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CandidateReviewFindUniqueArgs>(args: SelectSubset<T, CandidateReviewFindUniqueArgs<ExtArgs>>): Prisma__CandidateReviewClient<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CandidateReview that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CandidateReviewFindUniqueOrThrowArgs} args - Arguments to find a CandidateReview
+     * @example
+     * // Get one CandidateReview
+     * const candidateReview = await prisma.candidateReview.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CandidateReviewFindUniqueOrThrowArgs>(args: SelectSubset<T, CandidateReviewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CandidateReviewClient<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CandidateReview that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateReviewFindFirstArgs} args - Arguments to find a CandidateReview
+     * @example
+     * // Get one CandidateReview
+     * const candidateReview = await prisma.candidateReview.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CandidateReviewFindFirstArgs>(args?: SelectSubset<T, CandidateReviewFindFirstArgs<ExtArgs>>): Prisma__CandidateReviewClient<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CandidateReview that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateReviewFindFirstOrThrowArgs} args - Arguments to find a CandidateReview
+     * @example
+     * // Get one CandidateReview
+     * const candidateReview = await prisma.candidateReview.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CandidateReviewFindFirstOrThrowArgs>(args?: SelectSubset<T, CandidateReviewFindFirstOrThrowArgs<ExtArgs>>): Prisma__CandidateReviewClient<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CandidateReviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateReviewFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CandidateReviews
+     * const candidateReviews = await prisma.candidateReview.findMany()
+     * 
+     * // Get first 10 CandidateReviews
+     * const candidateReviews = await prisma.candidateReview.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const candidateReviewWithIdOnly = await prisma.candidateReview.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CandidateReviewFindManyArgs>(args?: SelectSubset<T, CandidateReviewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CandidateReview.
+     * @param {CandidateReviewCreateArgs} args - Arguments to create a CandidateReview.
+     * @example
+     * // Create one CandidateReview
+     * const CandidateReview = await prisma.candidateReview.create({
+     *   data: {
+     *     // ... data to create a CandidateReview
+     *   }
+     * })
+     * 
+     */
+    create<T extends CandidateReviewCreateArgs>(args: SelectSubset<T, CandidateReviewCreateArgs<ExtArgs>>): Prisma__CandidateReviewClient<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CandidateReviews.
+     * @param {CandidateReviewCreateManyArgs} args - Arguments to create many CandidateReviews.
+     * @example
+     * // Create many CandidateReviews
+     * const candidateReview = await prisma.candidateReview.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CandidateReviewCreateManyArgs>(args?: SelectSubset<T, CandidateReviewCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CandidateReviews and returns the data saved in the database.
+     * @param {CandidateReviewCreateManyAndReturnArgs} args - Arguments to create many CandidateReviews.
+     * @example
+     * // Create many CandidateReviews
+     * const candidateReview = await prisma.candidateReview.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CandidateReviews and only return the `id`
+     * const candidateReviewWithIdOnly = await prisma.candidateReview.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CandidateReviewCreateManyAndReturnArgs>(args?: SelectSubset<T, CandidateReviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CandidateReview.
+     * @param {CandidateReviewDeleteArgs} args - Arguments to delete one CandidateReview.
+     * @example
+     * // Delete one CandidateReview
+     * const CandidateReview = await prisma.candidateReview.delete({
+     *   where: {
+     *     // ... filter to delete one CandidateReview
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CandidateReviewDeleteArgs>(args: SelectSubset<T, CandidateReviewDeleteArgs<ExtArgs>>): Prisma__CandidateReviewClient<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CandidateReview.
+     * @param {CandidateReviewUpdateArgs} args - Arguments to update one CandidateReview.
+     * @example
+     * // Update one CandidateReview
+     * const candidateReview = await prisma.candidateReview.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CandidateReviewUpdateArgs>(args: SelectSubset<T, CandidateReviewUpdateArgs<ExtArgs>>): Prisma__CandidateReviewClient<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CandidateReviews.
+     * @param {CandidateReviewDeleteManyArgs} args - Arguments to filter CandidateReviews to delete.
+     * @example
+     * // Delete a few CandidateReviews
+     * const { count } = await prisma.candidateReview.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CandidateReviewDeleteManyArgs>(args?: SelectSubset<T, CandidateReviewDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CandidateReviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateReviewUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CandidateReviews
+     * const candidateReview = await prisma.candidateReview.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CandidateReviewUpdateManyArgs>(args: SelectSubset<T, CandidateReviewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CandidateReviews and returns the data updated in the database.
+     * @param {CandidateReviewUpdateManyAndReturnArgs} args - Arguments to update many CandidateReviews.
+     * @example
+     * // Update many CandidateReviews
+     * const candidateReview = await prisma.candidateReview.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CandidateReviews and only return the `id`
+     * const candidateReviewWithIdOnly = await prisma.candidateReview.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CandidateReviewUpdateManyAndReturnArgs>(args: SelectSubset<T, CandidateReviewUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CandidateReview.
+     * @param {CandidateReviewUpsertArgs} args - Arguments to update or create a CandidateReview.
+     * @example
+     * // Update or create a CandidateReview
+     * const candidateReview = await prisma.candidateReview.upsert({
+     *   create: {
+     *     // ... data to create a CandidateReview
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CandidateReview we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CandidateReviewUpsertArgs>(args: SelectSubset<T, CandidateReviewUpsertArgs<ExtArgs>>): Prisma__CandidateReviewClient<$Result.GetResult<Prisma.$CandidateReviewPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CandidateReviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateReviewCountArgs} args - Arguments to filter CandidateReviews to count.
+     * @example
+     * // Count the number of CandidateReviews
+     * const count = await prisma.candidateReview.count({
+     *   where: {
+     *     // ... the filter for the CandidateReviews we want to count
+     *   }
+     * })
+    **/
+    count<T extends CandidateReviewCountArgs>(
+      args?: Subset<T, CandidateReviewCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CandidateReviewCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CandidateReview.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateReviewAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CandidateReviewAggregateArgs>(args: Subset<T, CandidateReviewAggregateArgs>): Prisma.PrismaPromise<GetCandidateReviewAggregateType<T>>
+
+    /**
+     * Group by CandidateReview.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateReviewGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CandidateReviewGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CandidateReviewGroupByArgs['orderBy'] }
+        : { orderBy?: CandidateReviewGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CandidateReviewGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCandidateReviewGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CandidateReview model
+   */
+  readonly fields: CandidateReviewFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CandidateReview.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CandidateReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CandidateReview model
+   */
+  interface CandidateReviewFieldRefs {
+    readonly id: FieldRef<"CandidateReview", 'String'>
+    readonly name: FieldRef<"CandidateReview", 'String'>
+    readonly role: FieldRef<"CandidateReview", 'String'>
+    readonly institution: FieldRef<"CandidateReview", 'String'>
+    readonly quote: FieldRef<"CandidateReview", 'String'>
+    readonly rating: FieldRef<"CandidateReview", 'Int'>
+    readonly isApproved: FieldRef<"CandidateReview", 'Boolean'>
+    readonly orderIndex: FieldRef<"CandidateReview", 'Int'>
+    readonly createdAt: FieldRef<"CandidateReview", 'DateTime'>
+    readonly updatedAt: FieldRef<"CandidateReview", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CandidateReview findUnique
+   */
+  export type CandidateReviewFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * Filter, which CandidateReview to fetch.
+     */
+    where: CandidateReviewWhereUniqueInput
+  }
+
+  /**
+   * CandidateReview findUniqueOrThrow
+   */
+  export type CandidateReviewFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * Filter, which CandidateReview to fetch.
+     */
+    where: CandidateReviewWhereUniqueInput
+  }
+
+  /**
+   * CandidateReview findFirst
+   */
+  export type CandidateReviewFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * Filter, which CandidateReview to fetch.
+     */
+    where?: CandidateReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CandidateReviews to fetch.
+     */
+    orderBy?: CandidateReviewOrderByWithRelationInput | CandidateReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CandidateReviews.
+     */
+    cursor?: CandidateReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CandidateReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CandidateReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CandidateReviews.
+     */
+    distinct?: CandidateReviewScalarFieldEnum | CandidateReviewScalarFieldEnum[]
+  }
+
+  /**
+   * CandidateReview findFirstOrThrow
+   */
+  export type CandidateReviewFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * Filter, which CandidateReview to fetch.
+     */
+    where?: CandidateReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CandidateReviews to fetch.
+     */
+    orderBy?: CandidateReviewOrderByWithRelationInput | CandidateReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CandidateReviews.
+     */
+    cursor?: CandidateReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CandidateReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CandidateReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CandidateReviews.
+     */
+    distinct?: CandidateReviewScalarFieldEnum | CandidateReviewScalarFieldEnum[]
+  }
+
+  /**
+   * CandidateReview findMany
+   */
+  export type CandidateReviewFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * Filter, which CandidateReviews to fetch.
+     */
+    where?: CandidateReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CandidateReviews to fetch.
+     */
+    orderBy?: CandidateReviewOrderByWithRelationInput | CandidateReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CandidateReviews.
+     */
+    cursor?: CandidateReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CandidateReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CandidateReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CandidateReviews.
+     */
+    distinct?: CandidateReviewScalarFieldEnum | CandidateReviewScalarFieldEnum[]
+  }
+
+  /**
+   * CandidateReview create
+   */
+  export type CandidateReviewCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * The data needed to create a CandidateReview.
+     */
+    data: XOR<CandidateReviewCreateInput, CandidateReviewUncheckedCreateInput>
+  }
+
+  /**
+   * CandidateReview createMany
+   */
+  export type CandidateReviewCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CandidateReviews.
+     */
+    data: CandidateReviewCreateManyInput | CandidateReviewCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CandidateReview createManyAndReturn
+   */
+  export type CandidateReviewCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * The data used to create many CandidateReviews.
+     */
+    data: CandidateReviewCreateManyInput | CandidateReviewCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CandidateReview update
+   */
+  export type CandidateReviewUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * The data needed to update a CandidateReview.
+     */
+    data: XOR<CandidateReviewUpdateInput, CandidateReviewUncheckedUpdateInput>
+    /**
+     * Choose, which CandidateReview to update.
+     */
+    where: CandidateReviewWhereUniqueInput
+  }
+
+  /**
+   * CandidateReview updateMany
+   */
+  export type CandidateReviewUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CandidateReviews.
+     */
+    data: XOR<CandidateReviewUpdateManyMutationInput, CandidateReviewUncheckedUpdateManyInput>
+    /**
+     * Filter which CandidateReviews to update
+     */
+    where?: CandidateReviewWhereInput
+    /**
+     * Limit how many CandidateReviews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CandidateReview updateManyAndReturn
+   */
+  export type CandidateReviewUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * The data used to update CandidateReviews.
+     */
+    data: XOR<CandidateReviewUpdateManyMutationInput, CandidateReviewUncheckedUpdateManyInput>
+    /**
+     * Filter which CandidateReviews to update
+     */
+    where?: CandidateReviewWhereInput
+    /**
+     * Limit how many CandidateReviews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CandidateReview upsert
+   */
+  export type CandidateReviewUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * The filter to search for the CandidateReview to update in case it exists.
+     */
+    where: CandidateReviewWhereUniqueInput
+    /**
+     * In case the CandidateReview found by the `where` argument doesn't exist, create a new CandidateReview with this data.
+     */
+    create: XOR<CandidateReviewCreateInput, CandidateReviewUncheckedCreateInput>
+    /**
+     * In case the CandidateReview was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CandidateReviewUpdateInput, CandidateReviewUncheckedUpdateInput>
+  }
+
+  /**
+   * CandidateReview delete
+   */
+  export type CandidateReviewDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+    /**
+     * Filter which CandidateReview to delete.
+     */
+    where: CandidateReviewWhereUniqueInput
+  }
+
+  /**
+   * CandidateReview deleteMany
+   */
+  export type CandidateReviewDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CandidateReviews to delete
+     */
+    where?: CandidateReviewWhereInput
+    /**
+     * Limit how many CandidateReviews to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CandidateReview without action
+   */
+  export type CandidateReviewDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateReview
+     */
+    select?: CandidateReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CandidateReview
+     */
+    omit?: CandidateReviewOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model ExamNotice
    */
 
@@ -41335,10 +43959,15 @@ export namespace Prisma {
     id: string | null
     jobId: string | null
     title: string | null
+    organization: string | null
+    category: string | null
     stage: $Enums.ExamStage | null
     examDate: Date | null
+    examTime: string | null
     venue: string | null
+    description: string | null
     noticeUrl: string | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -41347,10 +43976,15 @@ export namespace Prisma {
     id: string | null
     jobId: string | null
     title: string | null
+    organization: string | null
+    category: string | null
     stage: $Enums.ExamStage | null
     examDate: Date | null
+    examTime: string | null
     venue: string | null
+    description: string | null
     noticeUrl: string | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -41359,10 +43993,15 @@ export namespace Prisma {
     id: number
     jobId: number
     title: number
+    organization: number
+    category: number
     stage: number
     examDate: number
+    examTime: number
     venue: number
+    description: number
     noticeUrl: number
+    status: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -41373,10 +44012,15 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
     stage?: true
     examDate?: true
+    examTime?: true
     venue?: true
+    description?: true
     noticeUrl?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -41385,10 +44029,15 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
     stage?: true
     examDate?: true
+    examTime?: true
     venue?: true
+    description?: true
     noticeUrl?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -41397,10 +44046,15 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
     stage?: true
     examDate?: true
+    examTime?: true
     venue?: true
+    description?: true
     noticeUrl?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -41482,10 +44136,15 @@ export namespace Prisma {
     id: string
     jobId: string | null
     title: string
+    organization: string | null
+    category: string | null
     stage: $Enums.ExamStage
     examDate: Date | null
+    examTime: string | null
     venue: string | null
+    description: string | null
     noticeUrl: string | null
+    status: string
     createdAt: Date
     updatedAt: Date
     _count: ExamNoticeCountAggregateOutputType | null
@@ -41511,10 +44170,15 @@ export namespace Prisma {
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
     stage?: boolean
     examDate?: boolean
+    examTime?: boolean
     venue?: boolean
+    description?: boolean
     noticeUrl?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     job?: boolean | ExamNotice$jobArgs<ExtArgs>
@@ -41524,10 +44188,15 @@ export namespace Prisma {
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
     stage?: boolean
     examDate?: boolean
+    examTime?: boolean
     venue?: boolean
+    description?: boolean
     noticeUrl?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     job?: boolean | ExamNotice$jobArgs<ExtArgs>
@@ -41537,10 +44206,15 @@ export namespace Prisma {
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
     stage?: boolean
     examDate?: boolean
+    examTime?: boolean
     venue?: boolean
+    description?: boolean
     noticeUrl?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     job?: boolean | ExamNotice$jobArgs<ExtArgs>
@@ -41550,15 +44224,20 @@ export namespace Prisma {
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
     stage?: boolean
     examDate?: boolean
+    examTime?: boolean
     venue?: boolean
+    description?: boolean
     noticeUrl?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ExamNoticeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jobId" | "title" | "stage" | "examDate" | "venue" | "noticeUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["examNotice"]>
+  export type ExamNoticeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jobId" | "title" | "organization" | "category" | "stage" | "examDate" | "examTime" | "venue" | "description" | "noticeUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["examNotice"]>
   export type ExamNoticeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     job?: boolean | ExamNotice$jobArgs<ExtArgs>
   }
@@ -41578,10 +44257,15 @@ export namespace Prisma {
       id: string
       jobId: string | null
       title: string
+      organization: string | null
+      category: string | null
       stage: $Enums.ExamStage
       examDate: Date | null
+      examTime: string | null
       venue: string | null
+      description: string | null
       noticeUrl: string | null
+      status: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["examNotice"]>
@@ -42011,10 +44695,15 @@ export namespace Prisma {
     readonly id: FieldRef<"ExamNotice", 'String'>
     readonly jobId: FieldRef<"ExamNotice", 'String'>
     readonly title: FieldRef<"ExamNotice", 'String'>
+    readonly organization: FieldRef<"ExamNotice", 'String'>
+    readonly category: FieldRef<"ExamNotice", 'String'>
     readonly stage: FieldRef<"ExamNotice", 'ExamStage'>
     readonly examDate: FieldRef<"ExamNotice", 'DateTime'>
+    readonly examTime: FieldRef<"ExamNotice", 'String'>
     readonly venue: FieldRef<"ExamNotice", 'String'>
+    readonly description: FieldRef<"ExamNotice", 'String'>
     readonly noticeUrl: FieldRef<"ExamNotice", 'String'>
+    readonly status: FieldRef<"ExamNotice", 'String'>
     readonly createdAt: FieldRef<"ExamNotice", 'DateTime'>
     readonly updatedAt: FieldRef<"ExamNotice", 'DateTime'>
   }
@@ -42469,9 +45158,14 @@ export namespace Prisma {
     id: string | null
     jobId: string | null
     title: string | null
+    organization: string | null
+    category: string | null
+    examDate: Date | null
+    deadline: Date | null
     downloadUrl: string | null
     rollInstructions: string | null
     isAvailable: boolean | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -42480,9 +45174,14 @@ export namespace Prisma {
     id: string | null
     jobId: string | null
     title: string | null
+    organization: string | null
+    category: string | null
+    examDate: Date | null
+    deadline: Date | null
     downloadUrl: string | null
     rollInstructions: string | null
     isAvailable: boolean | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -42491,9 +45190,14 @@ export namespace Prisma {
     id: number
     jobId: number
     title: number
+    organization: number
+    category: number
+    examDate: number
+    deadline: number
     downloadUrl: number
     rollInstructions: number
     isAvailable: number
+    status: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -42504,9 +45208,14 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
+    examDate?: true
+    deadline?: true
     downloadUrl?: true
     rollInstructions?: true
     isAvailable?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -42515,9 +45224,14 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
+    examDate?: true
+    deadline?: true
     downloadUrl?: true
     rollInstructions?: true
     isAvailable?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -42526,9 +45240,14 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
+    examDate?: true
+    deadline?: true
     downloadUrl?: true
     rollInstructions?: true
     isAvailable?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -42608,11 +45327,16 @@ export namespace Prisma {
 
   export type AdmitCardGroupByOutputType = {
     id: string
-    jobId: string
+    jobId: string | null
     title: string
+    organization: string | null
+    category: string | null
+    examDate: Date | null
+    deadline: Date | null
     downloadUrl: string | null
     rollInstructions: string | null
     isAvailable: boolean
+    status: string
     createdAt: Date
     updatedAt: Date
     _count: AdmitCardCountAggregateOutputType | null
@@ -42638,72 +45362,97 @@ export namespace Prisma {
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
+    examDate?: boolean
+    deadline?: boolean
     downloadUrl?: boolean
     rollInstructions?: boolean
     isAvailable?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | AdmitCard$jobArgs<ExtArgs>
   }, ExtArgs["result"]["admitCard"]>
 
   export type AdmitCardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
+    examDate?: boolean
+    deadline?: boolean
     downloadUrl?: boolean
     rollInstructions?: boolean
     isAvailable?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | AdmitCard$jobArgs<ExtArgs>
   }, ExtArgs["result"]["admitCard"]>
 
   export type AdmitCardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
+    examDate?: boolean
+    deadline?: boolean
     downloadUrl?: boolean
     rollInstructions?: boolean
     isAvailable?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | AdmitCard$jobArgs<ExtArgs>
   }, ExtArgs["result"]["admitCard"]>
 
   export type AdmitCardSelectScalar = {
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
+    examDate?: boolean
+    deadline?: boolean
     downloadUrl?: boolean
     rollInstructions?: boolean
     isAvailable?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AdmitCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jobId" | "title" | "downloadUrl" | "rollInstructions" | "isAvailable" | "createdAt" | "updatedAt", ExtArgs["result"]["admitCard"]>
+  export type AdmitCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jobId" | "title" | "organization" | "category" | "examDate" | "deadline" | "downloadUrl" | "rollInstructions" | "isAvailable" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["admitCard"]>
   export type AdmitCardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | AdmitCard$jobArgs<ExtArgs>
   }
   export type AdmitCardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | AdmitCard$jobArgs<ExtArgs>
   }
   export type AdmitCardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | AdmitCard$jobArgs<ExtArgs>
   }
 
   export type $AdmitCardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AdmitCard"
     objects: {
-      job: Prisma.$JobCircularPayload<ExtArgs>
+      job: Prisma.$JobCircularPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      jobId: string
+      jobId: string | null
       title: string
+      organization: string | null
+      category: string | null
+      examDate: Date | null
+      deadline: Date | null
       downloadUrl: string | null
       rollInstructions: string | null
       isAvailable: boolean
+      status: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["admitCard"]>
@@ -43100,7 +45849,7 @@ export namespace Prisma {
    */
   export interface Prisma__AdmitCardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    job<T extends JobCircularDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JobCircularDefaultArgs<ExtArgs>>): Prisma__JobCircularClient<$Result.GetResult<Prisma.$JobCircularPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    job<T extends AdmitCard$jobArgs<ExtArgs> = {}>(args?: Subset<T, AdmitCard$jobArgs<ExtArgs>>): Prisma__JobCircularClient<$Result.GetResult<Prisma.$JobCircularPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -43133,9 +45882,14 @@ export namespace Prisma {
     readonly id: FieldRef<"AdmitCard", 'String'>
     readonly jobId: FieldRef<"AdmitCard", 'String'>
     readonly title: FieldRef<"AdmitCard", 'String'>
+    readonly organization: FieldRef<"AdmitCard", 'String'>
+    readonly category: FieldRef<"AdmitCard", 'String'>
+    readonly examDate: FieldRef<"AdmitCard", 'DateTime'>
+    readonly deadline: FieldRef<"AdmitCard", 'DateTime'>
     readonly downloadUrl: FieldRef<"AdmitCard", 'String'>
     readonly rollInstructions: FieldRef<"AdmitCard", 'String'>
     readonly isAvailable: FieldRef<"AdmitCard", 'Boolean'>
+    readonly status: FieldRef<"AdmitCard", 'String'>
     readonly createdAt: FieldRef<"AdmitCard", 'DateTime'>
     readonly updatedAt: FieldRef<"AdmitCard", 'DateTime'>
   }
@@ -43539,6 +46293,25 @@ export namespace Prisma {
   }
 
   /**
+   * AdmitCard.job
+   */
+  export type AdmitCard$jobArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobCircular
+     */
+    select?: JobCircularSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobCircular
+     */
+    omit?: JobCircularOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobCircularInclude<ExtArgs> | null
+    where?: JobCircularWhereInput
+  }
+
+  /**
    * AdmitCard without action
    */
   export type AdmitCardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -43571,8 +46344,12 @@ export namespace Prisma {
     id: string | null
     jobId: string | null
     title: string | null
+    organization: string | null
+    category: string | null
     stage: $Enums.ExamStage | null
+    summary: string | null
     pdfUrl: string | null
+    publishedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -43581,8 +46358,12 @@ export namespace Prisma {
     id: string | null
     jobId: string | null
     title: string | null
+    organization: string | null
+    category: string | null
     stage: $Enums.ExamStage | null
+    summary: string | null
     pdfUrl: string | null
+    publishedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -43591,9 +46372,13 @@ export namespace Prisma {
     id: number
     jobId: number
     title: number
+    organization: number
+    category: number
     stage: number
+    summary: number
     pdfUrl: number
     passedRolls: number
+    publishedAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -43604,8 +46389,12 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
     stage?: true
+    summary?: true
     pdfUrl?: true
+    publishedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -43614,8 +46403,12 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
     stage?: true
+    summary?: true
     pdfUrl?: true
+    publishedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -43624,9 +46417,13 @@ export namespace Prisma {
     id?: true
     jobId?: true
     title?: true
+    organization?: true
+    category?: true
     stage?: true
+    summary?: true
     pdfUrl?: true
     passedRolls?: true
+    publishedAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -43706,11 +46503,15 @@ export namespace Prisma {
 
   export type ExamResultGroupByOutputType = {
     id: string
-    jobId: string
+    jobId: string | null
     title: string
+    organization: string | null
+    category: string | null
     stage: $Enums.ExamStage
+    summary: string | null
     pdfUrl: string | null
     passedRolls: JsonValue | null
+    publishedAt: Date
     createdAt: Date
     updatedAt: Date
     _count: ExamResultCountAggregateOutputType | null
@@ -43736,72 +46537,92 @@ export namespace Prisma {
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
     stage?: boolean
+    summary?: boolean
     pdfUrl?: boolean
     passedRolls?: boolean
+    publishedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | ExamResult$jobArgs<ExtArgs>
   }, ExtArgs["result"]["examResult"]>
 
   export type ExamResultSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
     stage?: boolean
+    summary?: boolean
     pdfUrl?: boolean
     passedRolls?: boolean
+    publishedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | ExamResult$jobArgs<ExtArgs>
   }, ExtArgs["result"]["examResult"]>
 
   export type ExamResultSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
     stage?: boolean
+    summary?: boolean
     pdfUrl?: boolean
     passedRolls?: boolean
+    publishedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | ExamResult$jobArgs<ExtArgs>
   }, ExtArgs["result"]["examResult"]>
 
   export type ExamResultSelectScalar = {
     id?: boolean
     jobId?: boolean
     title?: boolean
+    organization?: boolean
+    category?: boolean
     stage?: boolean
+    summary?: boolean
     pdfUrl?: boolean
     passedRolls?: boolean
+    publishedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ExamResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jobId" | "title" | "stage" | "pdfUrl" | "passedRolls" | "createdAt" | "updatedAt", ExtArgs["result"]["examResult"]>
+  export type ExamResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jobId" | "title" | "organization" | "category" | "stage" | "summary" | "pdfUrl" | "passedRolls" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["examResult"]>
   export type ExamResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | ExamResult$jobArgs<ExtArgs>
   }
   export type ExamResultIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | ExamResult$jobArgs<ExtArgs>
   }
   export type ExamResultIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    job?: boolean | JobCircularDefaultArgs<ExtArgs>
+    job?: boolean | ExamResult$jobArgs<ExtArgs>
   }
 
   export type $ExamResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ExamResult"
     objects: {
-      job: Prisma.$JobCircularPayload<ExtArgs>
+      job: Prisma.$JobCircularPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      jobId: string
+      jobId: string | null
       title: string
+      organization: string | null
+      category: string | null
       stage: $Enums.ExamStage
+      summary: string | null
       pdfUrl: string | null
       passedRolls: Prisma.JsonValue | null
+      publishedAt: Date
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["examResult"]>
@@ -44198,7 +47019,7 @@ export namespace Prisma {
    */
   export interface Prisma__ExamResultClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    job<T extends JobCircularDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JobCircularDefaultArgs<ExtArgs>>): Prisma__JobCircularClient<$Result.GetResult<Prisma.$JobCircularPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    job<T extends ExamResult$jobArgs<ExtArgs> = {}>(args?: Subset<T, ExamResult$jobArgs<ExtArgs>>): Prisma__JobCircularClient<$Result.GetResult<Prisma.$JobCircularPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -44231,9 +47052,13 @@ export namespace Prisma {
     readonly id: FieldRef<"ExamResult", 'String'>
     readonly jobId: FieldRef<"ExamResult", 'String'>
     readonly title: FieldRef<"ExamResult", 'String'>
+    readonly organization: FieldRef<"ExamResult", 'String'>
+    readonly category: FieldRef<"ExamResult", 'String'>
     readonly stage: FieldRef<"ExamResult", 'ExamStage'>
+    readonly summary: FieldRef<"ExamResult", 'String'>
     readonly pdfUrl: FieldRef<"ExamResult", 'String'>
     readonly passedRolls: FieldRef<"ExamResult", 'Json'>
+    readonly publishedAt: FieldRef<"ExamResult", 'DateTime'>
     readonly createdAt: FieldRef<"ExamResult", 'DateTime'>
     readonly updatedAt: FieldRef<"ExamResult", 'DateTime'>
   }
@@ -44637,6 +47462,25 @@ export namespace Prisma {
   }
 
   /**
+   * ExamResult.job
+   */
+  export type ExamResult$jobArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobCircular
+     */
+    select?: JobCircularSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobCircular
+     */
+    omit?: JobCircularOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobCircularInclude<ExtArgs> | null
+    where?: JobCircularWhereInput
+  }
+
+  /**
    * ExamResult without action
    */
   export type ExamResultDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -44652,6 +47496,1084 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ExamResultInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VivaNotice
+   */
+
+  export type AggregateVivaNotice = {
+    _count: VivaNoticeCountAggregateOutputType | null
+    _min: VivaNoticeMinAggregateOutputType | null
+    _max: VivaNoticeMaxAggregateOutputType | null
+  }
+
+  export type VivaNoticeMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    organization: string | null
+    category: string | null
+    vivaDate: Date | null
+    venue: string | null
+    instructions: string | null
+    noticeUrl: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VivaNoticeMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    organization: string | null
+    category: string | null
+    vivaDate: Date | null
+    venue: string | null
+    instructions: string | null
+    noticeUrl: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VivaNoticeCountAggregateOutputType = {
+    id: number
+    title: number
+    organization: number
+    category: number
+    vivaDate: number
+    venue: number
+    instructions: number
+    noticeUrl: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VivaNoticeMinAggregateInputType = {
+    id?: true
+    title?: true
+    organization?: true
+    category?: true
+    vivaDate?: true
+    venue?: true
+    instructions?: true
+    noticeUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VivaNoticeMaxAggregateInputType = {
+    id?: true
+    title?: true
+    organization?: true
+    category?: true
+    vivaDate?: true
+    venue?: true
+    instructions?: true
+    noticeUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VivaNoticeCountAggregateInputType = {
+    id?: true
+    title?: true
+    organization?: true
+    category?: true
+    vivaDate?: true
+    venue?: true
+    instructions?: true
+    noticeUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VivaNoticeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VivaNotice to aggregate.
+     */
+    where?: VivaNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VivaNotices to fetch.
+     */
+    orderBy?: VivaNoticeOrderByWithRelationInput | VivaNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VivaNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VivaNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VivaNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VivaNotices
+    **/
+    _count?: true | VivaNoticeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VivaNoticeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VivaNoticeMaxAggregateInputType
+  }
+
+  export type GetVivaNoticeAggregateType<T extends VivaNoticeAggregateArgs> = {
+        [P in keyof T & keyof AggregateVivaNotice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVivaNotice[P]>
+      : GetScalarType<T[P], AggregateVivaNotice[P]>
+  }
+
+
+
+
+  export type VivaNoticeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VivaNoticeWhereInput
+    orderBy?: VivaNoticeOrderByWithAggregationInput | VivaNoticeOrderByWithAggregationInput[]
+    by: VivaNoticeScalarFieldEnum[] | VivaNoticeScalarFieldEnum
+    having?: VivaNoticeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VivaNoticeCountAggregateInputType | true
+    _min?: VivaNoticeMinAggregateInputType
+    _max?: VivaNoticeMaxAggregateInputType
+  }
+
+  export type VivaNoticeGroupByOutputType = {
+    id: string
+    title: string
+    organization: string | null
+    category: string | null
+    vivaDate: Date | null
+    venue: string | null
+    instructions: string | null
+    noticeUrl: string | null
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: VivaNoticeCountAggregateOutputType | null
+    _min: VivaNoticeMinAggregateOutputType | null
+    _max: VivaNoticeMaxAggregateOutputType | null
+  }
+
+  type GetVivaNoticeGroupByPayload<T extends VivaNoticeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VivaNoticeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VivaNoticeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VivaNoticeGroupByOutputType[P]>
+            : GetScalarType<T[P], VivaNoticeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VivaNoticeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    organization?: boolean
+    category?: boolean
+    vivaDate?: boolean
+    venue?: boolean
+    instructions?: boolean
+    noticeUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["vivaNotice"]>
+
+  export type VivaNoticeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    organization?: boolean
+    category?: boolean
+    vivaDate?: boolean
+    venue?: boolean
+    instructions?: boolean
+    noticeUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["vivaNotice"]>
+
+  export type VivaNoticeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    organization?: boolean
+    category?: boolean
+    vivaDate?: boolean
+    venue?: boolean
+    instructions?: boolean
+    noticeUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["vivaNotice"]>
+
+  export type VivaNoticeSelectScalar = {
+    id?: boolean
+    title?: boolean
+    organization?: boolean
+    category?: boolean
+    vivaDate?: boolean
+    venue?: boolean
+    instructions?: boolean
+    noticeUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VivaNoticeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "organization" | "category" | "vivaDate" | "venue" | "instructions" | "noticeUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["vivaNotice"]>
+
+  export type $VivaNoticePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VivaNotice"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      organization: string | null
+      category: string | null
+      vivaDate: Date | null
+      venue: string | null
+      instructions: string | null
+      noticeUrl: string | null
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["vivaNotice"]>
+    composites: {}
+  }
+
+  type VivaNoticeGetPayload<S extends boolean | null | undefined | VivaNoticeDefaultArgs> = $Result.GetResult<Prisma.$VivaNoticePayload, S>
+
+  type VivaNoticeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VivaNoticeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VivaNoticeCountAggregateInputType | true
+    }
+
+  export interface VivaNoticeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VivaNotice'], meta: { name: 'VivaNotice' } }
+    /**
+     * Find zero or one VivaNotice that matches the filter.
+     * @param {VivaNoticeFindUniqueArgs} args - Arguments to find a VivaNotice
+     * @example
+     * // Get one VivaNotice
+     * const vivaNotice = await prisma.vivaNotice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VivaNoticeFindUniqueArgs>(args: SelectSubset<T, VivaNoticeFindUniqueArgs<ExtArgs>>): Prisma__VivaNoticeClient<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VivaNotice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VivaNoticeFindUniqueOrThrowArgs} args - Arguments to find a VivaNotice
+     * @example
+     * // Get one VivaNotice
+     * const vivaNotice = await prisma.vivaNotice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VivaNoticeFindUniqueOrThrowArgs>(args: SelectSubset<T, VivaNoticeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VivaNoticeClient<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VivaNotice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VivaNoticeFindFirstArgs} args - Arguments to find a VivaNotice
+     * @example
+     * // Get one VivaNotice
+     * const vivaNotice = await prisma.vivaNotice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VivaNoticeFindFirstArgs>(args?: SelectSubset<T, VivaNoticeFindFirstArgs<ExtArgs>>): Prisma__VivaNoticeClient<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VivaNotice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VivaNoticeFindFirstOrThrowArgs} args - Arguments to find a VivaNotice
+     * @example
+     * // Get one VivaNotice
+     * const vivaNotice = await prisma.vivaNotice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VivaNoticeFindFirstOrThrowArgs>(args?: SelectSubset<T, VivaNoticeFindFirstOrThrowArgs<ExtArgs>>): Prisma__VivaNoticeClient<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VivaNotices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VivaNoticeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VivaNotices
+     * const vivaNotices = await prisma.vivaNotice.findMany()
+     * 
+     * // Get first 10 VivaNotices
+     * const vivaNotices = await prisma.vivaNotice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vivaNoticeWithIdOnly = await prisma.vivaNotice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VivaNoticeFindManyArgs>(args?: SelectSubset<T, VivaNoticeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VivaNotice.
+     * @param {VivaNoticeCreateArgs} args - Arguments to create a VivaNotice.
+     * @example
+     * // Create one VivaNotice
+     * const VivaNotice = await prisma.vivaNotice.create({
+     *   data: {
+     *     // ... data to create a VivaNotice
+     *   }
+     * })
+     * 
+     */
+    create<T extends VivaNoticeCreateArgs>(args: SelectSubset<T, VivaNoticeCreateArgs<ExtArgs>>): Prisma__VivaNoticeClient<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VivaNotices.
+     * @param {VivaNoticeCreateManyArgs} args - Arguments to create many VivaNotices.
+     * @example
+     * // Create many VivaNotices
+     * const vivaNotice = await prisma.vivaNotice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VivaNoticeCreateManyArgs>(args?: SelectSubset<T, VivaNoticeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VivaNotices and returns the data saved in the database.
+     * @param {VivaNoticeCreateManyAndReturnArgs} args - Arguments to create many VivaNotices.
+     * @example
+     * // Create many VivaNotices
+     * const vivaNotice = await prisma.vivaNotice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VivaNotices and only return the `id`
+     * const vivaNoticeWithIdOnly = await prisma.vivaNotice.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VivaNoticeCreateManyAndReturnArgs>(args?: SelectSubset<T, VivaNoticeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VivaNotice.
+     * @param {VivaNoticeDeleteArgs} args - Arguments to delete one VivaNotice.
+     * @example
+     * // Delete one VivaNotice
+     * const VivaNotice = await prisma.vivaNotice.delete({
+     *   where: {
+     *     // ... filter to delete one VivaNotice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VivaNoticeDeleteArgs>(args: SelectSubset<T, VivaNoticeDeleteArgs<ExtArgs>>): Prisma__VivaNoticeClient<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VivaNotice.
+     * @param {VivaNoticeUpdateArgs} args - Arguments to update one VivaNotice.
+     * @example
+     * // Update one VivaNotice
+     * const vivaNotice = await prisma.vivaNotice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VivaNoticeUpdateArgs>(args: SelectSubset<T, VivaNoticeUpdateArgs<ExtArgs>>): Prisma__VivaNoticeClient<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VivaNotices.
+     * @param {VivaNoticeDeleteManyArgs} args - Arguments to filter VivaNotices to delete.
+     * @example
+     * // Delete a few VivaNotices
+     * const { count } = await prisma.vivaNotice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VivaNoticeDeleteManyArgs>(args?: SelectSubset<T, VivaNoticeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VivaNotices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VivaNoticeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VivaNotices
+     * const vivaNotice = await prisma.vivaNotice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VivaNoticeUpdateManyArgs>(args: SelectSubset<T, VivaNoticeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VivaNotices and returns the data updated in the database.
+     * @param {VivaNoticeUpdateManyAndReturnArgs} args - Arguments to update many VivaNotices.
+     * @example
+     * // Update many VivaNotices
+     * const vivaNotice = await prisma.vivaNotice.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VivaNotices and only return the `id`
+     * const vivaNoticeWithIdOnly = await prisma.vivaNotice.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VivaNoticeUpdateManyAndReturnArgs>(args: SelectSubset<T, VivaNoticeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VivaNotice.
+     * @param {VivaNoticeUpsertArgs} args - Arguments to update or create a VivaNotice.
+     * @example
+     * // Update or create a VivaNotice
+     * const vivaNotice = await prisma.vivaNotice.upsert({
+     *   create: {
+     *     // ... data to create a VivaNotice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VivaNotice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VivaNoticeUpsertArgs>(args: SelectSubset<T, VivaNoticeUpsertArgs<ExtArgs>>): Prisma__VivaNoticeClient<$Result.GetResult<Prisma.$VivaNoticePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VivaNotices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VivaNoticeCountArgs} args - Arguments to filter VivaNotices to count.
+     * @example
+     * // Count the number of VivaNotices
+     * const count = await prisma.vivaNotice.count({
+     *   where: {
+     *     // ... the filter for the VivaNotices we want to count
+     *   }
+     * })
+    **/
+    count<T extends VivaNoticeCountArgs>(
+      args?: Subset<T, VivaNoticeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VivaNoticeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VivaNotice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VivaNoticeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VivaNoticeAggregateArgs>(args: Subset<T, VivaNoticeAggregateArgs>): Prisma.PrismaPromise<GetVivaNoticeAggregateType<T>>
+
+    /**
+     * Group by VivaNotice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VivaNoticeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VivaNoticeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VivaNoticeGroupByArgs['orderBy'] }
+        : { orderBy?: VivaNoticeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VivaNoticeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVivaNoticeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VivaNotice model
+   */
+  readonly fields: VivaNoticeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VivaNotice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VivaNoticeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VivaNotice model
+   */
+  interface VivaNoticeFieldRefs {
+    readonly id: FieldRef<"VivaNotice", 'String'>
+    readonly title: FieldRef<"VivaNotice", 'String'>
+    readonly organization: FieldRef<"VivaNotice", 'String'>
+    readonly category: FieldRef<"VivaNotice", 'String'>
+    readonly vivaDate: FieldRef<"VivaNotice", 'DateTime'>
+    readonly venue: FieldRef<"VivaNotice", 'String'>
+    readonly instructions: FieldRef<"VivaNotice", 'String'>
+    readonly noticeUrl: FieldRef<"VivaNotice", 'String'>
+    readonly status: FieldRef<"VivaNotice", 'String'>
+    readonly createdAt: FieldRef<"VivaNotice", 'DateTime'>
+    readonly updatedAt: FieldRef<"VivaNotice", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VivaNotice findUnique
+   */
+  export type VivaNoticeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which VivaNotice to fetch.
+     */
+    where: VivaNoticeWhereUniqueInput
+  }
+
+  /**
+   * VivaNotice findUniqueOrThrow
+   */
+  export type VivaNoticeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which VivaNotice to fetch.
+     */
+    where: VivaNoticeWhereUniqueInput
+  }
+
+  /**
+   * VivaNotice findFirst
+   */
+  export type VivaNoticeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which VivaNotice to fetch.
+     */
+    where?: VivaNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VivaNotices to fetch.
+     */
+    orderBy?: VivaNoticeOrderByWithRelationInput | VivaNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VivaNotices.
+     */
+    cursor?: VivaNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VivaNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VivaNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VivaNotices.
+     */
+    distinct?: VivaNoticeScalarFieldEnum | VivaNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * VivaNotice findFirstOrThrow
+   */
+  export type VivaNoticeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which VivaNotice to fetch.
+     */
+    where?: VivaNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VivaNotices to fetch.
+     */
+    orderBy?: VivaNoticeOrderByWithRelationInput | VivaNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VivaNotices.
+     */
+    cursor?: VivaNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VivaNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VivaNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VivaNotices.
+     */
+    distinct?: VivaNoticeScalarFieldEnum | VivaNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * VivaNotice findMany
+   */
+  export type VivaNoticeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which VivaNotices to fetch.
+     */
+    where?: VivaNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VivaNotices to fetch.
+     */
+    orderBy?: VivaNoticeOrderByWithRelationInput | VivaNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VivaNotices.
+     */
+    cursor?: VivaNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VivaNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VivaNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VivaNotices.
+     */
+    distinct?: VivaNoticeScalarFieldEnum | VivaNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * VivaNotice create
+   */
+  export type VivaNoticeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * The data needed to create a VivaNotice.
+     */
+    data: XOR<VivaNoticeCreateInput, VivaNoticeUncheckedCreateInput>
+  }
+
+  /**
+   * VivaNotice createMany
+   */
+  export type VivaNoticeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VivaNotices.
+     */
+    data: VivaNoticeCreateManyInput | VivaNoticeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VivaNotice createManyAndReturn
+   */
+  export type VivaNoticeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * The data used to create many VivaNotices.
+     */
+    data: VivaNoticeCreateManyInput | VivaNoticeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VivaNotice update
+   */
+  export type VivaNoticeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * The data needed to update a VivaNotice.
+     */
+    data: XOR<VivaNoticeUpdateInput, VivaNoticeUncheckedUpdateInput>
+    /**
+     * Choose, which VivaNotice to update.
+     */
+    where: VivaNoticeWhereUniqueInput
+  }
+
+  /**
+   * VivaNotice updateMany
+   */
+  export type VivaNoticeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VivaNotices.
+     */
+    data: XOR<VivaNoticeUpdateManyMutationInput, VivaNoticeUncheckedUpdateManyInput>
+    /**
+     * Filter which VivaNotices to update
+     */
+    where?: VivaNoticeWhereInput
+    /**
+     * Limit how many VivaNotices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VivaNotice updateManyAndReturn
+   */
+  export type VivaNoticeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * The data used to update VivaNotices.
+     */
+    data: XOR<VivaNoticeUpdateManyMutationInput, VivaNoticeUncheckedUpdateManyInput>
+    /**
+     * Filter which VivaNotices to update
+     */
+    where?: VivaNoticeWhereInput
+    /**
+     * Limit how many VivaNotices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VivaNotice upsert
+   */
+  export type VivaNoticeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * The filter to search for the VivaNotice to update in case it exists.
+     */
+    where: VivaNoticeWhereUniqueInput
+    /**
+     * In case the VivaNotice found by the `where` argument doesn't exist, create a new VivaNotice with this data.
+     */
+    create: XOR<VivaNoticeCreateInput, VivaNoticeUncheckedCreateInput>
+    /**
+     * In case the VivaNotice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VivaNoticeUpdateInput, VivaNoticeUncheckedUpdateInput>
+  }
+
+  /**
+   * VivaNotice delete
+   */
+  export type VivaNoticeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
+    /**
+     * Filter which VivaNotice to delete.
+     */
+    where: VivaNoticeWhereUniqueInput
+  }
+
+  /**
+   * VivaNotice deleteMany
+   */
+  export type VivaNoticeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VivaNotices to delete
+     */
+    where?: VivaNoticeWhereInput
+    /**
+     * Limit how many VivaNotices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VivaNotice without action
+   */
+  export type VivaNoticeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VivaNotice
+     */
+    select?: VivaNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VivaNotice
+     */
+    omit?: VivaNoticeOmit<ExtArgs> | null
   }
 
 
@@ -45769,19 +49691,24 @@ export namespace Prisma {
   export type ModelTestAvgAggregateOutputType = {
     totalMarks: number | null
     durationMinutes: number | null
+    negativeMark: number | null
   }
 
   export type ModelTestSumAggregateOutputType = {
     totalMarks: number | null
     durationMinutes: number | null
+    negativeMark: number | null
   }
 
   export type ModelTestMinAggregateOutputType = {
     id: string | null
     title: string | null
     category: string | null
+    description: string | null
     totalMarks: number | null
     durationMinutes: number | null
+    negativeMark: number | null
+    isPublished: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -45790,8 +49717,11 @@ export namespace Prisma {
     id: string | null
     title: string | null
     category: string | null
+    description: string | null
     totalMarks: number | null
     durationMinutes: number | null
+    negativeMark: number | null
+    isPublished: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -45800,8 +49730,11 @@ export namespace Prisma {
     id: number
     title: number
     category: number
+    description: number
     totalMarks: number
     durationMinutes: number
+    negativeMark: number
+    isPublished: number
     questions: number
     createdAt: number
     updatedAt: number
@@ -45812,19 +49745,24 @@ export namespace Prisma {
   export type ModelTestAvgAggregateInputType = {
     totalMarks?: true
     durationMinutes?: true
+    negativeMark?: true
   }
 
   export type ModelTestSumAggregateInputType = {
     totalMarks?: true
     durationMinutes?: true
+    negativeMark?: true
   }
 
   export type ModelTestMinAggregateInputType = {
     id?: true
     title?: true
     category?: true
+    description?: true
     totalMarks?: true
     durationMinutes?: true
+    negativeMark?: true
+    isPublished?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -45833,8 +49771,11 @@ export namespace Prisma {
     id?: true
     title?: true
     category?: true
+    description?: true
     totalMarks?: true
     durationMinutes?: true
+    negativeMark?: true
+    isPublished?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -45843,8 +49784,11 @@ export namespace Prisma {
     id?: true
     title?: true
     category?: true
+    description?: true
     totalMarks?: true
     durationMinutes?: true
+    negativeMark?: true
+    isPublished?: true
     questions?: true
     createdAt?: true
     updatedAt?: true
@@ -45941,8 +49885,11 @@ export namespace Prisma {
     id: string
     title: string
     category: string
+    description: string | null
     totalMarks: number
     durationMinutes: number
+    negativeMark: number
+    isPublished: boolean
     questions: JsonValue
     createdAt: Date
     updatedAt: Date
@@ -45971,19 +49918,27 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     category?: boolean
+    description?: boolean
     totalMarks?: boolean
     durationMinutes?: boolean
+    negativeMark?: boolean
+    isPublished?: boolean
     questions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    attempts?: boolean | ModelTest$attemptsArgs<ExtArgs>
+    _count?: boolean | ModelTestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["modelTest"]>
 
   export type ModelTestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     category?: boolean
+    description?: boolean
     totalMarks?: boolean
     durationMinutes?: boolean
+    negativeMark?: boolean
+    isPublished?: boolean
     questions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -45993,8 +49948,11 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     category?: boolean
+    description?: boolean
     totalMarks?: boolean
     durationMinutes?: boolean
+    negativeMark?: boolean
+    isPublished?: boolean
     questions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -46004,24 +49962,38 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     category?: boolean
+    description?: boolean
     totalMarks?: boolean
     durationMinutes?: boolean
+    negativeMark?: boolean
+    isPublished?: boolean
     questions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ModelTestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "category" | "totalMarks" | "durationMinutes" | "questions" | "createdAt" | "updatedAt", ExtArgs["result"]["modelTest"]>
+  export type ModelTestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "category" | "description" | "totalMarks" | "durationMinutes" | "negativeMark" | "isPublished" | "questions" | "createdAt" | "updatedAt", ExtArgs["result"]["modelTest"]>
+  export type ModelTestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attempts?: boolean | ModelTest$attemptsArgs<ExtArgs>
+    _count?: boolean | ModelTestCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ModelTestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ModelTestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ModelTestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ModelTest"
-    objects: {}
+    objects: {
+      attempts: Prisma.$ModelTestAttemptPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
       category: string
+      description: string | null
       totalMarks: number
       durationMinutes: number
+      negativeMark: number
+      isPublished: boolean
       questions: Prisma.JsonValue
       createdAt: Date
       updatedAt: Date
@@ -46419,6 +50391,7 @@ export namespace Prisma {
    */
   export interface Prisma__ModelTestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    attempts<T extends ModelTest$attemptsArgs<ExtArgs> = {}>(args?: Subset<T, ModelTest$attemptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -46451,8 +50424,11 @@ export namespace Prisma {
     readonly id: FieldRef<"ModelTest", 'String'>
     readonly title: FieldRef<"ModelTest", 'String'>
     readonly category: FieldRef<"ModelTest", 'String'>
+    readonly description: FieldRef<"ModelTest", 'String'>
     readonly totalMarks: FieldRef<"ModelTest", 'Int'>
     readonly durationMinutes: FieldRef<"ModelTest", 'Int'>
+    readonly negativeMark: FieldRef<"ModelTest", 'Float'>
+    readonly isPublished: FieldRef<"ModelTest", 'Boolean'>
     readonly questions: FieldRef<"ModelTest", 'Json'>
     readonly createdAt: FieldRef<"ModelTest", 'DateTime'>
     readonly updatedAt: FieldRef<"ModelTest", 'DateTime'>
@@ -46473,6 +50449,10 @@ export namespace Prisma {
      */
     omit?: ModelTestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
+    /**
      * Filter, which ModelTest to fetch.
      */
     where: ModelTestWhereUniqueInput
@@ -46491,6 +50471,10 @@ export namespace Prisma {
      */
     omit?: ModelTestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
+    /**
      * Filter, which ModelTest to fetch.
      */
     where: ModelTestWhereUniqueInput
@@ -46508,6 +50492,10 @@ export namespace Prisma {
      * Omit specific fields from the ModelTest
      */
     omit?: ModelTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
     /**
      * Filter, which ModelTest to fetch.
      */
@@ -46557,6 +50545,10 @@ export namespace Prisma {
      */
     omit?: ModelTestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
+    /**
      * Filter, which ModelTest to fetch.
      */
     where?: ModelTestWhereInput
@@ -46604,6 +50596,10 @@ export namespace Prisma {
      * Omit specific fields from the ModelTest
      */
     omit?: ModelTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
     /**
      * Filter, which ModelTests to fetch.
      */
@@ -46653,6 +50649,10 @@ export namespace Prisma {
      */
     omit?: ModelTestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
+    /**
      * The data needed to create a ModelTest.
      */
     data: XOR<ModelTestCreateInput, ModelTestUncheckedCreateInput>
@@ -46700,6 +50700,10 @@ export namespace Prisma {
      * Omit specific fields from the ModelTest
      */
     omit?: ModelTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
     /**
      * The data needed to update a ModelTest.
      */
@@ -46767,6 +50771,10 @@ export namespace Prisma {
      */
     omit?: ModelTestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
+    /**
      * The filter to search for the ModelTest to update in case it exists.
      */
     where: ModelTestWhereUniqueInput
@@ -46793,6 +50801,10 @@ export namespace Prisma {
      */
     omit?: ModelTestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
+    /**
      * Filter which ModelTest to delete.
      */
     where: ModelTestWhereUniqueInput
@@ -46813,6 +50825,30 @@ export namespace Prisma {
   }
 
   /**
+   * ModelTest.attempts
+   */
+  export type ModelTest$attemptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    where?: ModelTestAttemptWhereInput
+    orderBy?: ModelTestAttemptOrderByWithRelationInput | ModelTestAttemptOrderByWithRelationInput[]
+    cursor?: ModelTestAttemptWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelTestAttemptScalarFieldEnum | ModelTestAttemptScalarFieldEnum[]
+  }
+
+  /**
    * ModelTest without action
    */
   export type ModelTestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -46824,6 +50860,1248 @@ export namespace Prisma {
      * Omit specific fields from the ModelTest
      */
     omit?: ModelTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ModelTestAttempt
+   */
+
+  export type AggregateModelTestAttempt = {
+    _count: ModelTestAttemptCountAggregateOutputType | null
+    _avg: ModelTestAttemptAvgAggregateOutputType | null
+    _sum: ModelTestAttemptSumAggregateOutputType | null
+    _min: ModelTestAttemptMinAggregateOutputType | null
+    _max: ModelTestAttemptMaxAggregateOutputType | null
+  }
+
+  export type ModelTestAttemptAvgAggregateOutputType = {
+    totalQuestions: number | null
+    correctCount: number | null
+    wrongCount: number | null
+    skippedCount: number | null
+    score: number | null
+    totalMarks: number | null
+    accuracy: number | null
+    durationSec: number | null
+  }
+
+  export type ModelTestAttemptSumAggregateOutputType = {
+    totalQuestions: number | null
+    correctCount: number | null
+    wrongCount: number | null
+    skippedCount: number | null
+    score: number | null
+    totalMarks: number | null
+    accuracy: number | null
+    durationSec: number | null
+  }
+
+  export type ModelTestAttemptMinAggregateOutputType = {
+    id: string | null
+    candidateId: string | null
+    modelTestId: string | null
+    category: string | null
+    totalQuestions: number | null
+    correctCount: number | null
+    wrongCount: number | null
+    skippedCount: number | null
+    score: number | null
+    totalMarks: number | null
+    accuracy: number | null
+    durationSec: number | null
+    createdAt: Date | null
+  }
+
+  export type ModelTestAttemptMaxAggregateOutputType = {
+    id: string | null
+    candidateId: string | null
+    modelTestId: string | null
+    category: string | null
+    totalQuestions: number | null
+    correctCount: number | null
+    wrongCount: number | null
+    skippedCount: number | null
+    score: number | null
+    totalMarks: number | null
+    accuracy: number | null
+    durationSec: number | null
+    createdAt: Date | null
+  }
+
+  export type ModelTestAttemptCountAggregateOutputType = {
+    id: number
+    candidateId: number
+    modelTestId: number
+    category: number
+    totalQuestions: number
+    correctCount: number
+    wrongCount: number
+    skippedCount: number
+    score: number
+    totalMarks: number
+    accuracy: number
+    durationSec: number
+    answers: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ModelTestAttemptAvgAggregateInputType = {
+    totalQuestions?: true
+    correctCount?: true
+    wrongCount?: true
+    skippedCount?: true
+    score?: true
+    totalMarks?: true
+    accuracy?: true
+    durationSec?: true
+  }
+
+  export type ModelTestAttemptSumAggregateInputType = {
+    totalQuestions?: true
+    correctCount?: true
+    wrongCount?: true
+    skippedCount?: true
+    score?: true
+    totalMarks?: true
+    accuracy?: true
+    durationSec?: true
+  }
+
+  export type ModelTestAttemptMinAggregateInputType = {
+    id?: true
+    candidateId?: true
+    modelTestId?: true
+    category?: true
+    totalQuestions?: true
+    correctCount?: true
+    wrongCount?: true
+    skippedCount?: true
+    score?: true
+    totalMarks?: true
+    accuracy?: true
+    durationSec?: true
+    createdAt?: true
+  }
+
+  export type ModelTestAttemptMaxAggregateInputType = {
+    id?: true
+    candidateId?: true
+    modelTestId?: true
+    category?: true
+    totalQuestions?: true
+    correctCount?: true
+    wrongCount?: true
+    skippedCount?: true
+    score?: true
+    totalMarks?: true
+    accuracy?: true
+    durationSec?: true
+    createdAt?: true
+  }
+
+  export type ModelTestAttemptCountAggregateInputType = {
+    id?: true
+    candidateId?: true
+    modelTestId?: true
+    category?: true
+    totalQuestions?: true
+    correctCount?: true
+    wrongCount?: true
+    skippedCount?: true
+    score?: true
+    totalMarks?: true
+    accuracy?: true
+    durationSec?: true
+    answers?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ModelTestAttemptAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ModelTestAttempt to aggregate.
+     */
+    where?: ModelTestAttemptWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelTestAttempts to fetch.
+     */
+    orderBy?: ModelTestAttemptOrderByWithRelationInput | ModelTestAttemptOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ModelTestAttemptWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelTestAttempts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelTestAttempts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ModelTestAttempts
+    **/
+    _count?: true | ModelTestAttemptCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ModelTestAttemptAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ModelTestAttemptSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ModelTestAttemptMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ModelTestAttemptMaxAggregateInputType
+  }
+
+  export type GetModelTestAttemptAggregateType<T extends ModelTestAttemptAggregateArgs> = {
+        [P in keyof T & keyof AggregateModelTestAttempt]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateModelTestAttempt[P]>
+      : GetScalarType<T[P], AggregateModelTestAttempt[P]>
+  }
+
+
+
+
+  export type ModelTestAttemptGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelTestAttemptWhereInput
+    orderBy?: ModelTestAttemptOrderByWithAggregationInput | ModelTestAttemptOrderByWithAggregationInput[]
+    by: ModelTestAttemptScalarFieldEnum[] | ModelTestAttemptScalarFieldEnum
+    having?: ModelTestAttemptScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ModelTestAttemptCountAggregateInputType | true
+    _avg?: ModelTestAttemptAvgAggregateInputType
+    _sum?: ModelTestAttemptSumAggregateInputType
+    _min?: ModelTestAttemptMinAggregateInputType
+    _max?: ModelTestAttemptMaxAggregateInputType
+  }
+
+  export type ModelTestAttemptGroupByOutputType = {
+    id: string
+    candidateId: string
+    modelTestId: string
+    category: string
+    totalQuestions: number
+    correctCount: number
+    wrongCount: number
+    skippedCount: number
+    score: number
+    totalMarks: number
+    accuracy: number
+    durationSec: number | null
+    answers: JsonValue | null
+    createdAt: Date
+    _count: ModelTestAttemptCountAggregateOutputType | null
+    _avg: ModelTestAttemptAvgAggregateOutputType | null
+    _sum: ModelTestAttemptSumAggregateOutputType | null
+    _min: ModelTestAttemptMinAggregateOutputType | null
+    _max: ModelTestAttemptMaxAggregateOutputType | null
+  }
+
+  type GetModelTestAttemptGroupByPayload<T extends ModelTestAttemptGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ModelTestAttemptGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ModelTestAttemptGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ModelTestAttemptGroupByOutputType[P]>
+            : GetScalarType<T[P], ModelTestAttemptGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ModelTestAttemptSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    modelTestId?: boolean
+    category?: boolean
+    totalQuestions?: boolean
+    correctCount?: boolean
+    wrongCount?: boolean
+    skippedCount?: boolean
+    score?: boolean
+    totalMarks?: boolean
+    accuracy?: boolean
+    durationSec?: boolean
+    answers?: boolean
+    createdAt?: boolean
+    modelTest?: boolean | ModelTestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelTestAttempt"]>
+
+  export type ModelTestAttemptSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    modelTestId?: boolean
+    category?: boolean
+    totalQuestions?: boolean
+    correctCount?: boolean
+    wrongCount?: boolean
+    skippedCount?: boolean
+    score?: boolean
+    totalMarks?: boolean
+    accuracy?: boolean
+    durationSec?: boolean
+    answers?: boolean
+    createdAt?: boolean
+    modelTest?: boolean | ModelTestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelTestAttempt"]>
+
+  export type ModelTestAttemptSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    modelTestId?: boolean
+    category?: boolean
+    totalQuestions?: boolean
+    correctCount?: boolean
+    wrongCount?: boolean
+    skippedCount?: boolean
+    score?: boolean
+    totalMarks?: boolean
+    accuracy?: boolean
+    durationSec?: boolean
+    answers?: boolean
+    createdAt?: boolean
+    modelTest?: boolean | ModelTestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelTestAttempt"]>
+
+  export type ModelTestAttemptSelectScalar = {
+    id?: boolean
+    candidateId?: boolean
+    modelTestId?: boolean
+    category?: boolean
+    totalQuestions?: boolean
+    correctCount?: boolean
+    wrongCount?: boolean
+    skippedCount?: boolean
+    score?: boolean
+    totalMarks?: boolean
+    accuracy?: boolean
+    durationSec?: boolean
+    answers?: boolean
+    createdAt?: boolean
+  }
+
+  export type ModelTestAttemptOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "candidateId" | "modelTestId" | "category" | "totalQuestions" | "correctCount" | "wrongCount" | "skippedCount" | "score" | "totalMarks" | "accuracy" | "durationSec" | "answers" | "createdAt", ExtArgs["result"]["modelTestAttempt"]>
+  export type ModelTestAttemptInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    modelTest?: boolean | ModelTestDefaultArgs<ExtArgs>
+  }
+  export type ModelTestAttemptIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    modelTest?: boolean | ModelTestDefaultArgs<ExtArgs>
+  }
+  export type ModelTestAttemptIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    modelTest?: boolean | ModelTestDefaultArgs<ExtArgs>
+  }
+
+  export type $ModelTestAttemptPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ModelTestAttempt"
+    objects: {
+      modelTest: Prisma.$ModelTestPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      candidateId: string
+      modelTestId: string
+      category: string
+      totalQuestions: number
+      correctCount: number
+      wrongCount: number
+      skippedCount: number
+      score: number
+      totalMarks: number
+      accuracy: number
+      durationSec: number | null
+      answers: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["modelTestAttempt"]>
+    composites: {}
+  }
+
+  type ModelTestAttemptGetPayload<S extends boolean | null | undefined | ModelTestAttemptDefaultArgs> = $Result.GetResult<Prisma.$ModelTestAttemptPayload, S>
+
+  type ModelTestAttemptCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ModelTestAttemptFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ModelTestAttemptCountAggregateInputType | true
+    }
+
+  export interface ModelTestAttemptDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ModelTestAttempt'], meta: { name: 'ModelTestAttempt' } }
+    /**
+     * Find zero or one ModelTestAttempt that matches the filter.
+     * @param {ModelTestAttemptFindUniqueArgs} args - Arguments to find a ModelTestAttempt
+     * @example
+     * // Get one ModelTestAttempt
+     * const modelTestAttempt = await prisma.modelTestAttempt.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ModelTestAttemptFindUniqueArgs>(args: SelectSubset<T, ModelTestAttemptFindUniqueArgs<ExtArgs>>): Prisma__ModelTestAttemptClient<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ModelTestAttempt that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ModelTestAttemptFindUniqueOrThrowArgs} args - Arguments to find a ModelTestAttempt
+     * @example
+     * // Get one ModelTestAttempt
+     * const modelTestAttempt = await prisma.modelTestAttempt.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ModelTestAttemptFindUniqueOrThrowArgs>(args: SelectSubset<T, ModelTestAttemptFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ModelTestAttemptClient<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ModelTestAttempt that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelTestAttemptFindFirstArgs} args - Arguments to find a ModelTestAttempt
+     * @example
+     * // Get one ModelTestAttempt
+     * const modelTestAttempt = await prisma.modelTestAttempt.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ModelTestAttemptFindFirstArgs>(args?: SelectSubset<T, ModelTestAttemptFindFirstArgs<ExtArgs>>): Prisma__ModelTestAttemptClient<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ModelTestAttempt that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelTestAttemptFindFirstOrThrowArgs} args - Arguments to find a ModelTestAttempt
+     * @example
+     * // Get one ModelTestAttempt
+     * const modelTestAttempt = await prisma.modelTestAttempt.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ModelTestAttemptFindFirstOrThrowArgs>(args?: SelectSubset<T, ModelTestAttemptFindFirstOrThrowArgs<ExtArgs>>): Prisma__ModelTestAttemptClient<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ModelTestAttempts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelTestAttemptFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ModelTestAttempts
+     * const modelTestAttempts = await prisma.modelTestAttempt.findMany()
+     * 
+     * // Get first 10 ModelTestAttempts
+     * const modelTestAttempts = await prisma.modelTestAttempt.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const modelTestAttemptWithIdOnly = await prisma.modelTestAttempt.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ModelTestAttemptFindManyArgs>(args?: SelectSubset<T, ModelTestAttemptFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ModelTestAttempt.
+     * @param {ModelTestAttemptCreateArgs} args - Arguments to create a ModelTestAttempt.
+     * @example
+     * // Create one ModelTestAttempt
+     * const ModelTestAttempt = await prisma.modelTestAttempt.create({
+     *   data: {
+     *     // ... data to create a ModelTestAttempt
+     *   }
+     * })
+     * 
+     */
+    create<T extends ModelTestAttemptCreateArgs>(args: SelectSubset<T, ModelTestAttemptCreateArgs<ExtArgs>>): Prisma__ModelTestAttemptClient<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ModelTestAttempts.
+     * @param {ModelTestAttemptCreateManyArgs} args - Arguments to create many ModelTestAttempts.
+     * @example
+     * // Create many ModelTestAttempts
+     * const modelTestAttempt = await prisma.modelTestAttempt.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ModelTestAttemptCreateManyArgs>(args?: SelectSubset<T, ModelTestAttemptCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ModelTestAttempts and returns the data saved in the database.
+     * @param {ModelTestAttemptCreateManyAndReturnArgs} args - Arguments to create many ModelTestAttempts.
+     * @example
+     * // Create many ModelTestAttempts
+     * const modelTestAttempt = await prisma.modelTestAttempt.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ModelTestAttempts and only return the `id`
+     * const modelTestAttemptWithIdOnly = await prisma.modelTestAttempt.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ModelTestAttemptCreateManyAndReturnArgs>(args?: SelectSubset<T, ModelTestAttemptCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ModelTestAttempt.
+     * @param {ModelTestAttemptDeleteArgs} args - Arguments to delete one ModelTestAttempt.
+     * @example
+     * // Delete one ModelTestAttempt
+     * const ModelTestAttempt = await prisma.modelTestAttempt.delete({
+     *   where: {
+     *     // ... filter to delete one ModelTestAttempt
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ModelTestAttemptDeleteArgs>(args: SelectSubset<T, ModelTestAttemptDeleteArgs<ExtArgs>>): Prisma__ModelTestAttemptClient<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ModelTestAttempt.
+     * @param {ModelTestAttemptUpdateArgs} args - Arguments to update one ModelTestAttempt.
+     * @example
+     * // Update one ModelTestAttempt
+     * const modelTestAttempt = await prisma.modelTestAttempt.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ModelTestAttemptUpdateArgs>(args: SelectSubset<T, ModelTestAttemptUpdateArgs<ExtArgs>>): Prisma__ModelTestAttemptClient<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ModelTestAttempts.
+     * @param {ModelTestAttemptDeleteManyArgs} args - Arguments to filter ModelTestAttempts to delete.
+     * @example
+     * // Delete a few ModelTestAttempts
+     * const { count } = await prisma.modelTestAttempt.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ModelTestAttemptDeleteManyArgs>(args?: SelectSubset<T, ModelTestAttemptDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ModelTestAttempts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelTestAttemptUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ModelTestAttempts
+     * const modelTestAttempt = await prisma.modelTestAttempt.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ModelTestAttemptUpdateManyArgs>(args: SelectSubset<T, ModelTestAttemptUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ModelTestAttempts and returns the data updated in the database.
+     * @param {ModelTestAttemptUpdateManyAndReturnArgs} args - Arguments to update many ModelTestAttempts.
+     * @example
+     * // Update many ModelTestAttempts
+     * const modelTestAttempt = await prisma.modelTestAttempt.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ModelTestAttempts and only return the `id`
+     * const modelTestAttemptWithIdOnly = await prisma.modelTestAttempt.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ModelTestAttemptUpdateManyAndReturnArgs>(args: SelectSubset<T, ModelTestAttemptUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ModelTestAttempt.
+     * @param {ModelTestAttemptUpsertArgs} args - Arguments to update or create a ModelTestAttempt.
+     * @example
+     * // Update or create a ModelTestAttempt
+     * const modelTestAttempt = await prisma.modelTestAttempt.upsert({
+     *   create: {
+     *     // ... data to create a ModelTestAttempt
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ModelTestAttempt we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ModelTestAttemptUpsertArgs>(args: SelectSubset<T, ModelTestAttemptUpsertArgs<ExtArgs>>): Prisma__ModelTestAttemptClient<$Result.GetResult<Prisma.$ModelTestAttemptPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ModelTestAttempts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelTestAttemptCountArgs} args - Arguments to filter ModelTestAttempts to count.
+     * @example
+     * // Count the number of ModelTestAttempts
+     * const count = await prisma.modelTestAttempt.count({
+     *   where: {
+     *     // ... the filter for the ModelTestAttempts we want to count
+     *   }
+     * })
+    **/
+    count<T extends ModelTestAttemptCountArgs>(
+      args?: Subset<T, ModelTestAttemptCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ModelTestAttemptCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ModelTestAttempt.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelTestAttemptAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ModelTestAttemptAggregateArgs>(args: Subset<T, ModelTestAttemptAggregateArgs>): Prisma.PrismaPromise<GetModelTestAttemptAggregateType<T>>
+
+    /**
+     * Group by ModelTestAttempt.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelTestAttemptGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ModelTestAttemptGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ModelTestAttemptGroupByArgs['orderBy'] }
+        : { orderBy?: ModelTestAttemptGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ModelTestAttemptGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetModelTestAttemptGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ModelTestAttempt model
+   */
+  readonly fields: ModelTestAttemptFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ModelTestAttempt.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ModelTestAttemptClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    modelTest<T extends ModelTestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ModelTestDefaultArgs<ExtArgs>>): Prisma__ModelTestClient<$Result.GetResult<Prisma.$ModelTestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ModelTestAttempt model
+   */
+  interface ModelTestAttemptFieldRefs {
+    readonly id: FieldRef<"ModelTestAttempt", 'String'>
+    readonly candidateId: FieldRef<"ModelTestAttempt", 'String'>
+    readonly modelTestId: FieldRef<"ModelTestAttempt", 'String'>
+    readonly category: FieldRef<"ModelTestAttempt", 'String'>
+    readonly totalQuestions: FieldRef<"ModelTestAttempt", 'Int'>
+    readonly correctCount: FieldRef<"ModelTestAttempt", 'Int'>
+    readonly wrongCount: FieldRef<"ModelTestAttempt", 'Int'>
+    readonly skippedCount: FieldRef<"ModelTestAttempt", 'Int'>
+    readonly score: FieldRef<"ModelTestAttempt", 'Float'>
+    readonly totalMarks: FieldRef<"ModelTestAttempt", 'Int'>
+    readonly accuracy: FieldRef<"ModelTestAttempt", 'Float'>
+    readonly durationSec: FieldRef<"ModelTestAttempt", 'Int'>
+    readonly answers: FieldRef<"ModelTestAttempt", 'Json'>
+    readonly createdAt: FieldRef<"ModelTestAttempt", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ModelTestAttempt findUnique
+   */
+  export type ModelTestAttemptFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelTestAttempt to fetch.
+     */
+    where: ModelTestAttemptWhereUniqueInput
+  }
+
+  /**
+   * ModelTestAttempt findUniqueOrThrow
+   */
+  export type ModelTestAttemptFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelTestAttempt to fetch.
+     */
+    where: ModelTestAttemptWhereUniqueInput
+  }
+
+  /**
+   * ModelTestAttempt findFirst
+   */
+  export type ModelTestAttemptFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelTestAttempt to fetch.
+     */
+    where?: ModelTestAttemptWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelTestAttempts to fetch.
+     */
+    orderBy?: ModelTestAttemptOrderByWithRelationInput | ModelTestAttemptOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ModelTestAttempts.
+     */
+    cursor?: ModelTestAttemptWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelTestAttempts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelTestAttempts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelTestAttempts.
+     */
+    distinct?: ModelTestAttemptScalarFieldEnum | ModelTestAttemptScalarFieldEnum[]
+  }
+
+  /**
+   * ModelTestAttempt findFirstOrThrow
+   */
+  export type ModelTestAttemptFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelTestAttempt to fetch.
+     */
+    where?: ModelTestAttemptWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelTestAttempts to fetch.
+     */
+    orderBy?: ModelTestAttemptOrderByWithRelationInput | ModelTestAttemptOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ModelTestAttempts.
+     */
+    cursor?: ModelTestAttemptWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelTestAttempts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelTestAttempts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelTestAttempts.
+     */
+    distinct?: ModelTestAttemptScalarFieldEnum | ModelTestAttemptScalarFieldEnum[]
+  }
+
+  /**
+   * ModelTestAttempt findMany
+   */
+  export type ModelTestAttemptFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelTestAttempts to fetch.
+     */
+    where?: ModelTestAttemptWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelTestAttempts to fetch.
+     */
+    orderBy?: ModelTestAttemptOrderByWithRelationInput | ModelTestAttemptOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ModelTestAttempts.
+     */
+    cursor?: ModelTestAttemptWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelTestAttempts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelTestAttempts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelTestAttempts.
+     */
+    distinct?: ModelTestAttemptScalarFieldEnum | ModelTestAttemptScalarFieldEnum[]
+  }
+
+  /**
+   * ModelTestAttempt create
+   */
+  export type ModelTestAttemptCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ModelTestAttempt.
+     */
+    data: XOR<ModelTestAttemptCreateInput, ModelTestAttemptUncheckedCreateInput>
+  }
+
+  /**
+   * ModelTestAttempt createMany
+   */
+  export type ModelTestAttemptCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ModelTestAttempts.
+     */
+    data: ModelTestAttemptCreateManyInput | ModelTestAttemptCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ModelTestAttempt createManyAndReturn
+   */
+  export type ModelTestAttemptCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * The data used to create many ModelTestAttempts.
+     */
+    data: ModelTestAttemptCreateManyInput | ModelTestAttemptCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ModelTestAttempt update
+   */
+  export type ModelTestAttemptUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ModelTestAttempt.
+     */
+    data: XOR<ModelTestAttemptUpdateInput, ModelTestAttemptUncheckedUpdateInput>
+    /**
+     * Choose, which ModelTestAttempt to update.
+     */
+    where: ModelTestAttemptWhereUniqueInput
+  }
+
+  /**
+   * ModelTestAttempt updateMany
+   */
+  export type ModelTestAttemptUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ModelTestAttempts.
+     */
+    data: XOR<ModelTestAttemptUpdateManyMutationInput, ModelTestAttemptUncheckedUpdateManyInput>
+    /**
+     * Filter which ModelTestAttempts to update
+     */
+    where?: ModelTestAttemptWhereInput
+    /**
+     * Limit how many ModelTestAttempts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ModelTestAttempt updateManyAndReturn
+   */
+  export type ModelTestAttemptUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * The data used to update ModelTestAttempts.
+     */
+    data: XOR<ModelTestAttemptUpdateManyMutationInput, ModelTestAttemptUncheckedUpdateManyInput>
+    /**
+     * Filter which ModelTestAttempts to update
+     */
+    where?: ModelTestAttemptWhereInput
+    /**
+     * Limit how many ModelTestAttempts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ModelTestAttempt upsert
+   */
+  export type ModelTestAttemptUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ModelTestAttempt to update in case it exists.
+     */
+    where: ModelTestAttemptWhereUniqueInput
+    /**
+     * In case the ModelTestAttempt found by the `where` argument doesn't exist, create a new ModelTestAttempt with this data.
+     */
+    create: XOR<ModelTestAttemptCreateInput, ModelTestAttemptUncheckedCreateInput>
+    /**
+     * In case the ModelTestAttempt was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ModelTestAttemptUpdateInput, ModelTestAttemptUncheckedUpdateInput>
+  }
+
+  /**
+   * ModelTestAttempt delete
+   */
+  export type ModelTestAttemptDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
+    /**
+     * Filter which ModelTestAttempt to delete.
+     */
+    where: ModelTestAttemptWhereUniqueInput
+  }
+
+  /**
+   * ModelTestAttempt deleteMany
+   */
+  export type ModelTestAttemptDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ModelTestAttempts to delete
+     */
+    where?: ModelTestAttemptWhereInput
+    /**
+     * Limit how many ModelTestAttempts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ModelTestAttempt without action
+   */
+  export type ModelTestAttemptDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelTestAttempt
+     */
+    select?: ModelTestAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelTestAttempt
+     */
+    omit?: ModelTestAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelTestAttemptInclude<ExtArgs> | null
   }
 
 
@@ -49512,7 +54790,9 @@ export namespace Prisma {
     slug: string | null
     logoUrl: string | null
     websiteUrl: string | null
+    description: string | null
     type: string | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -49524,7 +54804,9 @@ export namespace Prisma {
     slug: string | null
     logoUrl: string | null
     websiteUrl: string | null
+    description: string | null
     type: string | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -49536,7 +54818,9 @@ export namespace Prisma {
     slug: number
     logoUrl: number
     websiteUrl: number
+    description: number
     type: number
+    isActive: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -49550,7 +54834,9 @@ export namespace Prisma {
     slug?: true
     logoUrl?: true
     websiteUrl?: true
+    description?: true
     type?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -49562,7 +54848,9 @@ export namespace Prisma {
     slug?: true
     logoUrl?: true
     websiteUrl?: true
+    description?: true
     type?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -49574,7 +54862,9 @@ export namespace Prisma {
     slug?: true
     logoUrl?: true
     websiteUrl?: true
+    description?: true
     type?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -49659,7 +54949,9 @@ export namespace Prisma {
     slug: string
     logoUrl: string | null
     websiteUrl: string | null
+    description: string | null
     type: string | null
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
     _count: OrganizationCountAggregateOutputType | null
@@ -49688,7 +54980,9 @@ export namespace Prisma {
     slug?: boolean
     logoUrl?: boolean
     websiteUrl?: boolean
+    description?: boolean
     type?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["organization"]>
@@ -49700,7 +54994,9 @@ export namespace Prisma {
     slug?: boolean
     logoUrl?: boolean
     websiteUrl?: boolean
+    description?: boolean
     type?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["organization"]>
@@ -49712,7 +55008,9 @@ export namespace Prisma {
     slug?: boolean
     logoUrl?: boolean
     websiteUrl?: boolean
+    description?: boolean
     type?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["organization"]>
@@ -49724,12 +55022,14 @@ export namespace Prisma {
     slug?: boolean
     logoUrl?: boolean
     websiteUrl?: boolean
+    description?: boolean
     type?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "nameBn" | "slug" | "logoUrl" | "websiteUrl" | "type" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
+  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "nameBn" | "slug" | "logoUrl" | "websiteUrl" | "description" | "type" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
 
   export type $OrganizationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Organization"
@@ -49741,7 +55041,9 @@ export namespace Prisma {
       slug: string
       logoUrl: string | null
       websiteUrl: string | null
+      description: string | null
       type: string | null
+      isActive: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["organization"]>
@@ -50173,7 +55475,9 @@ export namespace Prisma {
     readonly slug: FieldRef<"Organization", 'String'>
     readonly logoUrl: FieldRef<"Organization", 'String'>
     readonly websiteUrl: FieldRef<"Organization", 'String'>
+    readonly description: FieldRef<"Organization", 'String'>
     readonly type: FieldRef<"Organization", 'String'>
+    readonly isActive: FieldRef<"Organization", 'Boolean'>
     readonly createdAt: FieldRef<"Organization", 'DateTime'>
     readonly updatedAt: FieldRef<"Organization", 'DateTime'>
   }
@@ -58968,14 +64272,56 @@ export namespace Prisma {
   export type PlatformSettingsScalarFieldEnum = (typeof PlatformSettingsScalarFieldEnum)[keyof typeof PlatformSettingsScalarFieldEnum]
 
 
+  export const BlogPostScalarFieldEnum: {
+    id: 'id',
+    slug: 'slug',
+    kind: 'kind',
+    title: 'title',
+    excerpt: 'excerpt',
+    content: 'content',
+    category: 'category',
+    author: 'author',
+    coverImage: 'coverImage',
+    readTime: 'readTime',
+    tags: 'tags',
+    status: 'status',
+    publishedAt: 'publishedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
+
+
+  export const CandidateReviewScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    role: 'role',
+    institution: 'institution',
+    quote: 'quote',
+    rating: 'rating',
+    isApproved: 'isApproved',
+    orderIndex: 'orderIndex',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CandidateReviewScalarFieldEnum = (typeof CandidateReviewScalarFieldEnum)[keyof typeof CandidateReviewScalarFieldEnum]
+
+
   export const ExamNoticeScalarFieldEnum: {
     id: 'id',
     jobId: 'jobId',
     title: 'title',
+    organization: 'organization',
+    category: 'category',
     stage: 'stage',
     examDate: 'examDate',
+    examTime: 'examTime',
     venue: 'venue',
+    description: 'description',
     noticeUrl: 'noticeUrl',
+    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -58987,9 +64333,14 @@ export namespace Prisma {
     id: 'id',
     jobId: 'jobId',
     title: 'title',
+    organization: 'organization',
+    category: 'category',
+    examDate: 'examDate',
+    deadline: 'deadline',
     downloadUrl: 'downloadUrl',
     rollInstructions: 'rollInstructions',
     isAvailable: 'isAvailable',
+    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -59001,14 +64352,35 @@ export namespace Prisma {
     id: 'id',
     jobId: 'jobId',
     title: 'title',
+    organization: 'organization',
+    category: 'category',
     stage: 'stage',
+    summary: 'summary',
     pdfUrl: 'pdfUrl',
     passedRolls: 'passedRolls',
+    publishedAt: 'publishedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type ExamResultScalarFieldEnum = (typeof ExamResultScalarFieldEnum)[keyof typeof ExamResultScalarFieldEnum]
+
+
+  export const VivaNoticeScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    organization: 'organization',
+    category: 'category',
+    vivaDate: 'vivaDate',
+    venue: 'venue',
+    instructions: 'instructions',
+    noticeUrl: 'noticeUrl',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VivaNoticeScalarFieldEnum = (typeof VivaNoticeScalarFieldEnum)[keyof typeof VivaNoticeScalarFieldEnum]
 
 
   export const QuestionScalarFieldEnum: {
@@ -59031,14 +64403,37 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     category: 'category',
+    description: 'description',
     totalMarks: 'totalMarks',
     durationMinutes: 'durationMinutes',
+    negativeMark: 'negativeMark',
+    isPublished: 'isPublished',
     questions: 'questions',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type ModelTestScalarFieldEnum = (typeof ModelTestScalarFieldEnum)[keyof typeof ModelTestScalarFieldEnum]
+
+
+  export const ModelTestAttemptScalarFieldEnum: {
+    id: 'id',
+    candidateId: 'candidateId',
+    modelTestId: 'modelTestId',
+    category: 'category',
+    totalQuestions: 'totalQuestions',
+    correctCount: 'correctCount',
+    wrongCount: 'wrongCount',
+    skippedCount: 'skippedCount',
+    score: 'score',
+    totalMarks: 'totalMarks',
+    accuracy: 'accuracy',
+    durationSec: 'durationSec',
+    answers: 'answers',
+    createdAt: 'createdAt'
+  };
+
+  export type ModelTestAttemptScalarFieldEnum = (typeof ModelTestAttemptScalarFieldEnum)[keyof typeof ModelTestAttemptScalarFieldEnum]
 
 
   export const JobCircularScalarFieldEnum: {
@@ -59091,7 +64486,9 @@ export namespace Prisma {
     slug: 'slug',
     logoUrl: 'logoUrl',
     websiteUrl: 'websiteUrl',
+    description: 'description',
     type: 'type',
+    isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -62224,6 +67621,187 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"PlatformSettings"> | Date | string
   }
 
+  export type BlogPostWhereInput = {
+    AND?: BlogPostWhereInput | BlogPostWhereInput[]
+    OR?: BlogPostWhereInput[]
+    NOT?: BlogPostWhereInput | BlogPostWhereInput[]
+    id?: StringFilter<"BlogPost"> | string
+    slug?: StringFilter<"BlogPost"> | string
+    kind?: StringFilter<"BlogPost"> | string
+    title?: StringFilter<"BlogPost"> | string
+    excerpt?: StringNullableFilter<"BlogPost"> | string | null
+    content?: StringFilter<"BlogPost"> | string
+    category?: StringNullableFilter<"BlogPost"> | string | null
+    author?: StringNullableFilter<"BlogPost"> | string | null
+    coverImage?: StringNullableFilter<"BlogPost"> | string | null
+    readTime?: StringNullableFilter<"BlogPost"> | string | null
+    tags?: JsonNullableFilter<"BlogPost">
+    status?: StringFilter<"BlogPost"> | string
+    publishedAt?: DateTimeFilter<"BlogPost"> | Date | string
+    createdAt?: DateTimeFilter<"BlogPost"> | Date | string
+    updatedAt?: DateTimeFilter<"BlogPost"> | Date | string
+  }
+
+  export type BlogPostOrderByWithRelationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrderInput | SortOrder
+    content?: SortOrder
+    category?: SortOrderInput | SortOrder
+    author?: SortOrderInput | SortOrder
+    coverImage?: SortOrderInput | SortOrder
+    readTime?: SortOrderInput | SortOrder
+    tags?: SortOrderInput | SortOrder
+    status?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BlogPostWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: BlogPostWhereInput | BlogPostWhereInput[]
+    OR?: BlogPostWhereInput[]
+    NOT?: BlogPostWhereInput | BlogPostWhereInput[]
+    kind?: StringFilter<"BlogPost"> | string
+    title?: StringFilter<"BlogPost"> | string
+    excerpt?: StringNullableFilter<"BlogPost"> | string | null
+    content?: StringFilter<"BlogPost"> | string
+    category?: StringNullableFilter<"BlogPost"> | string | null
+    author?: StringNullableFilter<"BlogPost"> | string | null
+    coverImage?: StringNullableFilter<"BlogPost"> | string | null
+    readTime?: StringNullableFilter<"BlogPost"> | string | null
+    tags?: JsonNullableFilter<"BlogPost">
+    status?: StringFilter<"BlogPost"> | string
+    publishedAt?: DateTimeFilter<"BlogPost"> | Date | string
+    createdAt?: DateTimeFilter<"BlogPost"> | Date | string
+    updatedAt?: DateTimeFilter<"BlogPost"> | Date | string
+  }, "id" | "slug">
+
+  export type BlogPostOrderByWithAggregationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrderInput | SortOrder
+    content?: SortOrder
+    category?: SortOrderInput | SortOrder
+    author?: SortOrderInput | SortOrder
+    coverImage?: SortOrderInput | SortOrder
+    readTime?: SortOrderInput | SortOrder
+    tags?: SortOrderInput | SortOrder
+    status?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BlogPostCountOrderByAggregateInput
+    _max?: BlogPostMaxOrderByAggregateInput
+    _min?: BlogPostMinOrderByAggregateInput
+  }
+
+  export type BlogPostScalarWhereWithAggregatesInput = {
+    AND?: BlogPostScalarWhereWithAggregatesInput | BlogPostScalarWhereWithAggregatesInput[]
+    OR?: BlogPostScalarWhereWithAggregatesInput[]
+    NOT?: BlogPostScalarWhereWithAggregatesInput | BlogPostScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BlogPost"> | string
+    slug?: StringWithAggregatesFilter<"BlogPost"> | string
+    kind?: StringWithAggregatesFilter<"BlogPost"> | string
+    title?: StringWithAggregatesFilter<"BlogPost"> | string
+    excerpt?: StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+    content?: StringWithAggregatesFilter<"BlogPost"> | string
+    category?: StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+    author?: StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+    coverImage?: StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+    readTime?: StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+    tags?: JsonNullableWithAggregatesFilter<"BlogPost">
+    status?: StringWithAggregatesFilter<"BlogPost"> | string
+    publishedAt?: DateTimeWithAggregatesFilter<"BlogPost"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"BlogPost"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BlogPost"> | Date | string
+  }
+
+  export type CandidateReviewWhereInput = {
+    AND?: CandidateReviewWhereInput | CandidateReviewWhereInput[]
+    OR?: CandidateReviewWhereInput[]
+    NOT?: CandidateReviewWhereInput | CandidateReviewWhereInput[]
+    id?: StringFilter<"CandidateReview"> | string
+    name?: StringFilter<"CandidateReview"> | string
+    role?: StringNullableFilter<"CandidateReview"> | string | null
+    institution?: StringNullableFilter<"CandidateReview"> | string | null
+    quote?: StringFilter<"CandidateReview"> | string
+    rating?: IntFilter<"CandidateReview"> | number
+    isApproved?: BoolFilter<"CandidateReview"> | boolean
+    orderIndex?: IntFilter<"CandidateReview"> | number
+    createdAt?: DateTimeFilter<"CandidateReview"> | Date | string
+    updatedAt?: DateTimeFilter<"CandidateReview"> | Date | string
+  }
+
+  export type CandidateReviewOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrderInput | SortOrder
+    institution?: SortOrderInput | SortOrder
+    quote?: SortOrder
+    rating?: SortOrder
+    isApproved?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateReviewWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CandidateReviewWhereInput | CandidateReviewWhereInput[]
+    OR?: CandidateReviewWhereInput[]
+    NOT?: CandidateReviewWhereInput | CandidateReviewWhereInput[]
+    name?: StringFilter<"CandidateReview"> | string
+    role?: StringNullableFilter<"CandidateReview"> | string | null
+    institution?: StringNullableFilter<"CandidateReview"> | string | null
+    quote?: StringFilter<"CandidateReview"> | string
+    rating?: IntFilter<"CandidateReview"> | number
+    isApproved?: BoolFilter<"CandidateReview"> | boolean
+    orderIndex?: IntFilter<"CandidateReview"> | number
+    createdAt?: DateTimeFilter<"CandidateReview"> | Date | string
+    updatedAt?: DateTimeFilter<"CandidateReview"> | Date | string
+  }, "id">
+
+  export type CandidateReviewOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrderInput | SortOrder
+    institution?: SortOrderInput | SortOrder
+    quote?: SortOrder
+    rating?: SortOrder
+    isApproved?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CandidateReviewCountOrderByAggregateInput
+    _avg?: CandidateReviewAvgOrderByAggregateInput
+    _max?: CandidateReviewMaxOrderByAggregateInput
+    _min?: CandidateReviewMinOrderByAggregateInput
+    _sum?: CandidateReviewSumOrderByAggregateInput
+  }
+
+  export type CandidateReviewScalarWhereWithAggregatesInput = {
+    AND?: CandidateReviewScalarWhereWithAggregatesInput | CandidateReviewScalarWhereWithAggregatesInput[]
+    OR?: CandidateReviewScalarWhereWithAggregatesInput[]
+    NOT?: CandidateReviewScalarWhereWithAggregatesInput | CandidateReviewScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CandidateReview"> | string
+    name?: StringWithAggregatesFilter<"CandidateReview"> | string
+    role?: StringNullableWithAggregatesFilter<"CandidateReview"> | string | null
+    institution?: StringNullableWithAggregatesFilter<"CandidateReview"> | string | null
+    quote?: StringWithAggregatesFilter<"CandidateReview"> | string
+    rating?: IntWithAggregatesFilter<"CandidateReview"> | number
+    isApproved?: BoolWithAggregatesFilter<"CandidateReview"> | boolean
+    orderIndex?: IntWithAggregatesFilter<"CandidateReview"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"CandidateReview"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CandidateReview"> | Date | string
+  }
+
   export type ExamNoticeWhereInput = {
     AND?: ExamNoticeWhereInput | ExamNoticeWhereInput[]
     OR?: ExamNoticeWhereInput[]
@@ -62231,10 +67809,15 @@ export namespace Prisma {
     id?: StringFilter<"ExamNotice"> | string
     jobId?: StringNullableFilter<"ExamNotice"> | string | null
     title?: StringFilter<"ExamNotice"> | string
+    organization?: StringNullableFilter<"ExamNotice"> | string | null
+    category?: StringNullableFilter<"ExamNotice"> | string | null
     stage?: EnumExamStageFilter<"ExamNotice"> | $Enums.ExamStage
     examDate?: DateTimeNullableFilter<"ExamNotice"> | Date | string | null
+    examTime?: StringNullableFilter<"ExamNotice"> | string | null
     venue?: StringNullableFilter<"ExamNotice"> | string | null
+    description?: StringNullableFilter<"ExamNotice"> | string | null
     noticeUrl?: StringNullableFilter<"ExamNotice"> | string | null
+    status?: StringFilter<"ExamNotice"> | string
     createdAt?: DateTimeFilter<"ExamNotice"> | Date | string
     updatedAt?: DateTimeFilter<"ExamNotice"> | Date | string
     job?: XOR<JobCircularNullableScalarRelationFilter, JobCircularWhereInput> | null
@@ -62244,10 +67827,15 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrderInput | SortOrder
     title?: SortOrder
+    organization?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
     stage?: SortOrder
     examDate?: SortOrderInput | SortOrder
+    examTime?: SortOrderInput | SortOrder
     venue?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     noticeUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     job?: JobCircularOrderByWithRelationInput
@@ -62260,10 +67848,15 @@ export namespace Prisma {
     NOT?: ExamNoticeWhereInput | ExamNoticeWhereInput[]
     jobId?: StringNullableFilter<"ExamNotice"> | string | null
     title?: StringFilter<"ExamNotice"> | string
+    organization?: StringNullableFilter<"ExamNotice"> | string | null
+    category?: StringNullableFilter<"ExamNotice"> | string | null
     stage?: EnumExamStageFilter<"ExamNotice"> | $Enums.ExamStage
     examDate?: DateTimeNullableFilter<"ExamNotice"> | Date | string | null
+    examTime?: StringNullableFilter<"ExamNotice"> | string | null
     venue?: StringNullableFilter<"ExamNotice"> | string | null
+    description?: StringNullableFilter<"ExamNotice"> | string | null
     noticeUrl?: StringNullableFilter<"ExamNotice"> | string | null
+    status?: StringFilter<"ExamNotice"> | string
     createdAt?: DateTimeFilter<"ExamNotice"> | Date | string
     updatedAt?: DateTimeFilter<"ExamNotice"> | Date | string
     job?: XOR<JobCircularNullableScalarRelationFilter, JobCircularWhereInput> | null
@@ -62273,10 +67866,15 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrderInput | SortOrder
     title?: SortOrder
+    organization?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
     stage?: SortOrder
     examDate?: SortOrderInput | SortOrder
+    examTime?: SortOrderInput | SortOrder
     venue?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     noticeUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ExamNoticeCountOrderByAggregateInput
@@ -62291,10 +67889,15 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ExamNotice"> | string
     jobId?: StringNullableWithAggregatesFilter<"ExamNotice"> | string | null
     title?: StringWithAggregatesFilter<"ExamNotice"> | string
+    organization?: StringNullableWithAggregatesFilter<"ExamNotice"> | string | null
+    category?: StringNullableWithAggregatesFilter<"ExamNotice"> | string | null
     stage?: EnumExamStageWithAggregatesFilter<"ExamNotice"> | $Enums.ExamStage
     examDate?: DateTimeNullableWithAggregatesFilter<"ExamNotice"> | Date | string | null
+    examTime?: StringNullableWithAggregatesFilter<"ExamNotice"> | string | null
     venue?: StringNullableWithAggregatesFilter<"ExamNotice"> | string | null
+    description?: StringNullableWithAggregatesFilter<"ExamNotice"> | string | null
     noticeUrl?: StringNullableWithAggregatesFilter<"ExamNotice"> | string | null
+    status?: StringWithAggregatesFilter<"ExamNotice"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ExamNotice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ExamNotice"> | Date | string
   }
@@ -62304,23 +67907,33 @@ export namespace Prisma {
     OR?: AdmitCardWhereInput[]
     NOT?: AdmitCardWhereInput | AdmitCardWhereInput[]
     id?: StringFilter<"AdmitCard"> | string
-    jobId?: StringFilter<"AdmitCard"> | string
+    jobId?: StringNullableFilter<"AdmitCard"> | string | null
     title?: StringFilter<"AdmitCard"> | string
+    organization?: StringNullableFilter<"AdmitCard"> | string | null
+    category?: StringNullableFilter<"AdmitCard"> | string | null
+    examDate?: DateTimeNullableFilter<"AdmitCard"> | Date | string | null
+    deadline?: DateTimeNullableFilter<"AdmitCard"> | Date | string | null
     downloadUrl?: StringNullableFilter<"AdmitCard"> | string | null
     rollInstructions?: StringNullableFilter<"AdmitCard"> | string | null
     isAvailable?: BoolFilter<"AdmitCard"> | boolean
+    status?: StringFilter<"AdmitCard"> | string
     createdAt?: DateTimeFilter<"AdmitCard"> | Date | string
     updatedAt?: DateTimeFilter<"AdmitCard"> | Date | string
-    job?: XOR<JobCircularScalarRelationFilter, JobCircularWhereInput>
+    job?: XOR<JobCircularNullableScalarRelationFilter, JobCircularWhereInput> | null
   }
 
   export type AdmitCardOrderByWithRelationInput = {
     id?: SortOrder
-    jobId?: SortOrder
+    jobId?: SortOrderInput | SortOrder
     title?: SortOrder
+    organization?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    examDate?: SortOrderInput | SortOrder
+    deadline?: SortOrderInput | SortOrder
     downloadUrl?: SortOrderInput | SortOrder
     rollInstructions?: SortOrderInput | SortOrder
     isAvailable?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     job?: JobCircularOrderByWithRelationInput
@@ -62331,23 +67944,33 @@ export namespace Prisma {
     AND?: AdmitCardWhereInput | AdmitCardWhereInput[]
     OR?: AdmitCardWhereInput[]
     NOT?: AdmitCardWhereInput | AdmitCardWhereInput[]
-    jobId?: StringFilter<"AdmitCard"> | string
+    jobId?: StringNullableFilter<"AdmitCard"> | string | null
     title?: StringFilter<"AdmitCard"> | string
+    organization?: StringNullableFilter<"AdmitCard"> | string | null
+    category?: StringNullableFilter<"AdmitCard"> | string | null
+    examDate?: DateTimeNullableFilter<"AdmitCard"> | Date | string | null
+    deadline?: DateTimeNullableFilter<"AdmitCard"> | Date | string | null
     downloadUrl?: StringNullableFilter<"AdmitCard"> | string | null
     rollInstructions?: StringNullableFilter<"AdmitCard"> | string | null
     isAvailable?: BoolFilter<"AdmitCard"> | boolean
+    status?: StringFilter<"AdmitCard"> | string
     createdAt?: DateTimeFilter<"AdmitCard"> | Date | string
     updatedAt?: DateTimeFilter<"AdmitCard"> | Date | string
-    job?: XOR<JobCircularScalarRelationFilter, JobCircularWhereInput>
+    job?: XOR<JobCircularNullableScalarRelationFilter, JobCircularWhereInput> | null
   }, "id">
 
   export type AdmitCardOrderByWithAggregationInput = {
     id?: SortOrder
-    jobId?: SortOrder
+    jobId?: SortOrderInput | SortOrder
     title?: SortOrder
+    organization?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    examDate?: SortOrderInput | SortOrder
+    deadline?: SortOrderInput | SortOrder
     downloadUrl?: SortOrderInput | SortOrder
     rollInstructions?: SortOrderInput | SortOrder
     isAvailable?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AdmitCardCountOrderByAggregateInput
@@ -62360,11 +67983,16 @@ export namespace Prisma {
     OR?: AdmitCardScalarWhereWithAggregatesInput[]
     NOT?: AdmitCardScalarWhereWithAggregatesInput | AdmitCardScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AdmitCard"> | string
-    jobId?: StringWithAggregatesFilter<"AdmitCard"> | string
+    jobId?: StringNullableWithAggregatesFilter<"AdmitCard"> | string | null
     title?: StringWithAggregatesFilter<"AdmitCard"> | string
+    organization?: StringNullableWithAggregatesFilter<"AdmitCard"> | string | null
+    category?: StringNullableWithAggregatesFilter<"AdmitCard"> | string | null
+    examDate?: DateTimeNullableWithAggregatesFilter<"AdmitCard"> | Date | string | null
+    deadline?: DateTimeNullableWithAggregatesFilter<"AdmitCard"> | Date | string | null
     downloadUrl?: StringNullableWithAggregatesFilter<"AdmitCard"> | string | null
     rollInstructions?: StringNullableWithAggregatesFilter<"AdmitCard"> | string | null
     isAvailable?: BoolWithAggregatesFilter<"AdmitCard"> | boolean
+    status?: StringWithAggregatesFilter<"AdmitCard"> | string
     createdAt?: DateTimeWithAggregatesFilter<"AdmitCard"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AdmitCard"> | Date | string
   }
@@ -62374,23 +68002,31 @@ export namespace Prisma {
     OR?: ExamResultWhereInput[]
     NOT?: ExamResultWhereInput | ExamResultWhereInput[]
     id?: StringFilter<"ExamResult"> | string
-    jobId?: StringFilter<"ExamResult"> | string
+    jobId?: StringNullableFilter<"ExamResult"> | string | null
     title?: StringFilter<"ExamResult"> | string
+    organization?: StringNullableFilter<"ExamResult"> | string | null
+    category?: StringNullableFilter<"ExamResult"> | string | null
     stage?: EnumExamStageFilter<"ExamResult"> | $Enums.ExamStage
+    summary?: StringNullableFilter<"ExamResult"> | string | null
     pdfUrl?: StringNullableFilter<"ExamResult"> | string | null
     passedRolls?: JsonNullableFilter<"ExamResult">
+    publishedAt?: DateTimeFilter<"ExamResult"> | Date | string
     createdAt?: DateTimeFilter<"ExamResult"> | Date | string
     updatedAt?: DateTimeFilter<"ExamResult"> | Date | string
-    job?: XOR<JobCircularScalarRelationFilter, JobCircularWhereInput>
+    job?: XOR<JobCircularNullableScalarRelationFilter, JobCircularWhereInput> | null
   }
 
   export type ExamResultOrderByWithRelationInput = {
     id?: SortOrder
-    jobId?: SortOrder
+    jobId?: SortOrderInput | SortOrder
     title?: SortOrder
+    organization?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
     stage?: SortOrder
+    summary?: SortOrderInput | SortOrder
     pdfUrl?: SortOrderInput | SortOrder
     passedRolls?: SortOrderInput | SortOrder
+    publishedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     job?: JobCircularOrderByWithRelationInput
@@ -62401,23 +68037,31 @@ export namespace Prisma {
     AND?: ExamResultWhereInput | ExamResultWhereInput[]
     OR?: ExamResultWhereInput[]
     NOT?: ExamResultWhereInput | ExamResultWhereInput[]
-    jobId?: StringFilter<"ExamResult"> | string
+    jobId?: StringNullableFilter<"ExamResult"> | string | null
     title?: StringFilter<"ExamResult"> | string
+    organization?: StringNullableFilter<"ExamResult"> | string | null
+    category?: StringNullableFilter<"ExamResult"> | string | null
     stage?: EnumExamStageFilter<"ExamResult"> | $Enums.ExamStage
+    summary?: StringNullableFilter<"ExamResult"> | string | null
     pdfUrl?: StringNullableFilter<"ExamResult"> | string | null
     passedRolls?: JsonNullableFilter<"ExamResult">
+    publishedAt?: DateTimeFilter<"ExamResult"> | Date | string
     createdAt?: DateTimeFilter<"ExamResult"> | Date | string
     updatedAt?: DateTimeFilter<"ExamResult"> | Date | string
-    job?: XOR<JobCircularScalarRelationFilter, JobCircularWhereInput>
+    job?: XOR<JobCircularNullableScalarRelationFilter, JobCircularWhereInput> | null
   }, "id">
 
   export type ExamResultOrderByWithAggregationInput = {
     id?: SortOrder
-    jobId?: SortOrder
+    jobId?: SortOrderInput | SortOrder
     title?: SortOrder
+    organization?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
     stage?: SortOrder
+    summary?: SortOrderInput | SortOrder
     pdfUrl?: SortOrderInput | SortOrder
     passedRolls?: SortOrderInput | SortOrder
+    publishedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ExamResultCountOrderByAggregateInput
@@ -62430,13 +68074,99 @@ export namespace Prisma {
     OR?: ExamResultScalarWhereWithAggregatesInput[]
     NOT?: ExamResultScalarWhereWithAggregatesInput | ExamResultScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ExamResult"> | string
-    jobId?: StringWithAggregatesFilter<"ExamResult"> | string
+    jobId?: StringNullableWithAggregatesFilter<"ExamResult"> | string | null
     title?: StringWithAggregatesFilter<"ExamResult"> | string
+    organization?: StringNullableWithAggregatesFilter<"ExamResult"> | string | null
+    category?: StringNullableWithAggregatesFilter<"ExamResult"> | string | null
     stage?: EnumExamStageWithAggregatesFilter<"ExamResult"> | $Enums.ExamStage
+    summary?: StringNullableWithAggregatesFilter<"ExamResult"> | string | null
     pdfUrl?: StringNullableWithAggregatesFilter<"ExamResult"> | string | null
     passedRolls?: JsonNullableWithAggregatesFilter<"ExamResult">
+    publishedAt?: DateTimeWithAggregatesFilter<"ExamResult"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"ExamResult"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ExamResult"> | Date | string
+  }
+
+  export type VivaNoticeWhereInput = {
+    AND?: VivaNoticeWhereInput | VivaNoticeWhereInput[]
+    OR?: VivaNoticeWhereInput[]
+    NOT?: VivaNoticeWhereInput | VivaNoticeWhereInput[]
+    id?: StringFilter<"VivaNotice"> | string
+    title?: StringFilter<"VivaNotice"> | string
+    organization?: StringNullableFilter<"VivaNotice"> | string | null
+    category?: StringNullableFilter<"VivaNotice"> | string | null
+    vivaDate?: DateTimeNullableFilter<"VivaNotice"> | Date | string | null
+    venue?: StringNullableFilter<"VivaNotice"> | string | null
+    instructions?: StringNullableFilter<"VivaNotice"> | string | null
+    noticeUrl?: StringNullableFilter<"VivaNotice"> | string | null
+    status?: StringFilter<"VivaNotice"> | string
+    createdAt?: DateTimeFilter<"VivaNotice"> | Date | string
+    updatedAt?: DateTimeFilter<"VivaNotice"> | Date | string
+  }
+
+  export type VivaNoticeOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    organization?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    vivaDate?: SortOrderInput | SortOrder
+    venue?: SortOrderInput | SortOrder
+    instructions?: SortOrderInput | SortOrder
+    noticeUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VivaNoticeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VivaNoticeWhereInput | VivaNoticeWhereInput[]
+    OR?: VivaNoticeWhereInput[]
+    NOT?: VivaNoticeWhereInput | VivaNoticeWhereInput[]
+    title?: StringFilter<"VivaNotice"> | string
+    organization?: StringNullableFilter<"VivaNotice"> | string | null
+    category?: StringNullableFilter<"VivaNotice"> | string | null
+    vivaDate?: DateTimeNullableFilter<"VivaNotice"> | Date | string | null
+    venue?: StringNullableFilter<"VivaNotice"> | string | null
+    instructions?: StringNullableFilter<"VivaNotice"> | string | null
+    noticeUrl?: StringNullableFilter<"VivaNotice"> | string | null
+    status?: StringFilter<"VivaNotice"> | string
+    createdAt?: DateTimeFilter<"VivaNotice"> | Date | string
+    updatedAt?: DateTimeFilter<"VivaNotice"> | Date | string
+  }, "id">
+
+  export type VivaNoticeOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    organization?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    vivaDate?: SortOrderInput | SortOrder
+    venue?: SortOrderInput | SortOrder
+    instructions?: SortOrderInput | SortOrder
+    noticeUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VivaNoticeCountOrderByAggregateInput
+    _max?: VivaNoticeMaxOrderByAggregateInput
+    _min?: VivaNoticeMinOrderByAggregateInput
+  }
+
+  export type VivaNoticeScalarWhereWithAggregatesInput = {
+    AND?: VivaNoticeScalarWhereWithAggregatesInput | VivaNoticeScalarWhereWithAggregatesInput[]
+    OR?: VivaNoticeScalarWhereWithAggregatesInput[]
+    NOT?: VivaNoticeScalarWhereWithAggregatesInput | VivaNoticeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VivaNotice"> | string
+    title?: StringWithAggregatesFilter<"VivaNotice"> | string
+    organization?: StringNullableWithAggregatesFilter<"VivaNotice"> | string | null
+    category?: StringNullableWithAggregatesFilter<"VivaNotice"> | string | null
+    vivaDate?: DateTimeNullableWithAggregatesFilter<"VivaNotice"> | Date | string | null
+    venue?: StringNullableWithAggregatesFilter<"VivaNotice"> | string | null
+    instructions?: StringNullableWithAggregatesFilter<"VivaNotice"> | string | null
+    noticeUrl?: StringNullableWithAggregatesFilter<"VivaNotice"> | string | null
+    status?: StringWithAggregatesFilter<"VivaNotice"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"VivaNotice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"VivaNotice"> | Date | string
   }
 
   export type QuestionWhereInput = {
@@ -62525,22 +68255,30 @@ export namespace Prisma {
     id?: StringFilter<"ModelTest"> | string
     title?: StringFilter<"ModelTest"> | string
     category?: StringFilter<"ModelTest"> | string
+    description?: StringNullableFilter<"ModelTest"> | string | null
     totalMarks?: IntFilter<"ModelTest"> | number
     durationMinutes?: IntFilter<"ModelTest"> | number
+    negativeMark?: FloatFilter<"ModelTest"> | number
+    isPublished?: BoolFilter<"ModelTest"> | boolean
     questions?: JsonFilter<"ModelTest">
     createdAt?: DateTimeFilter<"ModelTest"> | Date | string
     updatedAt?: DateTimeFilter<"ModelTest"> | Date | string
+    attempts?: ModelTestAttemptListRelationFilter
   }
 
   export type ModelTestOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
     category?: SortOrder
+    description?: SortOrderInput | SortOrder
     totalMarks?: SortOrder
     durationMinutes?: SortOrder
+    negativeMark?: SortOrder
+    isPublished?: SortOrder
     questions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    attempts?: ModelTestAttemptOrderByRelationAggregateInput
   }
 
   export type ModelTestWhereUniqueInput = Prisma.AtLeast<{
@@ -62550,19 +68288,26 @@ export namespace Prisma {
     NOT?: ModelTestWhereInput | ModelTestWhereInput[]
     title?: StringFilter<"ModelTest"> | string
     category?: StringFilter<"ModelTest"> | string
+    description?: StringNullableFilter<"ModelTest"> | string | null
     totalMarks?: IntFilter<"ModelTest"> | number
     durationMinutes?: IntFilter<"ModelTest"> | number
+    negativeMark?: FloatFilter<"ModelTest"> | number
+    isPublished?: BoolFilter<"ModelTest"> | boolean
     questions?: JsonFilter<"ModelTest">
     createdAt?: DateTimeFilter<"ModelTest"> | Date | string
     updatedAt?: DateTimeFilter<"ModelTest"> | Date | string
+    attempts?: ModelTestAttemptListRelationFilter
   }, "id">
 
   export type ModelTestOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     category?: SortOrder
+    description?: SortOrderInput | SortOrder
     totalMarks?: SortOrder
     durationMinutes?: SortOrder
+    negativeMark?: SortOrder
+    isPublished?: SortOrder
     questions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -62580,11 +68325,116 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ModelTest"> | string
     title?: StringWithAggregatesFilter<"ModelTest"> | string
     category?: StringWithAggregatesFilter<"ModelTest"> | string
+    description?: StringNullableWithAggregatesFilter<"ModelTest"> | string | null
     totalMarks?: IntWithAggregatesFilter<"ModelTest"> | number
     durationMinutes?: IntWithAggregatesFilter<"ModelTest"> | number
+    negativeMark?: FloatWithAggregatesFilter<"ModelTest"> | number
+    isPublished?: BoolWithAggregatesFilter<"ModelTest"> | boolean
     questions?: JsonWithAggregatesFilter<"ModelTest">
     createdAt?: DateTimeWithAggregatesFilter<"ModelTest"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ModelTest"> | Date | string
+  }
+
+  export type ModelTestAttemptWhereInput = {
+    AND?: ModelTestAttemptWhereInput | ModelTestAttemptWhereInput[]
+    OR?: ModelTestAttemptWhereInput[]
+    NOT?: ModelTestAttemptWhereInput | ModelTestAttemptWhereInput[]
+    id?: StringFilter<"ModelTestAttempt"> | string
+    candidateId?: StringFilter<"ModelTestAttempt"> | string
+    modelTestId?: StringFilter<"ModelTestAttempt"> | string
+    category?: StringFilter<"ModelTestAttempt"> | string
+    totalQuestions?: IntFilter<"ModelTestAttempt"> | number
+    correctCount?: IntFilter<"ModelTestAttempt"> | number
+    wrongCount?: IntFilter<"ModelTestAttempt"> | number
+    skippedCount?: IntFilter<"ModelTestAttempt"> | number
+    score?: FloatFilter<"ModelTestAttempt"> | number
+    totalMarks?: IntFilter<"ModelTestAttempt"> | number
+    accuracy?: FloatFilter<"ModelTestAttempt"> | number
+    durationSec?: IntNullableFilter<"ModelTestAttempt"> | number | null
+    answers?: JsonNullableFilter<"ModelTestAttempt">
+    createdAt?: DateTimeFilter<"ModelTestAttempt"> | Date | string
+    modelTest?: XOR<ModelTestScalarRelationFilter, ModelTestWhereInput>
+  }
+
+  export type ModelTestAttemptOrderByWithRelationInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    modelTestId?: SortOrder
+    category?: SortOrder
+    totalQuestions?: SortOrder
+    correctCount?: SortOrder
+    wrongCount?: SortOrder
+    skippedCount?: SortOrder
+    score?: SortOrder
+    totalMarks?: SortOrder
+    accuracy?: SortOrder
+    durationSec?: SortOrderInput | SortOrder
+    answers?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    modelTest?: ModelTestOrderByWithRelationInput
+  }
+
+  export type ModelTestAttemptWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ModelTestAttemptWhereInput | ModelTestAttemptWhereInput[]
+    OR?: ModelTestAttemptWhereInput[]
+    NOT?: ModelTestAttemptWhereInput | ModelTestAttemptWhereInput[]
+    candidateId?: StringFilter<"ModelTestAttempt"> | string
+    modelTestId?: StringFilter<"ModelTestAttempt"> | string
+    category?: StringFilter<"ModelTestAttempt"> | string
+    totalQuestions?: IntFilter<"ModelTestAttempt"> | number
+    correctCount?: IntFilter<"ModelTestAttempt"> | number
+    wrongCount?: IntFilter<"ModelTestAttempt"> | number
+    skippedCount?: IntFilter<"ModelTestAttempt"> | number
+    score?: FloatFilter<"ModelTestAttempt"> | number
+    totalMarks?: IntFilter<"ModelTestAttempt"> | number
+    accuracy?: FloatFilter<"ModelTestAttempt"> | number
+    durationSec?: IntNullableFilter<"ModelTestAttempt"> | number | null
+    answers?: JsonNullableFilter<"ModelTestAttempt">
+    createdAt?: DateTimeFilter<"ModelTestAttempt"> | Date | string
+    modelTest?: XOR<ModelTestScalarRelationFilter, ModelTestWhereInput>
+  }, "id">
+
+  export type ModelTestAttemptOrderByWithAggregationInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    modelTestId?: SortOrder
+    category?: SortOrder
+    totalQuestions?: SortOrder
+    correctCount?: SortOrder
+    wrongCount?: SortOrder
+    skippedCount?: SortOrder
+    score?: SortOrder
+    totalMarks?: SortOrder
+    accuracy?: SortOrder
+    durationSec?: SortOrderInput | SortOrder
+    answers?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ModelTestAttemptCountOrderByAggregateInput
+    _avg?: ModelTestAttemptAvgOrderByAggregateInput
+    _max?: ModelTestAttemptMaxOrderByAggregateInput
+    _min?: ModelTestAttemptMinOrderByAggregateInput
+    _sum?: ModelTestAttemptSumOrderByAggregateInput
+  }
+
+  export type ModelTestAttemptScalarWhereWithAggregatesInput = {
+    AND?: ModelTestAttemptScalarWhereWithAggregatesInput | ModelTestAttemptScalarWhereWithAggregatesInput[]
+    OR?: ModelTestAttemptScalarWhereWithAggregatesInput[]
+    NOT?: ModelTestAttemptScalarWhereWithAggregatesInput | ModelTestAttemptScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ModelTestAttempt"> | string
+    candidateId?: StringWithAggregatesFilter<"ModelTestAttempt"> | string
+    modelTestId?: StringWithAggregatesFilter<"ModelTestAttempt"> | string
+    category?: StringWithAggregatesFilter<"ModelTestAttempt"> | string
+    totalQuestions?: IntWithAggregatesFilter<"ModelTestAttempt"> | number
+    correctCount?: IntWithAggregatesFilter<"ModelTestAttempt"> | number
+    wrongCount?: IntWithAggregatesFilter<"ModelTestAttempt"> | number
+    skippedCount?: IntWithAggregatesFilter<"ModelTestAttempt"> | number
+    score?: FloatWithAggregatesFilter<"ModelTestAttempt"> | number
+    totalMarks?: IntWithAggregatesFilter<"ModelTestAttempt"> | number
+    accuracy?: FloatWithAggregatesFilter<"ModelTestAttempt"> | number
+    durationSec?: IntNullableWithAggregatesFilter<"ModelTestAttempt"> | number | null
+    answers?: JsonNullableWithAggregatesFilter<"ModelTestAttempt">
+    createdAt?: DateTimeWithAggregatesFilter<"ModelTestAttempt"> | Date | string
   }
 
   export type JobCircularWhereInput = {
@@ -62834,7 +68684,9 @@ export namespace Prisma {
     slug?: StringFilter<"Organization"> | string
     logoUrl?: StringNullableFilter<"Organization"> | string | null
     websiteUrl?: StringNullableFilter<"Organization"> | string | null
+    description?: StringNullableFilter<"Organization"> | string | null
     type?: StringNullableFilter<"Organization"> | string | null
+    isActive?: BoolFilter<"Organization"> | boolean
     createdAt?: DateTimeFilter<"Organization"> | Date | string
     updatedAt?: DateTimeFilter<"Organization"> | Date | string
   }
@@ -62846,7 +68698,9 @@ export namespace Prisma {
     slug?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
     websiteUrl?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -62861,7 +68715,9 @@ export namespace Prisma {
     nameBn?: StringNullableFilter<"Organization"> | string | null
     logoUrl?: StringNullableFilter<"Organization"> | string | null
     websiteUrl?: StringNullableFilter<"Organization"> | string | null
+    description?: StringNullableFilter<"Organization"> | string | null
     type?: StringNullableFilter<"Organization"> | string | null
+    isActive?: BoolFilter<"Organization"> | boolean
     createdAt?: DateTimeFilter<"Organization"> | Date | string
     updatedAt?: DateTimeFilter<"Organization"> | Date | string
   }, "id" | "slug">
@@ -62873,7 +68729,9 @@ export namespace Prisma {
     slug?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
     websiteUrl?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: OrganizationCountOrderByAggregateInput
@@ -62891,7 +68749,9 @@ export namespace Prisma {
     slug?: StringWithAggregatesFilter<"Organization"> | string
     logoUrl?: StringNullableWithAggregatesFilter<"Organization"> | string | null
     websiteUrl?: StringNullableWithAggregatesFilter<"Organization"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Organization"> | string | null
     type?: StringNullableWithAggregatesFilter<"Organization"> | string | null
+    isActive?: BoolWithAggregatesFilter<"Organization"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
   }
@@ -66589,13 +72449,235 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BlogPostCreateInput = {
+    id?: string
+    slug: string
+    kind?: string
+    title: string
+    excerpt?: string | null
+    content: string
+    category?: string | null
+    author?: string | null
+    coverImage?: string | null
+    readTime?: string | null
+    tags?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    publishedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogPostUncheckedCreateInput = {
+    id?: string
+    slug: string
+    kind?: string
+    title: string
+    excerpt?: string | null
+    content: string
+    category?: string | null
+    author?: string | null
+    coverImage?: string | null
+    readTime?: string | null
+    tags?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    publishedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogPostUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    readTime?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogPostUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    readTime?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogPostCreateManyInput = {
+    id?: string
+    slug: string
+    kind?: string
+    title: string
+    excerpt?: string | null
+    content: string
+    category?: string | null
+    author?: string | null
+    coverImage?: string | null
+    readTime?: string | null
+    tags?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    publishedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogPostUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    readTime?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogPostUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    readTime?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateReviewCreateInput = {
+    id?: string
+    name: string
+    role?: string | null
+    institution?: string | null
+    quote: string
+    rating?: number
+    isApproved?: boolean
+    orderIndex?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateReviewUncheckedCreateInput = {
+    id?: string
+    name: string
+    role?: string | null
+    institution?: string | null
+    quote: string
+    rating?: number
+    isApproved?: boolean
+    orderIndex?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateReviewUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
+    quote?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    isApproved?: BoolFieldUpdateOperationsInput | boolean
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateReviewUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
+    quote?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    isApproved?: BoolFieldUpdateOperationsInput | boolean
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateReviewCreateManyInput = {
+    id?: string
+    name: string
+    role?: string | null
+    institution?: string | null
+    quote: string
+    rating?: number
+    isApproved?: boolean
+    orderIndex?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateReviewUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
+    quote?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    isApproved?: BoolFieldUpdateOperationsInput | boolean
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateReviewUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
+    quote?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    isApproved?: BoolFieldUpdateOperationsInput | boolean
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ExamNoticeCreateInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
     examDate?: Date | string | null
+    examTime?: string | null
     venue?: string | null
+    description?: string | null
     noticeUrl?: string | null
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     job?: JobCircularCreateNestedOneWithoutExamNoticesInput
@@ -66605,10 +72687,15 @@ export namespace Prisma {
     id?: string
     jobId?: string | null
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
     examDate?: Date | string | null
+    examTime?: string | null
     venue?: string | null
+    description?: string | null
     noticeUrl?: string | null
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -66616,10 +72703,15 @@ export namespace Prisma {
   export type ExamNoticeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
     examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    examTime?: NullableStringFieldUpdateOperationsInput | string | null
     venue?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     job?: JobCircularUpdateOneWithoutExamNoticesNestedInput
@@ -66629,10 +72721,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     jobId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
     examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    examTime?: NullableStringFieldUpdateOperationsInput | string | null
     venue?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -66641,10 +72738,15 @@ export namespace Prisma {
     id?: string
     jobId?: string | null
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
     examDate?: Date | string | null
+    examTime?: string | null
     venue?: string | null
+    description?: string | null
     noticeUrl?: string | null
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -66652,10 +72754,15 @@ export namespace Prisma {
   export type ExamNoticeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
     examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    examTime?: NullableStringFieldUpdateOperationsInput | string | null
     venue?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -66664,10 +72771,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     jobId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
     examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    examTime?: NullableStringFieldUpdateOperationsInput | string | null
     venue?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -66675,21 +72787,31 @@ export namespace Prisma {
   export type AdmitCardCreateInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
+    examDate?: Date | string | null
+    deadline?: Date | string | null
     downloadUrl?: string | null
     rollInstructions?: string | null
     isAvailable?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    job: JobCircularCreateNestedOneWithoutAdmitCardsInput
+    job?: JobCircularCreateNestedOneWithoutAdmitCardsInput
   }
 
   export type AdmitCardUncheckedCreateInput = {
     id?: string
-    jobId: string
+    jobId?: string | null
     title: string
+    organization?: string | null
+    category?: string | null
+    examDate?: Date | string | null
+    deadline?: Date | string | null
     downloadUrl?: string | null
     rollInstructions?: string | null
     isAvailable?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -66697,32 +72819,47 @@ export namespace Prisma {
   export type AdmitCardUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     downloadUrl?: NullableStringFieldUpdateOperationsInput | string | null
     rollInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    job?: JobCircularUpdateOneRequiredWithoutAdmitCardsNestedInput
+    job?: JobCircularUpdateOneWithoutAdmitCardsNestedInput
   }
 
   export type AdmitCardUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    jobId?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     downloadUrl?: NullableStringFieldUpdateOperationsInput | string | null
     rollInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AdmitCardCreateManyInput = {
     id?: string
-    jobId: string
+    jobId?: string | null
     title: string
+    organization?: string | null
+    category?: string | null
+    examDate?: Date | string | null
+    deadline?: Date | string | null
     downloadUrl?: string | null
     rollInstructions?: string | null
     isAvailable?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -66730,20 +72867,30 @@ export namespace Prisma {
   export type AdmitCardUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     downloadUrl?: NullableStringFieldUpdateOperationsInput | string | null
     rollInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AdmitCardUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    jobId?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     downloadUrl?: NullableStringFieldUpdateOperationsInput | string | null
     rollInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -66751,21 +72898,29 @@ export namespace Prisma {
   export type ExamResultCreateInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
+    summary?: string | null
     pdfUrl?: string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    job: JobCircularCreateNestedOneWithoutExamResultsInput
+    job?: JobCircularCreateNestedOneWithoutExamResultsInput
   }
 
   export type ExamResultUncheckedCreateInput = {
     id?: string
-    jobId: string
+    jobId?: string | null
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
+    summary?: string | null
     pdfUrl?: string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -66773,32 +72928,44 @@ export namespace Prisma {
   export type ExamResultUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    job?: JobCircularUpdateOneRequiredWithoutExamResultsNestedInput
+    job?: JobCircularUpdateOneWithoutExamResultsNestedInput
   }
 
   export type ExamResultUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    jobId?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExamResultCreateManyInput = {
     id?: string
-    jobId: string
+    jobId?: string | null
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
+    summary?: string | null
     pdfUrl?: string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -66806,20 +72973,126 @@ export namespace Prisma {
   export type ExamResultUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExamResultUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    jobId?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VivaNoticeCreateInput = {
+    id?: string
+    title: string
+    organization?: string | null
+    category?: string | null
+    vivaDate?: Date | string | null
+    venue?: string | null
+    instructions?: string | null
+    noticeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VivaNoticeUncheckedCreateInput = {
+    id?: string
+    title: string
+    organization?: string | null
+    category?: string | null
+    vivaDate?: Date | string | null
+    venue?: string | null
+    instructions?: string | null
+    noticeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VivaNoticeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    vivaDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    venue?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VivaNoticeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    vivaDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    venue?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VivaNoticeCreateManyInput = {
+    id?: string
+    title: string
+    organization?: string | null
+    category?: string | null
+    vivaDate?: Date | string | null
+    venue?: string | null
+    instructions?: string | null
+    noticeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VivaNoticeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    vivaDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    venue?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VivaNoticeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    vivaDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    venue?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -66919,52 +73192,71 @@ export namespace Prisma {
     id?: string
     title: string
     category: string
+    description?: string | null
     totalMarks?: number
     durationMinutes?: number
+    negativeMark?: number
+    isPublished?: boolean
     questions: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    attempts?: ModelTestAttemptCreateNestedManyWithoutModelTestInput
   }
 
   export type ModelTestUncheckedCreateInput = {
     id?: string
     title: string
     category: string
+    description?: string | null
     totalMarks?: number
     durationMinutes?: number
+    negativeMark?: number
+    isPublished?: boolean
     questions: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    attempts?: ModelTestAttemptUncheckedCreateNestedManyWithoutModelTestInput
   }
 
   export type ModelTestUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     totalMarks?: IntFieldUpdateOperationsInput | number
     durationMinutes?: IntFieldUpdateOperationsInput | number
+    negativeMark?: FloatFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     questions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attempts?: ModelTestAttemptUpdateManyWithoutModelTestNestedInput
   }
 
   export type ModelTestUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     totalMarks?: IntFieldUpdateOperationsInput | number
     durationMinutes?: IntFieldUpdateOperationsInput | number
+    negativeMark?: FloatFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     questions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attempts?: ModelTestAttemptUncheckedUpdateManyWithoutModelTestNestedInput
   }
 
   export type ModelTestCreateManyInput = {
     id?: string
     title: string
     category: string
+    description?: string | null
     totalMarks?: number
     durationMinutes?: number
+    negativeMark?: number
+    isPublished?: boolean
     questions: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66974,8 +73266,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     totalMarks?: IntFieldUpdateOperationsInput | number
     durationMinutes?: IntFieldUpdateOperationsInput | number
+    negativeMark?: FloatFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     questions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66985,11 +73280,132 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     totalMarks?: IntFieldUpdateOperationsInput | number
     durationMinutes?: IntFieldUpdateOperationsInput | number
+    negativeMark?: FloatFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     questions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelTestAttemptCreateInput = {
+    id?: string
+    candidateId: string
+    category: string
+    totalQuestions: number
+    correctCount: number
+    wrongCount: number
+    skippedCount?: number
+    score: number
+    totalMarks: number
+    accuracy: number
+    durationSec?: number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    modelTest: ModelTestCreateNestedOneWithoutAttemptsInput
+  }
+
+  export type ModelTestAttemptUncheckedCreateInput = {
+    id?: string
+    candidateId: string
+    modelTestId: string
+    category: string
+    totalQuestions: number
+    correctCount: number
+    wrongCount: number
+    skippedCount?: number
+    score: number
+    totalMarks: number
+    accuracy: number
+    durationSec?: number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ModelTestAttemptUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    totalQuestions?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    wrongCount?: IntFieldUpdateOperationsInput | number
+    skippedCount?: IntFieldUpdateOperationsInput | number
+    score?: FloatFieldUpdateOperationsInput | number
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    accuracy?: FloatFieldUpdateOperationsInput | number
+    durationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelTest?: ModelTestUpdateOneRequiredWithoutAttemptsNestedInput
+  }
+
+  export type ModelTestAttemptUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    modelTestId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    totalQuestions?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    wrongCount?: IntFieldUpdateOperationsInput | number
+    skippedCount?: IntFieldUpdateOperationsInput | number
+    score?: FloatFieldUpdateOperationsInput | number
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    accuracy?: FloatFieldUpdateOperationsInput | number
+    durationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelTestAttemptCreateManyInput = {
+    id?: string
+    candidateId: string
+    modelTestId: string
+    category: string
+    totalQuestions: number
+    correctCount: number
+    wrongCount: number
+    skippedCount?: number
+    score: number
+    totalMarks: number
+    accuracy: number
+    durationSec?: number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ModelTestAttemptUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    totalQuestions?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    wrongCount?: IntFieldUpdateOperationsInput | number
+    skippedCount?: IntFieldUpdateOperationsInput | number
+    score?: FloatFieldUpdateOperationsInput | number
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    accuracy?: FloatFieldUpdateOperationsInput | number
+    durationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelTestAttemptUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    modelTestId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    totalQuestions?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    wrongCount?: IntFieldUpdateOperationsInput | number
+    skippedCount?: IntFieldUpdateOperationsInput | number
+    score?: FloatFieldUpdateOperationsInput | number
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    accuracy?: FloatFieldUpdateOperationsInput | number
+    durationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type JobCircularCreateInput = {
@@ -67279,25 +73695,29 @@ export namespace Prisma {
   }
 
   export type OrganizationCreateInput = {
-    id: string
+    id?: string
     name: string
     nameBn?: string | null
     slug: string
     logoUrl?: string | null
     websiteUrl?: string | null
+    description?: string | null
     type?: string | null
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type OrganizationUncheckedCreateInput = {
-    id: string
+    id?: string
     name: string
     nameBn?: string | null
     slug: string
     logoUrl?: string | null
     websiteUrl?: string | null
+    description?: string | null
     type?: string | null
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -67309,7 +73729,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     websiteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -67321,19 +73743,23 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     websiteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrganizationCreateManyInput = {
-    id: string
+    id?: string
     name: string
     nameBn?: string | null
     slug: string
     logoUrl?: string | null
     websiteUrl?: string | null
+    description?: string | null
     type?: string | null
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -67345,7 +73771,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     websiteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -67357,7 +73785,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     websiteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -69963,6 +76393,107 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type BlogPostCountOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    author?: SortOrder
+    coverImage?: SortOrder
+    readTime?: SortOrder
+    tags?: SortOrder
+    status?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BlogPostMaxOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    author?: SortOrder
+    coverImage?: SortOrder
+    readTime?: SortOrder
+    status?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BlogPostMinOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    author?: SortOrder
+    coverImage?: SortOrder
+    readTime?: SortOrder
+    status?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateReviewCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    institution?: SortOrder
+    quote?: SortOrder
+    rating?: SortOrder
+    isApproved?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateReviewAvgOrderByAggregateInput = {
+    rating?: SortOrder
+    orderIndex?: SortOrder
+  }
+
+  export type CandidateReviewMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    institution?: SortOrder
+    quote?: SortOrder
+    rating?: SortOrder
+    isApproved?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateReviewMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    institution?: SortOrder
+    quote?: SortOrder
+    rating?: SortOrder
+    isApproved?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateReviewSumOrderByAggregateInput = {
+    rating?: SortOrder
+    orderIndex?: SortOrder
+  }
+
   export type EnumExamStageFilter<$PrismaModel = never> = {
     equals?: $Enums.ExamStage | EnumExamStageFieldRefInput<$PrismaModel>
     in?: $Enums.ExamStage[] | ListEnumExamStageFieldRefInput<$PrismaModel>
@@ -69979,10 +76510,15 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
     stage?: SortOrder
     examDate?: SortOrder
+    examTime?: SortOrder
     venue?: SortOrder
+    description?: SortOrder
     noticeUrl?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -69991,10 +76527,15 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
     stage?: SortOrder
     examDate?: SortOrder
+    examTime?: SortOrder
     venue?: SortOrder
+    description?: SortOrder
     noticeUrl?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70003,10 +76544,15 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
     stage?: SortOrder
     examDate?: SortOrder
+    examTime?: SortOrder
     venue?: SortOrder
+    description?: SortOrder
     noticeUrl?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70025,9 +76571,14 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
+    examDate?: SortOrder
+    deadline?: SortOrder
     downloadUrl?: SortOrder
     rollInstructions?: SortOrder
     isAvailable?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70036,9 +76587,14 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
+    examDate?: SortOrder
+    deadline?: SortOrder
     downloadUrl?: SortOrder
     rollInstructions?: SortOrder
     isAvailable?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70047,9 +76603,14 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
+    examDate?: SortOrder
+    deadline?: SortOrder
     downloadUrl?: SortOrder
     rollInstructions?: SortOrder
     isAvailable?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70058,9 +76619,13 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
     stage?: SortOrder
+    summary?: SortOrder
     pdfUrl?: SortOrder
     passedRolls?: SortOrder
+    publishedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70069,8 +76634,12 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
     stage?: SortOrder
+    summary?: SortOrder
     pdfUrl?: SortOrder
+    publishedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70079,8 +76648,54 @@ export namespace Prisma {
     id?: SortOrder
     jobId?: SortOrder
     title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
     stage?: SortOrder
+    summary?: SortOrder
     pdfUrl?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VivaNoticeCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
+    vivaDate?: SortOrder
+    venue?: SortOrder
+    instructions?: SortOrder
+    noticeUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VivaNoticeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
+    vivaDate?: SortOrder
+    venue?: SortOrder
+    instructions?: SortOrder
+    noticeUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VivaNoticeMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    organization?: SortOrder
+    category?: SortOrder
+    vivaDate?: SortOrder
+    venue?: SortOrder
+    instructions?: SortOrder
+    noticeUrl?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70132,12 +76747,36 @@ export namespace Prisma {
     examYear?: SortOrder
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type ModelTestAttemptListRelationFilter = {
+    every?: ModelTestAttemptWhereInput
+    some?: ModelTestAttemptWhereInput
+    none?: ModelTestAttemptWhereInput
+  }
+
+  export type ModelTestAttemptOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ModelTestCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     category?: SortOrder
+    description?: SortOrder
     totalMarks?: SortOrder
     durationMinutes?: SortOrder
+    negativeMark?: SortOrder
+    isPublished?: SortOrder
     questions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -70146,14 +76785,18 @@ export namespace Prisma {
   export type ModelTestAvgOrderByAggregateInput = {
     totalMarks?: SortOrder
     durationMinutes?: SortOrder
+    negativeMark?: SortOrder
   }
 
   export type ModelTestMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     category?: SortOrder
+    description?: SortOrder
     totalMarks?: SortOrder
     durationMinutes?: SortOrder
+    negativeMark?: SortOrder
+    isPublished?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70162,8 +76805,11 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     category?: SortOrder
+    description?: SortOrder
     totalMarks?: SortOrder
     durationMinutes?: SortOrder
+    negativeMark?: SortOrder
+    isPublished?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70171,6 +76817,99 @@ export namespace Prisma {
   export type ModelTestSumOrderByAggregateInput = {
     totalMarks?: SortOrder
     durationMinutes?: SortOrder
+    negativeMark?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type ModelTestScalarRelationFilter = {
+    is?: ModelTestWhereInput
+    isNot?: ModelTestWhereInput
+  }
+
+  export type ModelTestAttemptCountOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    modelTestId?: SortOrder
+    category?: SortOrder
+    totalQuestions?: SortOrder
+    correctCount?: SortOrder
+    wrongCount?: SortOrder
+    skippedCount?: SortOrder
+    score?: SortOrder
+    totalMarks?: SortOrder
+    accuracy?: SortOrder
+    durationSec?: SortOrder
+    answers?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ModelTestAttemptAvgOrderByAggregateInput = {
+    totalQuestions?: SortOrder
+    correctCount?: SortOrder
+    wrongCount?: SortOrder
+    skippedCount?: SortOrder
+    score?: SortOrder
+    totalMarks?: SortOrder
+    accuracy?: SortOrder
+    durationSec?: SortOrder
+  }
+
+  export type ModelTestAttemptMaxOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    modelTestId?: SortOrder
+    category?: SortOrder
+    totalQuestions?: SortOrder
+    correctCount?: SortOrder
+    wrongCount?: SortOrder
+    skippedCount?: SortOrder
+    score?: SortOrder
+    totalMarks?: SortOrder
+    accuracy?: SortOrder
+    durationSec?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ModelTestAttemptMinOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    modelTestId?: SortOrder
+    category?: SortOrder
+    totalQuestions?: SortOrder
+    correctCount?: SortOrder
+    wrongCount?: SortOrder
+    skippedCount?: SortOrder
+    score?: SortOrder
+    totalMarks?: SortOrder
+    accuracy?: SortOrder
+    durationSec?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ModelTestAttemptSumOrderByAggregateInput = {
+    totalQuestions?: SortOrder
+    correctCount?: SortOrder
+    wrongCount?: SortOrder
+    skippedCount?: SortOrder
+    score?: SortOrder
+    totalMarks?: SortOrder
+    accuracy?: SortOrder
+    durationSec?: SortOrder
   }
 
   export type EnumJobStatusFilter<$PrismaModel = never> = {
@@ -70369,7 +77108,9 @@ export namespace Prisma {
     slug?: SortOrder
     logoUrl?: SortOrder
     websiteUrl?: SortOrder
+    description?: SortOrder
     type?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70381,7 +77122,9 @@ export namespace Prisma {
     slug?: SortOrder
     logoUrl?: SortOrder
     websiteUrl?: SortOrder
+    description?: SortOrder
     type?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70393,7 +77136,9 @@ export namespace Prisma {
     slug?: SortOrder
     logoUrl?: SortOrder
     websiteUrl?: SortOrder
+    description?: SortOrder
     type?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -71435,10 +78180,12 @@ export namespace Prisma {
     connect?: JobCircularWhereUniqueInput
   }
 
-  export type JobCircularUpdateOneRequiredWithoutAdmitCardsNestedInput = {
+  export type JobCircularUpdateOneWithoutAdmitCardsNestedInput = {
     create?: XOR<JobCircularCreateWithoutAdmitCardsInput, JobCircularUncheckedCreateWithoutAdmitCardsInput>
     connectOrCreate?: JobCircularCreateOrConnectWithoutAdmitCardsInput
     upsert?: JobCircularUpsertWithoutAdmitCardsInput
+    disconnect?: JobCircularWhereInput | boolean
+    delete?: JobCircularWhereInput | boolean
     connect?: JobCircularWhereUniqueInput
     update?: XOR<XOR<JobCircularUpdateToOneWithWhereWithoutAdmitCardsInput, JobCircularUpdateWithoutAdmitCardsInput>, JobCircularUncheckedUpdateWithoutAdmitCardsInput>
   }
@@ -71449,12 +78196,78 @@ export namespace Prisma {
     connect?: JobCircularWhereUniqueInput
   }
 
-  export type JobCircularUpdateOneRequiredWithoutExamResultsNestedInput = {
+  export type JobCircularUpdateOneWithoutExamResultsNestedInput = {
     create?: XOR<JobCircularCreateWithoutExamResultsInput, JobCircularUncheckedCreateWithoutExamResultsInput>
     connectOrCreate?: JobCircularCreateOrConnectWithoutExamResultsInput
     upsert?: JobCircularUpsertWithoutExamResultsInput
+    disconnect?: JobCircularWhereInput | boolean
+    delete?: JobCircularWhereInput | boolean
     connect?: JobCircularWhereUniqueInput
     update?: XOR<XOR<JobCircularUpdateToOneWithWhereWithoutExamResultsInput, JobCircularUpdateWithoutExamResultsInput>, JobCircularUncheckedUpdateWithoutExamResultsInput>
+  }
+
+  export type ModelTestAttemptCreateNestedManyWithoutModelTestInput = {
+    create?: XOR<ModelTestAttemptCreateWithoutModelTestInput, ModelTestAttemptUncheckedCreateWithoutModelTestInput> | ModelTestAttemptCreateWithoutModelTestInput[] | ModelTestAttemptUncheckedCreateWithoutModelTestInput[]
+    connectOrCreate?: ModelTestAttemptCreateOrConnectWithoutModelTestInput | ModelTestAttemptCreateOrConnectWithoutModelTestInput[]
+    createMany?: ModelTestAttemptCreateManyModelTestInputEnvelope
+    connect?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+  }
+
+  export type ModelTestAttemptUncheckedCreateNestedManyWithoutModelTestInput = {
+    create?: XOR<ModelTestAttemptCreateWithoutModelTestInput, ModelTestAttemptUncheckedCreateWithoutModelTestInput> | ModelTestAttemptCreateWithoutModelTestInput[] | ModelTestAttemptUncheckedCreateWithoutModelTestInput[]
+    connectOrCreate?: ModelTestAttemptCreateOrConnectWithoutModelTestInput | ModelTestAttemptCreateOrConnectWithoutModelTestInput[]
+    createMany?: ModelTestAttemptCreateManyModelTestInputEnvelope
+    connect?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ModelTestAttemptUpdateManyWithoutModelTestNestedInput = {
+    create?: XOR<ModelTestAttemptCreateWithoutModelTestInput, ModelTestAttemptUncheckedCreateWithoutModelTestInput> | ModelTestAttemptCreateWithoutModelTestInput[] | ModelTestAttemptUncheckedCreateWithoutModelTestInput[]
+    connectOrCreate?: ModelTestAttemptCreateOrConnectWithoutModelTestInput | ModelTestAttemptCreateOrConnectWithoutModelTestInput[]
+    upsert?: ModelTestAttemptUpsertWithWhereUniqueWithoutModelTestInput | ModelTestAttemptUpsertWithWhereUniqueWithoutModelTestInput[]
+    createMany?: ModelTestAttemptCreateManyModelTestInputEnvelope
+    set?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+    disconnect?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+    delete?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+    connect?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+    update?: ModelTestAttemptUpdateWithWhereUniqueWithoutModelTestInput | ModelTestAttemptUpdateWithWhereUniqueWithoutModelTestInput[]
+    updateMany?: ModelTestAttemptUpdateManyWithWhereWithoutModelTestInput | ModelTestAttemptUpdateManyWithWhereWithoutModelTestInput[]
+    deleteMany?: ModelTestAttemptScalarWhereInput | ModelTestAttemptScalarWhereInput[]
+  }
+
+  export type ModelTestAttemptUncheckedUpdateManyWithoutModelTestNestedInput = {
+    create?: XOR<ModelTestAttemptCreateWithoutModelTestInput, ModelTestAttemptUncheckedCreateWithoutModelTestInput> | ModelTestAttemptCreateWithoutModelTestInput[] | ModelTestAttemptUncheckedCreateWithoutModelTestInput[]
+    connectOrCreate?: ModelTestAttemptCreateOrConnectWithoutModelTestInput | ModelTestAttemptCreateOrConnectWithoutModelTestInput[]
+    upsert?: ModelTestAttemptUpsertWithWhereUniqueWithoutModelTestInput | ModelTestAttemptUpsertWithWhereUniqueWithoutModelTestInput[]
+    createMany?: ModelTestAttemptCreateManyModelTestInputEnvelope
+    set?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+    disconnect?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+    delete?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+    connect?: ModelTestAttemptWhereUniqueInput | ModelTestAttemptWhereUniqueInput[]
+    update?: ModelTestAttemptUpdateWithWhereUniqueWithoutModelTestInput | ModelTestAttemptUpdateWithWhereUniqueWithoutModelTestInput[]
+    updateMany?: ModelTestAttemptUpdateManyWithWhereWithoutModelTestInput | ModelTestAttemptUpdateManyWithWhereWithoutModelTestInput[]
+    deleteMany?: ModelTestAttemptScalarWhereInput | ModelTestAttemptScalarWhereInput[]
+  }
+
+  export type ModelTestCreateNestedOneWithoutAttemptsInput = {
+    create?: XOR<ModelTestCreateWithoutAttemptsInput, ModelTestUncheckedCreateWithoutAttemptsInput>
+    connectOrCreate?: ModelTestCreateOrConnectWithoutAttemptsInput
+    connect?: ModelTestWhereUniqueInput
+  }
+
+  export type ModelTestUpdateOneRequiredWithoutAttemptsNestedInput = {
+    create?: XOR<ModelTestCreateWithoutAttemptsInput, ModelTestUncheckedCreateWithoutAttemptsInput>
+    connectOrCreate?: ModelTestCreateOrConnectWithoutAttemptsInput
+    upsert?: ModelTestUpsertWithoutAttemptsInput
+    connect?: ModelTestWhereUniqueInput
+    update?: XOR<XOR<ModelTestUpdateToOneWithWhereWithoutAttemptsInput, ModelTestUpdateWithoutAttemptsInput>, ModelTestUncheckedUpdateWithoutAttemptsInput>
   }
 
   export type CategoryCreateNestedOneWithoutJobsInput = {
@@ -72371,6 +79184,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumExamStageFilter<$PrismaModel>
     _max?: NestedEnumExamStageFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedEnumJobStatusFilter<$PrismaModel = never> = {
@@ -75897,6 +82726,156 @@ export namespace Prisma {
     userReminders?: UserJobReminderUncheckedUpdateManyWithoutJobNestedInput
   }
 
+  export type ModelTestAttemptCreateWithoutModelTestInput = {
+    id?: string
+    candidateId: string
+    category: string
+    totalQuestions: number
+    correctCount: number
+    wrongCount: number
+    skippedCount?: number
+    score: number
+    totalMarks: number
+    accuracy: number
+    durationSec?: number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ModelTestAttemptUncheckedCreateWithoutModelTestInput = {
+    id?: string
+    candidateId: string
+    category: string
+    totalQuestions: number
+    correctCount: number
+    wrongCount: number
+    skippedCount?: number
+    score: number
+    totalMarks: number
+    accuracy: number
+    durationSec?: number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ModelTestAttemptCreateOrConnectWithoutModelTestInput = {
+    where: ModelTestAttemptWhereUniqueInput
+    create: XOR<ModelTestAttemptCreateWithoutModelTestInput, ModelTestAttemptUncheckedCreateWithoutModelTestInput>
+  }
+
+  export type ModelTestAttemptCreateManyModelTestInputEnvelope = {
+    data: ModelTestAttemptCreateManyModelTestInput | ModelTestAttemptCreateManyModelTestInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ModelTestAttemptUpsertWithWhereUniqueWithoutModelTestInput = {
+    where: ModelTestAttemptWhereUniqueInput
+    update: XOR<ModelTestAttemptUpdateWithoutModelTestInput, ModelTestAttemptUncheckedUpdateWithoutModelTestInput>
+    create: XOR<ModelTestAttemptCreateWithoutModelTestInput, ModelTestAttemptUncheckedCreateWithoutModelTestInput>
+  }
+
+  export type ModelTestAttemptUpdateWithWhereUniqueWithoutModelTestInput = {
+    where: ModelTestAttemptWhereUniqueInput
+    data: XOR<ModelTestAttemptUpdateWithoutModelTestInput, ModelTestAttemptUncheckedUpdateWithoutModelTestInput>
+  }
+
+  export type ModelTestAttemptUpdateManyWithWhereWithoutModelTestInput = {
+    where: ModelTestAttemptScalarWhereInput
+    data: XOR<ModelTestAttemptUpdateManyMutationInput, ModelTestAttemptUncheckedUpdateManyWithoutModelTestInput>
+  }
+
+  export type ModelTestAttemptScalarWhereInput = {
+    AND?: ModelTestAttemptScalarWhereInput | ModelTestAttemptScalarWhereInput[]
+    OR?: ModelTestAttemptScalarWhereInput[]
+    NOT?: ModelTestAttemptScalarWhereInput | ModelTestAttemptScalarWhereInput[]
+    id?: StringFilter<"ModelTestAttempt"> | string
+    candidateId?: StringFilter<"ModelTestAttempt"> | string
+    modelTestId?: StringFilter<"ModelTestAttempt"> | string
+    category?: StringFilter<"ModelTestAttempt"> | string
+    totalQuestions?: IntFilter<"ModelTestAttempt"> | number
+    correctCount?: IntFilter<"ModelTestAttempt"> | number
+    wrongCount?: IntFilter<"ModelTestAttempt"> | number
+    skippedCount?: IntFilter<"ModelTestAttempt"> | number
+    score?: FloatFilter<"ModelTestAttempt"> | number
+    totalMarks?: IntFilter<"ModelTestAttempt"> | number
+    accuracy?: FloatFilter<"ModelTestAttempt"> | number
+    durationSec?: IntNullableFilter<"ModelTestAttempt"> | number | null
+    answers?: JsonNullableFilter<"ModelTestAttempt">
+    createdAt?: DateTimeFilter<"ModelTestAttempt"> | Date | string
+  }
+
+  export type ModelTestCreateWithoutAttemptsInput = {
+    id?: string
+    title: string
+    category: string
+    description?: string | null
+    totalMarks?: number
+    durationMinutes?: number
+    negativeMark?: number
+    isPublished?: boolean
+    questions: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelTestUncheckedCreateWithoutAttemptsInput = {
+    id?: string
+    title: string
+    category: string
+    description?: string | null
+    totalMarks?: number
+    durationMinutes?: number
+    negativeMark?: number
+    isPublished?: boolean
+    questions: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelTestCreateOrConnectWithoutAttemptsInput = {
+    where: ModelTestWhereUniqueInput
+    create: XOR<ModelTestCreateWithoutAttemptsInput, ModelTestUncheckedCreateWithoutAttemptsInput>
+  }
+
+  export type ModelTestUpsertWithoutAttemptsInput = {
+    update: XOR<ModelTestUpdateWithoutAttemptsInput, ModelTestUncheckedUpdateWithoutAttemptsInput>
+    create: XOR<ModelTestCreateWithoutAttemptsInput, ModelTestUncheckedCreateWithoutAttemptsInput>
+    where?: ModelTestWhereInput
+  }
+
+  export type ModelTestUpdateToOneWithWhereWithoutAttemptsInput = {
+    where?: ModelTestWhereInput
+    data: XOR<ModelTestUpdateWithoutAttemptsInput, ModelTestUncheckedUpdateWithoutAttemptsInput>
+  }
+
+  export type ModelTestUpdateWithoutAttemptsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    durationMinutes?: IntFieldUpdateOperationsInput | number
+    negativeMark?: FloatFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    questions?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelTestUncheckedUpdateWithoutAttemptsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    durationMinutes?: IntFieldUpdateOperationsInput | number
+    negativeMark?: FloatFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    questions?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CategoryCreateWithoutJobsInput = {
     id: string
     slug: string
@@ -76017,10 +82996,15 @@ export namespace Prisma {
   export type ExamNoticeCreateWithoutJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
     examDate?: Date | string | null
+    examTime?: string | null
     venue?: string | null
+    description?: string | null
     noticeUrl?: string | null
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -76028,10 +83012,15 @@ export namespace Prisma {
   export type ExamNoticeUncheckedCreateWithoutJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
     examDate?: Date | string | null
+    examTime?: string | null
     venue?: string | null
+    description?: string | null
     noticeUrl?: string | null
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -76049,9 +83038,14 @@ export namespace Prisma {
   export type AdmitCardCreateWithoutJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
+    examDate?: Date | string | null
+    deadline?: Date | string | null
     downloadUrl?: string | null
     rollInstructions?: string | null
     isAvailable?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -76059,9 +83053,14 @@ export namespace Prisma {
   export type AdmitCardUncheckedCreateWithoutJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
+    examDate?: Date | string | null
+    deadline?: Date | string | null
     downloadUrl?: string | null
     rollInstructions?: string | null
     isAvailable?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -76079,9 +83078,13 @@ export namespace Prisma {
   export type ExamResultCreateWithoutJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
+    summary?: string | null
     pdfUrl?: string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -76089,9 +83092,13 @@ export namespace Prisma {
   export type ExamResultUncheckedCreateWithoutJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
+    summary?: string | null
     pdfUrl?: string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -76220,10 +83227,15 @@ export namespace Prisma {
     id?: StringFilter<"ExamNotice"> | string
     jobId?: StringNullableFilter<"ExamNotice"> | string | null
     title?: StringFilter<"ExamNotice"> | string
+    organization?: StringNullableFilter<"ExamNotice"> | string | null
+    category?: StringNullableFilter<"ExamNotice"> | string | null
     stage?: EnumExamStageFilter<"ExamNotice"> | $Enums.ExamStage
     examDate?: DateTimeNullableFilter<"ExamNotice"> | Date | string | null
+    examTime?: StringNullableFilter<"ExamNotice"> | string | null
     venue?: StringNullableFilter<"ExamNotice"> | string | null
+    description?: StringNullableFilter<"ExamNotice"> | string | null
     noticeUrl?: StringNullableFilter<"ExamNotice"> | string | null
+    status?: StringFilter<"ExamNotice"> | string
     createdAt?: DateTimeFilter<"ExamNotice"> | Date | string
     updatedAt?: DateTimeFilter<"ExamNotice"> | Date | string
   }
@@ -76249,11 +83261,16 @@ export namespace Prisma {
     OR?: AdmitCardScalarWhereInput[]
     NOT?: AdmitCardScalarWhereInput | AdmitCardScalarWhereInput[]
     id?: StringFilter<"AdmitCard"> | string
-    jobId?: StringFilter<"AdmitCard"> | string
+    jobId?: StringNullableFilter<"AdmitCard"> | string | null
     title?: StringFilter<"AdmitCard"> | string
+    organization?: StringNullableFilter<"AdmitCard"> | string | null
+    category?: StringNullableFilter<"AdmitCard"> | string | null
+    examDate?: DateTimeNullableFilter<"AdmitCard"> | Date | string | null
+    deadline?: DateTimeNullableFilter<"AdmitCard"> | Date | string | null
     downloadUrl?: StringNullableFilter<"AdmitCard"> | string | null
     rollInstructions?: StringNullableFilter<"AdmitCard"> | string | null
     isAvailable?: BoolFilter<"AdmitCard"> | boolean
+    status?: StringFilter<"AdmitCard"> | string
     createdAt?: DateTimeFilter<"AdmitCard"> | Date | string
     updatedAt?: DateTimeFilter<"AdmitCard"> | Date | string
   }
@@ -76279,11 +83296,15 @@ export namespace Prisma {
     OR?: ExamResultScalarWhereInput[]
     NOT?: ExamResultScalarWhereInput | ExamResultScalarWhereInput[]
     id?: StringFilter<"ExamResult"> | string
-    jobId?: StringFilter<"ExamResult"> | string
+    jobId?: StringNullableFilter<"ExamResult"> | string | null
     title?: StringFilter<"ExamResult"> | string
+    organization?: StringNullableFilter<"ExamResult"> | string | null
+    category?: StringNullableFilter<"ExamResult"> | string | null
     stage?: EnumExamStageFilter<"ExamResult"> | $Enums.ExamStage
+    summary?: StringNullableFilter<"ExamResult"> | string | null
     pdfUrl?: StringNullableFilter<"ExamResult"> | string | null
     passedRolls?: JsonNullableFilter<"ExamResult">
+    publishedAt?: DateTimeFilter<"ExamResult"> | Date | string
     createdAt?: DateTimeFilter<"ExamResult"> | Date | string
     updatedAt?: DateTimeFilter<"ExamResult"> | Date | string
   }
@@ -77968,6 +84989,70 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ModelTestAttemptCreateManyModelTestInput = {
+    id?: string
+    candidateId: string
+    category: string
+    totalQuestions: number
+    correctCount: number
+    wrongCount: number
+    skippedCount?: number
+    score: number
+    totalMarks: number
+    accuracy: number
+    durationSec?: number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ModelTestAttemptUpdateWithoutModelTestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    totalQuestions?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    wrongCount?: IntFieldUpdateOperationsInput | number
+    skippedCount?: IntFieldUpdateOperationsInput | number
+    score?: FloatFieldUpdateOperationsInput | number
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    accuracy?: FloatFieldUpdateOperationsInput | number
+    durationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelTestAttemptUncheckedUpdateWithoutModelTestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    totalQuestions?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    wrongCount?: IntFieldUpdateOperationsInput | number
+    skippedCount?: IntFieldUpdateOperationsInput | number
+    score?: FloatFieldUpdateOperationsInput | number
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    accuracy?: FloatFieldUpdateOperationsInput | number
+    durationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelTestAttemptUncheckedUpdateManyWithoutModelTestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    totalQuestions?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    wrongCount?: IntFieldUpdateOperationsInput | number
+    skippedCount?: IntFieldUpdateOperationsInput | number
+    score?: FloatFieldUpdateOperationsInput | number
+    totalMarks?: IntFieldUpdateOperationsInput | number
+    accuracy?: FloatFieldUpdateOperationsInput | number
+    durationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ApplicationRequestCreateManyJobInput = {
     id: string
     candidateId: string
@@ -78005,10 +85090,15 @@ export namespace Prisma {
   export type ExamNoticeCreateManyJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
     examDate?: Date | string | null
+    examTime?: string | null
     venue?: string | null
+    description?: string | null
     noticeUrl?: string | null
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -78016,9 +85106,14 @@ export namespace Prisma {
   export type AdmitCardCreateManyJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
+    examDate?: Date | string | null
+    deadline?: Date | string | null
     downloadUrl?: string | null
     rollInstructions?: string | null
     isAvailable?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -78026,9 +85121,13 @@ export namespace Prisma {
   export type ExamResultCreateManyJobInput = {
     id?: string
     title: string
+    organization?: string | null
+    category?: string | null
     stage?: $Enums.ExamStage
+    summary?: string | null
     pdfUrl?: string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -78145,10 +85244,15 @@ export namespace Prisma {
   export type ExamNoticeUpdateWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
     examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    examTime?: NullableStringFieldUpdateOperationsInput | string | null
     venue?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78156,10 +85260,15 @@ export namespace Prisma {
   export type ExamNoticeUncheckedUpdateWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
     examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    examTime?: NullableStringFieldUpdateOperationsInput | string | null
     venue?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78167,10 +85276,15 @@ export namespace Prisma {
   export type ExamNoticeUncheckedUpdateManyWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
     examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    examTime?: NullableStringFieldUpdateOperationsInput | string | null
     venue?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     noticeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78178,9 +85292,14 @@ export namespace Prisma {
   export type AdmitCardUpdateWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     downloadUrl?: NullableStringFieldUpdateOperationsInput | string | null
     rollInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78188,9 +85307,14 @@ export namespace Prisma {
   export type AdmitCardUncheckedUpdateWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     downloadUrl?: NullableStringFieldUpdateOperationsInput | string | null
     rollInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78198,9 +85322,14 @@ export namespace Prisma {
   export type AdmitCardUncheckedUpdateManyWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    examDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     downloadUrl?: NullableStringFieldUpdateOperationsInput | string | null
     rollInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78208,9 +85337,13 @@ export namespace Prisma {
   export type ExamResultUpdateWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78218,9 +85351,13 @@ export namespace Prisma {
   export type ExamResultUncheckedUpdateWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78228,9 +85365,13 @@ export namespace Prisma {
   export type ExamResultUncheckedUpdateManyWithoutJobInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    organization?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: EnumExamStageFieldUpdateOperationsInput | $Enums.ExamStage
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passedRolls?: NullableJsonNullValueInput | InputJsonValue
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
