@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { adminController } from './admin.controller';
 import { adminExtendedController } from './admin.extended.controller';
+import { adminContentRouter } from './admin.content.controller';
 import { checkAuth } from '../../middleware/checkAuth';
 import { UserRole } from '../../../generated/prisma';
 import { applicantCopyUpload, circularPdfUpload, mediaUpload } from '../../utils/upload';
@@ -201,5 +202,8 @@ router.delete('/operations/expenses/:id', adminExtendedController.deleteExpense)
 router.get('/operations/budget', adminExtendedController.getOperationsOverview);
 router.post('/operations/budget', adminExtendedController.updateBudget);
 router.get('/operations/usage', adminExtendedController.getOperationsOverview);
+
+// Dynamic Content, Exam, Review & Organization CRUD
+router.use('/', adminContentRouter);
 
 export const adminRoutes = router;
