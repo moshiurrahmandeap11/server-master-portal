@@ -36,8 +36,9 @@ export const walletController = {
 
     return res.status(200).json({
       success: true,
-      message: 'ওয়ালেট রিচার্জ সফল হয়েছে!',
+      message: 'ওয়ালেট রিচার্জ অনুরোধ জমা হয়েছে! ভেরিফিকেশনের পর ব্যালেন্স যুক্ত হবে।',
       walletBalance: result.newBalance,
+      newBalance: result.newBalance,
       transaction: result.transaction,
       data: result,
     });
