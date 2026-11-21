@@ -4,6 +4,7 @@ import { cmsController } from './cms.controller';
 const router = Router();
 
 router.get('/settings', cmsController.getPlatformSettings);
+router.get('/access-policy', cmsController.getAccessPolicy);
 router.get('/pages', cmsController.getAllPages);
 router.get('/media', cmsController.getMediaItems);
 router.get('/pages/:slug(*)', cmsController.getPage);
