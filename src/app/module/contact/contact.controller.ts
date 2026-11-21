@@ -3,6 +3,7 @@ import status from 'http-status';
 import { catchAsync } from '../../shared/catchAsync';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
+import { UserRole } from '../../../generated/prisma';
 
 export const contactController = {
   submitMessage: catchAsync(async (req: Request, res: Response) => {
@@ -18,10 +19,12 @@ export const contactController = {
     const contact = await prisma.contactMessage.create({
       data: {
         id: ticketId,
+        ticketId,
         name: name.trim(),
         phone: phone.trim(),
         email: email ? email.trim().toLowerCase() : 'support@chakrisheba.com',
         subject: fullSubject,
+        category: category || 'general',
         message: message.trim(),
         status: 'unread',
       },
@@ -38,10 +41,11 @@ export const contactController = {
   getMessagesOrTrack: catchAsync(async (req: Request, res: Response) => {
     const ticketId = (req.query.ticketId || req.query.id) as string | undefined;
     const phone = req.query.phone as string | undefined;
+    const isStaff = req.user?.role === UserRole.ADMIN || req.user?.role === UserRole.OPERATOR;
 
     if (ticketId) {
-      const ticket = await prisma.contactMessage.findUnique({
-        where: { id: ticketId.trim() },
+      const ticket = await prisma.contactMessage.findFirst({
+        where: { OR: [{ id: ticketId.trim() }, { ticketId: ticketId.trim() }] },
       });
 
       if (!ticket) {
@@ -51,14 +55,27 @@ export const contactController = {
         });
       }
 
+      const publicTicket = isStaff
+        ? ticket
+        : {
+            id: ticket.id,
+            ticketId: ticket.ticketId || ticket.id,
+            subject: ticket.subject,
+            category: ticket.category,
+            status: ticket.status,
+            replyNotes: ticket.replyNotes,
+            createdAt: ticket.createdAt,
+            updatedAt: ticket.updatedAt,
+          };
+
       return res.status(200).json({
         success: true,
-        ticket,
-        data: ticket,
+        ticket: publicTicket,
+        data: publicTicket,
       });
     }
 
-    if (phone) {
+    if (phone && isStaff) {
       const messages = await prisma.contactMessage.findMany({
         where: { phone: phone.trim() },
         orderBy: { createdAt: 'desc' },
@@ -71,10 +88,14 @@ export const contactController = {
       });
     }
 
-    // Default list for admin or operator
+    if (!isStaff) {
+      throw new AppError(status.UNAUTHORIZED, 'সকল বার্তা দেখতে অনুগ্রহ করে অ্যাডমিন হিসেবে লগইন করুন অথবা টিকেট নম্বর দিয়ে ট্র্যাক করুন।');
+    }
+
+    // Staff-only list
     const messages = await prisma.contactMessage.findMany({
       orderBy: { createdAt: 'desc' },
-      take: 50,
+      take: 100,
     });
 
     return res.status(200).json({
