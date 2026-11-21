@@ -200,6 +200,28 @@ export const jobController = {
     });
   }),
 
+  getOrganizations: catchAsync(async (_req: Request, res: Response) => {
+    const result = await jobService.getOrganizations();
+
+    return res.status(200).json({
+      success: true,
+      message: 'প্রতিষ্ঠানসমূহের তালিকা লোড সফল হয়েছে।',
+      organizations: result,
+      data: result,
+    });
+  }),
+
+  getOrganizationBySlug: catchAsync(async (req: Request, res: Response) => {
+    const result = await jobService.getOrganizationBySlug(req.params.slug);
+
+    return res.status(200).json({
+      success: true,
+      message: 'প্রতিষ্ঠানের বিবরণ ও সার্কুলার।',
+      ...result,
+      data: result,
+    });
+  }),
+
   getJobDetails: catchAsync(async (req: Request, res: Response) => {
     const result = await jobService.getJobByIdOrSlug(req.params.idOrSlug);
 
