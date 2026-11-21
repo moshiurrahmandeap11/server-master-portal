@@ -2,6 +2,28 @@ import { prisma } from '../lib/prisma';
 import { JobStatus } from '../../generated/prisma';
 import { geminiUtils } from './gemini';
 
+function parseDeadlineSafe(raw?: any): Date {
+  if (!raw) return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  if (raw instanceof Date && !isNaN(raw.getTime())) return raw;
+  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  let norm = String(raw).trim();
+  bnDigits.forEach((d, idx) => { norm = norm.split(d).join(String(idx)); });
+  const direct = Date.parse(norm);
+  if (!isNaN(direct)) return new Date(direct);
+  const monthMap: Record<string, string> = {
+    'জানুয়ারি': '01', 'ফেব্রুয়ারি': '02', 'মার্চ': '03', 'এপ্রিল': '04',
+    'মে': '05', 'জুন': '06', 'জুলাই': '07', 'আগস্ট': '08',
+    'সেপ্টেম্বর': '09', 'অক্টোবর': '10', 'নভেম্বর': '11', 'ডিসেম্বর': '12',
+  };
+  for (const [bnMonth, numMonth] of Object.entries(monthMap)) {
+    if (norm.includes(bnMonth)) {
+      const m = norm.match(/(\d{1,2})\s*([^\d\s]+)\s*(\d{4})/);
+      if (m) return new Date(`${m[3]}-${numMonth}-${m[1].padStart(2, '0')}T23:59:59.000Z`);
+    }
+  }
+  return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+}
+
 export interface ScrapedResult {
   sourceName: string;
   sourceUrl: string;
@@ -289,7 +311,7 @@ export const scraperEngine = {
           title: titleEn,
           titleBn,
           organization,
-          deadline: new Date(raw.deadline || Date.now() + 30 * 24 * 60 * 60 * 1000),
+          deadline: parseDeadlineSafe(raw.deadline),
           totalPositions,
           officialFee,
           serviceFee,
@@ -312,7 +334,7 @@ export const scraperEngine = {
           title: titleEn,
           titleBn,
           organization,
-          deadline: new Date(raw.deadline || Date.now() + 30 * 24 * 60 * 60 * 1000),
+          deadline: parseDeadlineSafe(raw.deadline),
           totalPositions,
           officialFee,
           serviceFee,
