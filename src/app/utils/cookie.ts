@@ -2,16 +2,21 @@ import { Request, Response } from 'express';
 import { env } from '../config/env';
 
 export const CookieUtils = {
-  setAuthCookies: (res: Response, accessToken: string, refreshToken: string) => {
+  setAuthCookies: (
+    res: Response,
+    accessToken: string,
+    refreshToken: string,
+    rememberMe = true
+  ) => {
     const isSecure = env.COOKIE_SECURE;
-    const cookieDomain = env.COOKIE_DOMAIN || '.moshiur.pro';
+    const cookieDomain = env.COOKIE_DOMAIN;
 
     const cookieOptions = {
       httpOnly: true,
       secure: isSecure,
       sameSite: (isSecure ? 'none' : 'lax') as 'none' | 'lax',
       path: '/',
-      domain: cookieDomain,
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
     };
 
     // Standard cookies
@@ -25,28 +30,30 @@ export const CookieUtils = {
       maxAge: 15 * 60 * 1000,
     });
 
+    const refreshMaxAge = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+
     res.cookie('refreshToken', refreshToken, {
       ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: refreshMaxAge,
     });
 
     res.cookie('cs_refresh_token', refreshToken, {
       ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: refreshMaxAge,
     });
   },
 
   clearAuthCookies: (res: Response) => {
-    const cookieDomain = env.COOKIE_DOMAIN || '.moshiur.pro';
-    const clearOptions = {
-      path: '/',
-      domain: cookieDomain,
-    };
+    const cookieDomain = env.COOKIE_DOMAIN;
+    const baseOptions = { path: '/' };
+    const domainOptions = cookieDomain ? { path: '/', domain: cookieDomain } : undefined;
 
-    res.clearCookie('accessToken', clearOptions);
-    res.clearCookie('cs_access_token', clearOptions);
-    res.clearCookie('refreshToken', clearOptions);
-    res.clearCookie('cs_refresh_token', clearOptions);
+    for (const name of ['accessToken', 'cs_access_token', 'refreshToken', 'cs_refresh_token']) {
+      res.clearCookie(name, baseOptions);
+      if (domainOptions) {
+        res.clearCookie(name, domainOptions);
+      }
+    }
   },
 
   getCookie: (req: Request, name: string): string | undefined => {
