@@ -12,6 +12,7 @@ export interface ICreateApplicationPayload {
   totalAmount?: number;
   couponCode?: string;
   paymentMethod?: string;
+  useWalletSplit?: boolean;
   trxId?: string;
   transactionId?: string;
   senderPhone?: string;
@@ -19,6 +20,7 @@ export interface ICreateApplicationPayload {
   candidatePhone?: string;
   candidateDistrict?: string;
   paymentScreenshotUrl?: string;
+  submissionChannel?: string;
   attachedDocuments?: any[];
   submittedEducation?: any[];
 }
