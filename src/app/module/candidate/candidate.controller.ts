@@ -76,12 +76,19 @@ export const candidateController = {
   }),
 
   toggleSaveJob: catchAsync(async (req: Request, res: Response) => {
-    const result = await candidateService.toggleSaveJob(req.user!.candidateId, req.params.jobId);
+    const jobId = req.params.jobId || req.body?.jobId;
+    const action = req.body?.action as 'save' | 'unsave' | undefined;
+    if (!jobId) {
+      return res.status(status.BAD_REQUEST).json({ success: false, message: 'চাকরির আইডি প্রয়োজন।' });
+    }
+    const result = await candidateService.toggleSaveJob(req.user!.candidateId, jobId, action);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
       message: result.message,
+      saved: result.saved,
+      savedJobs: result.savedIds,
       data: result,
     });
   }),
@@ -89,23 +96,52 @@ export const candidateController = {
   getSavedJobs: catchAsync(async (req: Request, res: Response) => {
     const result = await candidateService.getSavedJobs(req.user!.candidateId);
 
-    sendResponse(res, {
-      httpStatusCode: status.OK,
+    res.status(status.OK).json({
+      statusCode: status.OK,
       success: true,
       message: 'সংরক্ষিত চাকরির তালিকা।',
-      data: result,
+      savedJobs: result.savedIds,
+      items: result.items,
+      data: result.items,
     });
   }),
 
   getNotifications: catchAsync(async (req: Request, res: Response) => {
     const result = await candidateService.getNotifications(req.user!.candidateId);
+    const unreadCount = result.filter((n: any) => !n.isRead).length;
 
     res.status(status.OK).json({
       statusCode: status.OK,
       success: true,
       message: 'নোটিফিকেশন তালিকা লোড হয়েছে।',
+      unreadCount,
       notifications: result,
       data: result,
+    });
+  }),
+
+  markNotificationsRead: catchAsync(async (req: Request, res: Response) => {
+    const { id, notificationId, markAll, markAllRead } = req.body || {};
+    const targetId = id || notificationId;
+    const result = await candidateService.markNotificationsRead(
+      req.user!.candidateId,
+      targetId,
+      Boolean(markAll || markAllRead || !targetId)
+    );
+    res.status(status.OK).json({
+      success: true,
+      message: 'নোটিফিকেশন পঠিত হিসেবে চিহ্নিত করা হয়েছে।',
+      data: result,
+    });
+  }),
+
+  deleteNotification: catchAsync(async (req: Request, res: Response) => {
+    const targetId = (req.params.id || req.query.id || req.body?.id) as string | undefined;
+    const clearAll = req.query.all === 'true' || req.body?.clearAll === true;
+    await candidateService.deleteNotification(req.user!.candidateId, targetId, clearAll);
+    res.status(status.OK).json({
+      success: true,
+      message: 'নোটিফিকেশন সফলভাবে মুছে ফেলা হয়েছে।',
     });
   }),
 
@@ -199,7 +235,10 @@ export const candidateController = {
     res.status(status.OK).json({
       success: true,
       data: result,
-      recommendations: result,
+      recommendations: result.recommendations,
+      bestMatches: result.bestMatches,
+      skillsMatches: result.skillsMatches,
+      educationMatches: result.educationMatches,
     });
   }),
 
@@ -255,6 +294,15 @@ export const candidateController = {
       success: true,
       message: 'অ্যালার্ট পছন্দ সফলভাবে সংরক্ষণ করা হয়েছে',
       alertPreferences: result,
+      data: result,
+    });
+  }),
+
+  sendTestAlert: catchAsync(async (req: Request, res: Response) => {
+    const result = await candidateService.sendTestAlert(req.user!.candidateId, req.body);
+    res.status(status.OK).json({
+      success: true,
+      message: 'টেস্ট অ্যালার্ট সফলভাবে পাঠানো হয়েছে! নোটিফিকেশন ইনবক্স চেক করুন।',
       data: result,
     });
   }),
