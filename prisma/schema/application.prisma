@@ -12,15 +12,21 @@ model ApplicationRequest {
   serviceFee          Decimal           @db.Decimal(10, 2)
   discount            Decimal           @default(0.00) @db.Decimal(10, 2)
   totalPaid           Decimal           @db.Decimal(10, 2)
-  paymentMethod       String            @default("wallet")
-  transactionId       String?
-  applicantCopyPdfUrl String?
-  teletalkUserId      String?
-  rollNumber          String?
-  operatorNotes       String?
-  statusHistory       Json?             // Array of status changes [{status, timestamp, note}]
-  submittedAt         DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
+  paymentMethod        String            @default("wallet")
+  splitWalletAmount    Decimal?          @db.Decimal(10, 2)
+  transactionId        String?
+  paymentScreenshotUrl String?
+  submissionChannel    String?
+  applicantCopyPdfUrl  String?
+  admitCardUrl         String?
+  teletalkUserId       String?
+  teleTalkPassword     String?
+  corporateTrackingId  String?
+  rollNumber           String?
+  operatorNotes        String?
+  statusHistory        Json?             // Array of status changes [{status, timestamp, note}]
+  submittedAt          DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
 
   @@map("application_requests")
 }
@@ -28,6 +34,11 @@ model ApplicationRequest {
 model CompanyProfile {
   id          String   @id
   companyName String
+  slug        String?
+  type        String?  @default("private")
+  websiteUrl  String?
+  logoUrl     String?
+  isVerified  Boolean  @default(false)
   email       String?
   phone       String?
   createdAt   DateTime @default(now())
