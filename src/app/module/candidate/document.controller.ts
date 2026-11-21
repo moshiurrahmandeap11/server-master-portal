@@ -1,6 +1,9 @@
+import fs from 'fs';
+import path from 'path';
 import { Request, Response } from 'express';
 import { catchAsync } from '../../shared/catchAsync';
 import { prisma } from '../../lib/prisma';
+import { env } from '../../config/env';
 import { DocumentType } from '../../../generated/prisma';
 
 const fieldMap: Record<string, string> = {
@@ -26,6 +29,7 @@ function mapToPrismaDocType(type: string): DocumentType {
     case 'nid_back':
     case 'father_nid':
     case 'mother_nid':
+    case 'nid_card':
       return DocumentType.NID_CARD;
     case 'birth_certificate':
       return DocumentType.BIRTH_CERTIFICATE;
@@ -47,11 +51,12 @@ export const documentController = {
       return res.status(400).json({ success: false, error: 'কোনো ফাইল পাওয়া যায়নি।' });
     }
 
-    const docType = (req.body?.docType as string) || 'photo';
-    const docTitle = (req.body?.docTitle as string) || 'প্রয়োজনীয় প্রমাণপত্র';
+    const docType = ((req.body?.docType as string) || 'photo').trim();
+    const docTitle = ((req.body?.docTitle as string) || 'প্রয়োজনীয় প্রমাণপত্র').trim();
+    const category = ((req.body?.category as string) || docType).trim();
     const replaceDocId = req.body?.replaceDocId as string | undefined;
 
-    // Relative URL accessible both directly and through proxy
+    // Relative URL accessible through authenticated upload route
     const relativeUrl = `/api/uploads/candidate-documents/${req.file.filename}`;
 
     // 1. Update Candidate profile field if it's an official standard document
@@ -61,14 +66,10 @@ export const documentController = {
       if (docType === 'photo') {
         updateData.avatarUrl = relativeUrl;
       }
-      try {
-        await prisma.candidate.update({
-          where: { id: candidateId },
-          data: updateData,
-        });
-      } catch (err) {
-        console.warn('Candidate field update notice:', err);
-      }
+      await prisma.candidate.update({
+        where: { id: candidateId },
+        data: updateData,
+      });
     }
 
     // 2. Save or replace Document record
@@ -80,15 +81,22 @@ export const documentController = {
         where: { id: replaceDocId, candidateId },
       });
       if (existing) {
+        if (existing.fileUrl) {
+          const oldPath = path.join(env.CHAKRI_UPLOAD_DIR, 'candidate-documents', path.basename(existing.fileUrl));
+          if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+        }
         docRecord = await prisma.candidateDocument.update({
           where: { id: existing.id },
           data: {
             type: prismaDocType,
+            slotType: docType,
+            category,
             title: docTitle,
             fileUrl: relativeUrl,
             fileSize: req.file.size,
             mimeType: req.file.mimetype,
             isVerified: false,
+            verificationStatus: 'pending',
           },
         });
       }
@@ -99,11 +107,14 @@ export const documentController = {
         data: {
           candidateId,
           type: prismaDocType,
+          slotType: docType,
+          category,
           title: docTitle,
           fileUrl: relativeUrl,
           fileSize: req.file.size,
           mimeType: req.file.mimetype,
           isVerified: false,
+          verificationStatus: 'pending',
         },
       });
     }
@@ -117,6 +128,7 @@ export const documentController = {
       document: {
         ...docRecord,
         type: docType,
+        slotType: docType,
         fileUrl: relativeUrl,
         dataUrl: relativeUrl,
         uploadDate: new Date().toLocaleDateString('bn-BD'),
@@ -139,19 +151,31 @@ export const documentController = {
       where: { id: candidateId },
     });
 
-    // Client-compatible normalization
-    const mapped = docs.map((d) => ({
-      id: d.id,
-      title: d.title,
-      type: d.type === DocumentType.PHOTO_300x300 ? 'photo' : d.type === DocumentType.SIGNATURE_300x80 ? 'signature' : d.type.toLowerCase(),
-      fileUrl: d.fileUrl,
-      dataUrl: d.fileUrl,
-      fileSize: d.fileSize ? `${Math.round(d.fileSize / 1024)} KB` : '100 KB',
-      mimeType: d.mimeType || 'image/jpeg',
-      isVerified: d.isVerified,
-      createdAt: d.createdAt,
-      uploadDate: d.createdAt.toLocaleDateString('bn-BD'),
-    }));
+    const mapped = docs.map((d) => {
+      const resolvedType =
+        d.slotType ||
+        (d.type === DocumentType.PHOTO_300x300
+          ? 'photo'
+          : d.type === DocumentType.SIGNATURE_300x80
+          ? 'signature'
+          : d.type.toLowerCase());
+      return {
+        id: d.id,
+        title: d.title,
+        type: resolvedType,
+        slotType: resolvedType,
+        category: d.category || resolvedType,
+        fileUrl: d.fileUrl,
+        dataUrl: d.fileUrl,
+        fileSize: d.fileSize ? `${Math.round(d.fileSize / 1024)} KB` : '100 KB',
+        mimeType: d.mimeType || 'image/jpeg',
+        isVerified: d.isVerified,
+        verificationStatus: d.verificationStatus,
+        verificationRemarks: d.verificationRemarks,
+        createdAt: d.createdAt,
+        uploadDate: d.createdAt.toLocaleDateString('bn-BD'),
+      };
+    });
 
     return res.status(200).json({
       success: true,
@@ -180,6 +204,23 @@ export const documentController = {
     });
 
     if (doc) {
+      if (doc.fileUrl) {
+        const diskPath = path.join(env.CHAKRI_UPLOAD_DIR, 'candidate-documents', path.basename(doc.fileUrl));
+        if (fs.existsSync(diskPath)) {
+          fs.unlinkSync(diskPath);
+        }
+      }
+
+      const candidateField = doc.slotType ? fieldMap[doc.slotType] : undefined;
+      if (candidateField) {
+        const clearData: any = { [candidateField]: null };
+        if (doc.slotType === 'photo') clearData.avatarUrl = null;
+        await prisma.candidate.update({
+          where: { id: candidateId },
+          data: clearData,
+        }).catch(() => {});
+      }
+
       await prisma.candidateDocument.delete({
         where: { id: doc.id },
       });
