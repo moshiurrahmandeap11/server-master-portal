@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import status from 'http-status';
 import { catchAsync } from '../../shared/catchAsync';
-import { adminService } from './admin.service';
+import { adminService, recordAdminAudit } from './admin.service';
 import { ApplicationStatus } from '../../../generated/prisma';
 import { jwtUtils } from '../../utils/jwt';
+import { CookieUtils } from '../../utils/cookie';
+import { prisma } from '../../lib/prisma';
 
 export const adminController = {
   getStats: catchAsync(async (_req: Request, res: Response) => {
@@ -60,11 +62,25 @@ export const adminController = {
   }),
 
   updateApplicationStatus: catchAsync(async (req: Request, res: Response) => {
-    const { status: newStatus, teletalkUserId, rollNumber, applicantCopyPdfUrl, notes } = req.body;
-    const result = await adminService.updateApplicationStatus(req.params.id, newStatus, {
+    const {
+      status: newStatus,
       teletalkUserId,
+      teleTalkTrackingId,
+      teleTalkPassword,
+      corporateTrackingId,
       rollNumber,
       applicantCopyPdfUrl,
+      admitCardUrl,
+      notes,
+    } = req.body;
+    const result = await adminService.updateApplicationStatus(req.params.id, newStatus, {
+      teletalkUserId: teletalkUserId || teleTalkTrackingId,
+      teleTalkTrackingId,
+      teleTalkPassword,
+      corporateTrackingId,
+      rollNumber,
+      applicantCopyPdfUrl,
+      admitCardUrl,
       notes,
     });
 
@@ -176,7 +192,8 @@ export const adminController = {
   }),
 
   deleteCategory: catchAsync(async (req: Request, res: Response) => {
-    await adminService.deleteCategory(req.params.id);
+    const reassignTo = (req.query.reassignTo || req.body?.reassignTo) as string | undefined;
+    await adminService.deleteCategory(req.params.id, reassignTo);
 
     return res.status(200).json({
       success: true,
@@ -435,16 +452,28 @@ export const adminController = {
     };
 
     const accessToken = jwtUtils.createAccessToken(tokenPayload);
+    const refreshToken = jwtUtils.createRefreshToken({ candidateId: candidate.id });
+    await prisma.session.create({
+      data: {
+        candidateId: candidate.id,
+        refreshToken,
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    });
+    CookieUtils.setAuthCookies(res, accessToken, refreshToken, false);
+    await recordAdminAudit('IMPERSONATE_CANDIDATE', 'Candidate', candidate.id, { email: candidate.email });
 
     return res.status(200).json({
       success: true,
       message: `ইমপারসোনেশন সফল! আপনি এখন ${candidate.name} হিসেবে দেখছেন।`,
+      redirectUrl: '/dashboard',
       candidate,
       accessToken,
     });
   }),
 
   stopImpersonation: catchAsync(async (_req: Request, res: Response) => {
+    CookieUtils.clearAuthCookies(res);
     return res.status(200).json({
       success: true,
       message: 'ইমপারসোনেশন বন্ধ করা হয়েছে।',
