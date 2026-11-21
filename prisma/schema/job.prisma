@@ -34,13 +34,16 @@ model JobCircular {
 }
 
 model Category {
-  id         String        @id
-  slug       String        @unique
-  titleBn    String
-  titleEn    String
-  icon       String?
-  orderIndex Int           @default(0)
-  jobs       JobCircular[]
+  id          String        @id
+  slug        String        @unique
+  titleBn     String
+  titleEn     String
+  icon        String?
+  description String?
+  parentSlug  String?
+  isActive    Boolean       @default(true)
+  orderIndex  Int           @default(0)
+  jobs        JobCircular[]
 
   @@map("categories")
 }
@@ -63,9 +66,13 @@ model JobSource {
   id           String    @id
   name         String
   targetUrl    String
+  type         String?   @default("rss")
   frequency    String    @default("hourly")
+  isEnabled    Boolean   @default(true)
+  trustScore   Int       @default(90)
   lastRunAt    DateTime?
   healthStatus String    @default("healthy")
+  lastError    String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
