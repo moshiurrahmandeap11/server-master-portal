@@ -569,14 +569,50 @@ exports.Prisma.PlatformSettingsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BlogPostScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  kind: 'kind',
+  title: 'title',
+  excerpt: 'excerpt',
+  content: 'content',
+  category: 'category',
+  author: 'author',
+  coverImage: 'coverImage',
+  readTime: 'readTime',
+  tags: 'tags',
+  status: 'status',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CandidateReviewScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  role: 'role',
+  institution: 'institution',
+  quote: 'quote',
+  rating: 'rating',
+  isApproved: 'isApproved',
+  orderIndex: 'orderIndex',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ExamNoticeScalarFieldEnum = {
   id: 'id',
   jobId: 'jobId',
   title: 'title',
+  organization: 'organization',
+  category: 'category',
   stage: 'stage',
   examDate: 'examDate',
+  examTime: 'examTime',
   venue: 'venue',
+  description: 'description',
   noticeUrl: 'noticeUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -585,9 +621,14 @@ exports.Prisma.AdmitCardScalarFieldEnum = {
   id: 'id',
   jobId: 'jobId',
   title: 'title',
+  organization: 'organization',
+  category: 'category',
+  examDate: 'examDate',
+  deadline: 'deadline',
   downloadUrl: 'downloadUrl',
   rollInstructions: 'rollInstructions',
   isAvailable: 'isAvailable',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -596,9 +637,27 @@ exports.Prisma.ExamResultScalarFieldEnum = {
   id: 'id',
   jobId: 'jobId',
   title: 'title',
+  organization: 'organization',
+  category: 'category',
   stage: 'stage',
+  summary: 'summary',
   pdfUrl: 'pdfUrl',
   passedRolls: 'passedRolls',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VivaNoticeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  organization: 'organization',
+  category: 'category',
+  vivaDate: 'vivaDate',
+  venue: 'venue',
+  instructions: 'instructions',
+  noticeUrl: 'noticeUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -620,11 +679,31 @@ exports.Prisma.ModelTestScalarFieldEnum = {
   id: 'id',
   title: 'title',
   category: 'category',
+  description: 'description',
   totalMarks: 'totalMarks',
   durationMinutes: 'durationMinutes',
+  negativeMark: 'negativeMark',
+  isPublished: 'isPublished',
   questions: 'questions',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ModelTestAttemptScalarFieldEnum = {
+  id: 'id',
+  candidateId: 'candidateId',
+  modelTestId: 'modelTestId',
+  category: 'category',
+  totalQuestions: 'totalQuestions',
+  correctCount: 'correctCount',
+  wrongCount: 'wrongCount',
+  skippedCount: 'skippedCount',
+  score: 'score',
+  totalMarks: 'totalMarks',
+  accuracy: 'accuracy',
+  durationSec: 'durationSec',
+  answers: 'answers',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.JobCircularScalarFieldEnum = {
@@ -671,7 +750,9 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   slug: 'slug',
   logoUrl: 'logoUrl',
   websiteUrl: 'websiteUrl',
+  description: 'description',
   type: 'type',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -901,11 +982,15 @@ exports.Prisma.ModelName = {
   PageRecord: 'PageRecord',
   MediaItem: 'MediaItem',
   PlatformSettings: 'PlatformSettings',
+  BlogPost: 'BlogPost',
+  CandidateReview: 'CandidateReview',
   ExamNotice: 'ExamNotice',
   AdmitCard: 'AdmitCard',
   ExamResult: 'ExamResult',
+  VivaNotice: 'VivaNotice',
   Question: 'Question',
   ModelTest: 'ModelTest',
+  ModelTestAttempt: 'ModelTestAttempt',
   JobCircular: 'JobCircular',
   Category: 'Category',
   Organization: 'Organization',
