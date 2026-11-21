@@ -21,10 +21,11 @@ export const authController = {
   }),
 
   login: catchAsync(async (req: Request, res: Response) => {
+    const rememberMe = req.body?.rememberMe !== false;
     const result = await authService.login(req.body);
 
     if (result.accessToken && result.refreshToken) {
-      CookieUtils.setAuthCookies(res, result.accessToken, result.refreshToken);
+      CookieUtils.setAuthCookies(res, result.accessToken, result.refreshToken, rememberMe);
     }
 
     const roleName = (result.user.role || 'CANDIDATE').toLowerCase();
@@ -36,8 +37,6 @@ export const authController = {
       message: 'লগইন সফল হয়েছে!',
       role: roleName,
       user: result.user,
-      accessToken: result.accessToken,
-      refreshToken: result.refreshToken,
       data: result,
     });
   }),
