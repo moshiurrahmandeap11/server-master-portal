@@ -6,6 +6,8 @@ const router = Router();
 // 1. Static & specific sub-paths MUST be declared before /:idOrSlug
 router.get('/', jobController.getAllJobs);
 router.get('/categories', jobController.getCategories);
+router.get('/organizations', jobController.getOrganizations);
+router.get('/organizations/:slug', jobController.getOrganizationBySlug);
 router.get('/search', jobController.searchJobs);
 
 // 2. Job Feeds
