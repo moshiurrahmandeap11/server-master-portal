@@ -30,23 +30,41 @@ interface EnvConfig {
   GEMINI_API_KEY_2?: string;
 }
 
+const isProd = process.env.NODE_ENV === 'production';
+
+const sanitizeCookieDomain = (raw?: string): string | undefined => {
+  const trimmed = raw?.trim();
+  if (!trimmed || trimmed === 'localhost' || trimmed === '.localhost') {
+    return undefined;
+  }
+  return trimmed;
+};
+
 const loadEnv = (): EnvConfig => {
+  const accessSecret = process.env.ACCESS_TOKEN_SECRET;
+  const refreshSecret = process.env.REFRESH_TOKEN_SECRET;
+  const adminSecret = process.env.ADMIN_SECRET_KEY;
+
+  if (isProd && (!accessSecret || !refreshSecret || !adminSecret)) {
+    throw new Error('CRITICAL: ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, and ADMIN_SECRET_KEY must be set in production.');
+  }
+
   return {
     NODE_ENV: process.env.NODE_ENV || 'development',
     PORT: Number(process.env.PORT) || 6969,
     DATABASE_URL: process.env.DATABASE_URL || '',
     FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3050',
-    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'cs_access_token_secret_min_32_characters_key_2026',
-    REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'cs_refresh_token_secret_min_32_characters_key_2026',
-    COOKIE_SECURE: process.env.COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production',
-    COOKIE_DOMAIN: process.env.COOKIE_DOMAIN || '.moshiur.pro',
+    ACCESS_TOKEN_SECRET: accessSecret || 'cs_dev_only_access_token_secret_change_me_2026',
+    REFRESH_TOKEN_SECRET: refreshSecret || 'cs_dev_only_refresh_token_secret_change_me_2026',
+    COOKIE_SECURE: process.env.COOKIE_SECURE === 'true' || isProd,
+    COOKIE_DOMAIN: sanitizeCookieDomain(process.env.COOKIE_DOMAIN),
     SMTP_HOST: process.env.SMTP_HOST || 'smtp.gmail.com',
     SMTP_PORT: Number(process.env.SMTP_PORT) || 587,
     SMTP_SECURE: process.env.SMTP_SECURE === 'true',
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
     SMTP_FROM: process.env.SMTP_FROM || 'চাকরি সেবা <noreply@chakriseba.com>',
-    ADMIN_SECRET_KEY: process.env.ADMIN_SECRET_KEY || 'admin_dev_secret_2026',
+    ADMIN_SECRET_KEY: adminSecret || (!isProd ? 'admin_dev_secret_2026' : undefined),
     CHAKRI_UPLOAD_DIR: process.env.CHAKRI_UPLOAD_DIR || path.join(process.cwd(), 'uploads'),
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
