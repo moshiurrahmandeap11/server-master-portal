@@ -16,13 +16,17 @@ model PageRecord {
 }
 
 model MediaItem {
-  id         String   @id @default(uuid())
-  filename   String
-  fileUrl    String
-  fileSize   Int?
-  mimeType   String?
-  dimensions Json?
-  createdAt  DateTime @default(now())
+  id           String   @id @default(uuid())
+  filename     String
+  originalName String?
+  fileUrl      String
+  fileSize     Int?
+  mimeType     String?
+  altText      String?
+  caption      String?
+  category     String?  @default("general")
+  dimensions   Json?
+  createdAt    DateTime @default(now())
 
   @@map("media_items")
 }
@@ -36,6 +40,9 @@ model PlatformSettings {
   headerMenu   Json?
   footerMenu   Json?
   seoDefaults  Json?
+  general      Json?
+  workflow     Json?
+  operational  Json?
   updatedAt    DateTime @updatedAt
 
   @@map("platform_settings")
