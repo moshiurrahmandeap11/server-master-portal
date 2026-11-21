@@ -53,11 +53,16 @@ model DeadlineAlertRule {
 model JobReport {
   id             String   @id @default(uuid())
   jobId          String
+  jobTitle       String?
   candidateEmail String?
+  reporterName   String?
+  reporterPhone  String?
   reason         String
   details        String?
   status         String   @default("pending")
+  resolutionNote String?
   createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
 
   @@map("job_reports")
 }
@@ -73,14 +78,181 @@ model JobAlertSubscription {
 }
 
 model ContactMessage {
-  id        String   @id @default(uuid())
-  name      String
-  email     String
-  phone     String?
-  subject   String
-  message   String
-  status    String   @default("unread")
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  ticketId   String?
+  name       String
+  email      String
+  phone      String?
+  subject    String
+  category   String?  @default("general")
+  message    String
+  status     String   @default("unread")
+  replyNotes String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("contact_messages")
+}
+
+model ExpenseRecord {
+  id          String   @id @default(uuid())
+  title       String
+  category    String   @default("operations")
+  amount      Decimal  @db.Decimal(12, 2)
+  notes       String?
+  incurredAt  DateTime @default(now())
+  createdBy   String?
+  createdAt   DateTime @default(now())
+
+  @@map("expense_records")
+}
+
+model OperationBudget {
+  id            String   @id @default("global")
+  monthlyBudget Decimal  @default(100000) @db.Decimal(12, 2)
+  marketingCap  Decimal  @default(25000) @db.Decimal(12, 2)
+  infraCap      Decimal  @default(30000) @db.Decimal(12, 2)
+  updatedBy     String?
+  updatedAt     DateTime @updatedAt
+
+  @@map("operation_budgets")
+}
+
+model PublishingQueueItem {
+  id          String   @id @default(uuid())
+  jobId       String?
+  title       String
+  channel     String   @default("website")
+  status      String   @default("scheduled")
+  payload     Json?
+  scheduledAt DateTime?
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("publishing_queue_items")
+}
+
+model RedirectRule {
+  id          String   @id @default(uuid())
+  fromPath    String   @unique
+  toPath      String
+  statusCode  Int      @default(301)
+  isEnabled   Boolean  @default(true)
+  hitCount    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("redirect_rules")
+}
+
+model FeaturedPlacement {
+  id         String    @id @default(uuid())
+  jobId      String
+  slot       String    @default("hero")
+  priority   Int       @default(0)
+  isActive   Boolean   @default(true)
+  startsAt   DateTime?
+  endsAt     DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@map("featured_placements")
+}
+
+model JobFeedConfig {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  feedType    String   @default("curated")
+  rules       Json?
+  jobIds      Json?
+  isActive    Boolean  @default(true)
+  orderIndex  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("job_feed_configs")
+}
+
+model MatchingConfig {
+  id               String   @id @default("global")
+  educationWeight  Int      @default(40)
+  skillsWeight     Int      @default(30)
+  districtWeight   Int      @default(15)
+  ageWeight        Int      @default(15)
+  minScore         Int      @default(40)
+  enableAiFallback Boolean  @default(false)
+  lastRebuiltAt    DateTime?
+  updatedAt        DateTime @updatedAt
+
+  @@map("matching_configs")
+}
+
+model ContentStudioDraft {
+  id              String   @id @default(uuid())
+  jobId           String?
+  title           String
+  status          String   @default("draft")
+  qualityScore    Int      @default(0)
+  content         Json?
+  validationNotes Json?
+  revisions       Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("content_studio_drafts")
+}
+
+model CircularChangeProposal {
+  id          String   @id @default(uuid())
+  jobId       String
+  field       String
+  oldValue    Json?
+  newValue    Json?
+  reason      String?
+  status      String   @default("pending")
+  reviewedBy  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("circular_change_proposals")
+}
+
+model NotificationDelivery {
+  id          String   @id @default(uuid())
+  channel     String   @default("in_app")
+  recipient   String
+  title       String
+  message     String
+  status      String   @default("sent")
+  jobId       String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@map("notification_deliveries")
+}
+
+model SpiderRunRecord {
+  id         String   @id @default(uuid())
+  sourceId   String?
+  sourceName String
+  status     String   @default("completed")
+  itemsFound Int      @default(0)
+  itemsAdded Int      @default(0)
+  durationMs Int      @default(0)
+  error      String?
+  createdAt  DateTime @default(now())
+
+  @@map("spider_run_records")
+}
+
+model SearchAnalyticsLog {
+  id          String   @id @default(uuid())
+  query       String
+  resultCount Int      @default(0)
+  category    String?
+  createdAt   DateTime @default(now())
+
+  @@map("search_analytics_logs")
 }
