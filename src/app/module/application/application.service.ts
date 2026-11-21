@@ -1,10 +1,11 @@
+import crypto from 'crypto';
 import status from 'http-status';
 import fs from 'fs';
 import path from 'path';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import { ICreateApplicationPayload } from './application.interface';
-import { ApplicationStatus, TransactionType, TransactionStatus, JobStatus } from '../../../generated/prisma';
+import { ApplicationStatus, DiscountType, TransactionType, TransactionStatus, JobStatus } from '../../../generated/prisma';
 
 function parseBengaliDate(dateStr?: string): Date {
   if (!dateStr) return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
@@ -105,8 +106,8 @@ export const applicationService = {
   createApplication: async (candidateId: string, payload: ICreateApplicationPayload) => {
     const job = await findOrAutoSyncJob(payload.jobId);
 
-    if (!job) {
-      throw new AppError(status.NOT_FOUND, 'চাকরির সার্কুলারটি পাওয়া যায়নি।');
+    if (!job || job.status !== JobStatus.PUBLISHED) {
+      throw new AppError(status.NOT_FOUND, 'চাকরির সার্কুলারটি পাওয়া যায়নি অথবা বর্তমানে সক্রিয় নয়।');
     }
 
     payload.jobId = job.id;
@@ -115,12 +116,17 @@ export const applicationService = {
       throw new AppError(status.BAD_REQUEST, 'আবেদনের সময়সীমা শেষ হয়ে গেছে।');
     }
 
+    const positionIndex = typeof payload.positionIndex === 'number' && payload.positionIndex >= 0 ? payload.positionIndex : 0;
+    const positionsArr = Array.isArray(job.positions) ? (job.positions as any[]) : [];
+    const selectedPos = positionsArr[positionIndex] || positionsArr[0];
+    const postName = payload.postName || payload.positionName || selectedPos?.title || 'অফিসার';
+
     // Check duplicate application for the same job and position
     const existing = await prisma.applicationRequest.findFirst({
       where: {
         candidateId,
         jobId: payload.jobId,
-        positionIndex: payload.positionIndex,
+        positionIndex,
       },
     });
 
@@ -129,59 +135,110 @@ export const applicationService = {
     }
 
     const isWalletPayment = (payload.paymentMethod || '').toLowerCase() === 'wallet';
-    const postName = payload.postName || payload.positionName || 'অফিসার';
-    const positionIndex = typeof payload.positionIndex === 'number' ? payload.positionIndex : 0;
-    const govtFee = Number(payload.govtFee ?? payload.governmentFee ?? job.officialFee ?? 0);
-    const originalServiceFee = Number(payload.serviceFee ?? payload.serviceCharge ?? job.serviceFee ?? 50);
-    let discount = 0;
+    const useWalletSplit = Boolean(payload.useWalletSplit);
 
-    // Validate coupon if provided
-    if (payload.couponCode) {
-      const coupon = await prisma.coupon.findUnique({
-        where: { code: payload.couponCode.trim().toUpperCase() },
-      });
-
-      if (coupon && coupon.status === 'ACTIVE') {
-        const discountVal = Number(coupon.discountValue);
-        // Financial invariant: discount strictly applies to service fee only!
-        discount = Math.min(originalServiceFee, discountVal);
-      }
-    }
-
-    const finalServiceFee = Math.max(0, originalServiceFee - discount);
-    const totalAmount = Number(payload.totalAmount) || (govtFee + finalServiceFee);
-
-    // Check candidate wallet balance
-    const candidate = await prisma.candidate.findUnique({
-      where: { id: candidateId },
-    });
-
-    if (!candidate) {
-      throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।');
-    }
-
-    if (isWalletPayment) {
-      const currentBalance = Number(candidate.walletBalance);
-      if (currentBalance < totalAmount) {
-        throw new AppError(
-          status.PAYMENT_REQUIRED,
-          `অপর্যাপ্ত ওয়ালেট ব্যালেন্স! প্রয়োজন: ৳${totalAmount}, বর্তমান ব্যালেন্স: ৳${currentBalance}। ওয়ালেট রিচার্জ করুন।`
-        );
-      }
-    }
+    // Strictly derive fees server-side from JobCircular DB record
+    const govtFee = Math.max(0, Number(selectedPos?.govtFee ?? job.officialFee ?? 0));
+    const originalServiceFee = Math.max(0, Number(job.serviceFee ?? 50));
 
     const trackingNumber = `CS-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
-    const applicationId = `APP-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`.toUpperCase();
+    const applicationId = `APP-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
 
-    // Execute atomic transaction
+    // Execute atomic financial + application transaction
     const result = await prisma.$transaction(async (tx) => {
-      // 1. Deduct wallet if wallet payment
+      let discount = 0;
+      let appliedCouponId: string | null = null;
+
+      if (payload.couponCode) {
+        const coupon = await tx.coupon.findUnique({
+          where: { code: payload.couponCode.trim().toUpperCase() },
+        });
+
+        if (!coupon || coupon.status !== 'ACTIVE') {
+          throw new AppError(status.BAD_REQUEST, 'অবৈধ বা মেয়াদোত্তীর্ণ কুপন কোড।');
+        }
+        if (coupon.expiresAt && coupon.expiresAt < new Date()) {
+          throw new AppError(status.BAD_REQUEST, 'কুপনটির মেয়াদ শেষ হয়ে গেছে।');
+        }
+        if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) {
+          throw new AppError(status.BAD_REQUEST, 'কুপনটির ব্যবহারের সীমা শেষ।');
+        }
+        const priorRedemption = await tx.couponRedemption.findFirst({
+          where: { couponId: coupon.id, candidateId },
+        });
+        if (priorRedemption) {
+          throw new AppError(status.BAD_REQUEST, 'আপনি ইতিমধ্যে এই কুপনটি ব্যবহার করেছেন।');
+        }
+        if (coupon.minSpend && govtFee + originalServiceFee < Number(coupon.minSpend)) {
+          throw new AppError(status.BAD_REQUEST, `এই কুপনের জন্য ন্যূনতম খরচ ৳${Number(coupon.minSpend)}।`);
+        }
+
+        const rawVal = Number(coupon.discountValue);
+        let computed = coupon.discountType === DiscountType.PERCENTAGE
+          ? Math.round((originalServiceFee * rawVal) / 100)
+          : rawVal;
+        if (coupon.maxDiscount && Number(coupon.maxDiscount) > 0) {
+          computed = Math.min(computed, Number(coupon.maxDiscount));
+        }
+        discount = Math.max(0, Math.min(originalServiceFee, computed));
+        appliedCouponId = coupon.id;
+      }
+
+      const finalServiceFee = Math.max(0, originalServiceFee - discount);
+      const totalAmount = govtFee + finalServiceFee;
+
+      const candidate = await tx.candidate.findUnique({
+        where: { id: candidateId },
+        select: { id: true, walletBalance: true },
+      });
+      if (!candidate) {
+        throw new AppError(status.NOT_FOUND, 'প্রার্থী অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।');
+      }
+
+      const currentBalance = Number(candidate.walletBalance || 0);
+      let walletDeducted = 0;
+
       if (isWalletPayment) {
-        await tx.candidate.update({
-          where: { id: candidateId },
-          data: { walletBalance: { decrement: totalAmount } },
+        if (currentBalance < totalAmount) {
+          throw new AppError(
+            status.PAYMENT_REQUIRED,
+            `অপর্যাপ্ত ওয়ালেট ব্যালেন্স! প্রয়োজন: ৳${totalAmount}, বর্তমান ব্যালেন্স: ৳${currentBalance}। ওয়ালেট রিচার্জ করুন।`
+          );
+        }
+        walletDeducted = totalAmount;
+      } else if (useWalletSplit && currentBalance > 0 && totalAmount > 0) {
+        walletDeducted = Math.min(currentBalance, totalAmount);
+      }
+
+      if (walletDeducted > 0) {
+        const deducted = await tx.candidate.updateMany({
+          where: {
+            id: candidateId,
+            walletBalance: { gte: walletDeducted },
+          },
+          data: { walletBalance: { decrement: walletDeducted } },
+        });
+        if (deducted.count === 0) {
+          throw new AppError(status.PAYMENT_REQUIRED, 'অপর্যাপ্ত ওয়ালেট ব্যালেন্স। অনুগ্রহ করে রিচার্জ করে পুনরায় চেষ্টা করুন।');
+        }
+      }
+
+      if (appliedCouponId) {
+        await tx.coupon.update({
+          where: { id: appliedCouponId },
+          data: { usedCount: { increment: 1 } },
+        });
+        await tx.couponRedemption.create({
+          data: {
+            couponId: appliedCouponId,
+            candidateId,
+            discountApplied: discount,
+          },
         });
       }
+
+      const mobileDue = Math.max(0, totalAmount - walletDeducted);
+      const isFullyPaidByWallet = isWalletPayment || mobileDue === 0;
 
       // 2. Create Application
       const application = await tx.applicationRequest.create({
@@ -197,39 +254,60 @@ export const applicationService = {
           serviceFee: finalServiceFee,
           discount,
           totalPaid: totalAmount,
+          splitWalletAmount: walletDeducted > 0 ? walletDeducted : null,
           paymentMethod: payload.paymentMethod || 'bKash',
           transactionId: payload.trxId || payload.transactionId || null,
+          paymentScreenshotUrl: payload.paymentScreenshotUrl || null,
+          submissionChannel: payload.submissionChannel || 'teletalk',
           statusHistory: [
             {
               status: 'PENDING',
               timestamp: new Date().toISOString(),
-              note: isWalletPayment 
-                ? 'আবেদন ফি ওয়ালেট থেকে সফলভাবে পরিশোধ হয়েছে। অপারেটর কিউতে প্রেরণ করা হয়েছে।' 
-                : `আবেদন জমা হয়েছে (${payload.paymentMethod || 'মোবাইল ব্যাংকিং'} TrxID: ${payload.trxId || 'N/A'})। ভেরিফিকেশনের পর প্রসেস শুরু হবে।`,
+              note: isFullyPaidByWallet
+                ? 'আবেদন ফি ওয়ালেট থেকে সফলভাবে পরিশোধ হয়েছে। অপারেটর কিউতে প্রেরণ করা হয়েছে।'
+                : `আবেদন জমা হয়েছে (${payload.paymentMethod || 'মোবাইল ব্যাংকিং'} প্রদেয়: ৳${mobileDue}, TrxID: ${payload.trxId || 'N/A'})। ভেরিফিকেশনের পর প্রসেস শুরু হবে।`,
             },
           ],
         },
       });
 
-      // 3. Create Transaction Record
-      await tx.walletTransaction.create({
-        data: {
-          id: `TRX-${Date.now()}`,
-          candidateId,
-          amount: totalAmount,
-          type: TransactionType.APPLICATION_FEE,
-          method: payload.paymentMethod || (isWalletPayment ? 'wallet' : 'bKash'),
-          status: isWalletPayment ? TransactionStatus.COMPLETED : TransactionStatus.PENDING,
-          trxId: payload.trxId || payload.transactionId || `TRX-${Date.now()}`,
-          description: `${postName} পদে আবেদন ফি (${payload.paymentMethod || 'মোবাইল ব্যাংকিং'}) (ট্র্যাকিং: ${trackingNumber})`,
-          referenceId: applicationId,
-        },
-      });
+      // 3. Create Transaction Record(s)
+      if (walletDeducted > 0) {
+        await tx.walletTransaction.create({
+          data: {
+            id: `TRX-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
+            candidateId,
+            amount: walletDeducted,
+            type: TransactionType.APPLICATION_FEE,
+            method: 'wallet',
+            status: TransactionStatus.COMPLETED,
+            trxId: `WALLET-${trackingNumber}`,
+            description: `${postName} পদে আবেদন ফি ওয়ালেট থেকে পরিশোধ (ট্র্যাকিং: ${trackingNumber})`,
+            referenceId: applicationId,
+          },
+        });
+      }
+
+      if (mobileDue > 0) {
+        await tx.walletTransaction.create({
+          data: {
+            id: `TRX-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
+            candidateId,
+            amount: mobileDue,
+            type: TransactionType.APPLICATION_FEE,
+            method: payload.paymentMethod || 'bKash',
+            status: TransactionStatus.PENDING,
+            trxId: payload.trxId || payload.transactionId || `MB-${trackingNumber}`,
+            description: `${postName} পদে আবেদন ফি (${payload.paymentMethod || 'মোবাইল ব্যাংকিং'}) (ট্র্যাকিং: ${trackingNumber})`,
+            referenceId: applicationId,
+          },
+        });
+      }
 
       // 4. Create Notification
       await tx.notificationItem.create({
         data: {
-          id: `NOTIF-${Date.now()}`,
+          id: `NOTIF-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
           candidateId,
           title: 'আবেদন গৃহীত হয়েছে',
           message: `${job.organization}-এর "${postName}" পদে আপনার আবেদন সফলভাবে জমা হয়েছে। ট্র্যাকিং নং: ${trackingNumber}`,
@@ -238,12 +316,12 @@ export const applicationService = {
         },
       });
 
-      return application;
+      return { application, totalAmount };
     });
 
     return {
-      ...result,
-      totalAmount,
+      ...result.application,
+      totalAmount: result.totalAmount,
       postName,
       jobTitle: job.title,
       organization: job.organization,
@@ -323,6 +401,22 @@ export const applicationService = {
       throw new AppError(status.NOT_FOUND, 'আবেদন খুঁজে পাওয়া যায়নি।');
     }
 
+    // Candidates can ONLY update their own pending payment TrxID / screenshot
+    if (!isStaff) {
+      if (existing.status !== ApplicationStatus.PENDING) {
+        throw new AppError(status.FORBIDDEN, 'প্রসেসিং শুরু হওয়া আবেদন পরিবর্তন করার অনুমতি নেই।');
+      }
+      const allowedCandidateTrx = (payload.trxId || payload.transactionId || '').trim();
+      const updated = await prisma.applicationRequest.update({
+        where: { id: existing.id },
+        data: {
+          ...(allowedCandidateTrx ? { transactionId: allowedCandidateTrx } : {}),
+          ...(payload.paymentScreenshotUrl ? { paymentScreenshotUrl: String(payload.paymentScreenshotUrl) } : {}),
+        },
+      });
+      return updated;
+    }
+
     let nextStatus: ApplicationStatus | undefined = undefined;
     if (payload.status) {
       const s = String(payload.status).toUpperCase();
@@ -346,8 +440,11 @@ export const applicationService = {
       data: {
         ...(nextStatus ? { status: nextStatus } : {}),
         applicantCopyPdfUrl: payload.applicantCopyPdfUrl || existing.applicantCopyPdfUrl,
+        admitCardUrl: payload.admitCardUrl || existing.admitCardUrl,
         operatorNotes: payload.notes || payload.operatorNotes || existing.operatorNotes,
-        teletalkUserId: payload.teletalkUserId || existing.teletalkUserId,
+        teletalkUserId: payload.teletalkUserId || payload.teleTalkTrackingId || existing.teletalkUserId,
+        teleTalkPassword: payload.teleTalkPassword || existing.teleTalkPassword,
+        corporateTrackingId: payload.corporateTrackingId || existing.corporateTrackingId,
         rollNumber: payload.rollNumber || existing.rollNumber,
         statusHistory: existingHistory,
       },
