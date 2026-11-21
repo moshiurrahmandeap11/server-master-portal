@@ -66,4 +66,49 @@ export const cmsController = {
       data: result,
     });
   }),
+
+  getPublicStats: catchAsync(async (_req: Request, res: Response) => {
+    const result = await cmsService.getPublicStats();
+    res.status(status.OK).json({
+      statusCode: status.OK,
+      success: true,
+      message: 'প্ল্যাটফর্মের লাইভ পরিসংখ্যান।',
+      stats: result,
+      data: result,
+    });
+  }),
+
+  getPublicReviews: catchAsync(async (_req: Request, res: Response) => {
+    const result = await cmsService.getPublicReviews();
+    res.status(status.OK).json({
+      statusCode: status.OK,
+      success: true,
+      message: 'প্রার্থীদের মতামত তালিকা।',
+      reviews: result,
+      data: result,
+    });
+  }),
+
+  getContentPosts: catchAsync(async (req: Request, res: Response) => {
+    const kind = typeof req.query.kind === 'string' ? req.query.kind : undefined;
+    const result = await cmsService.getContentPosts(kind);
+    res.status(status.OK).json({
+      statusCode: status.OK,
+      success: true,
+      message: 'কনটেন্ট তালিকা।',
+      posts: result,
+      data: result,
+    });
+  }),
+
+  getContentPostBySlug: catchAsync(async (req: Request, res: Response) => {
+    const result = await cmsService.getContentPostBySlug(req.params.slug);
+    res.status(status.OK).json({
+      statusCode: status.OK,
+      success: true,
+      message: 'কনটেন্ট বিস্তারিত।',
+      post: result,
+      data: result,
+    });
+  }),
 };
