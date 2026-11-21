@@ -19,6 +19,7 @@ export interface ILoginPayload {
   password?: string;
   role?: string;
   adminPin?: string;
+  rememberMe?: boolean;
 }
 
 export interface IVerifyOtpPayload {
