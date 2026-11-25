@@ -1,110 +1,17 @@
 import crypto from 'crypto';
 import status from 'http-status';
-import fs from 'fs';
-import path from 'path';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import { ICreateApplicationPayload } from './application.interface';
 import { ApplicationStatus, DiscountType, TransactionType, TransactionStatus, JobStatus } from '../../../generated/prisma';
 
-function parseBengaliDate(dateStr?: string): Date {
-  if (!dateStr) return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-  let norm = String(dateStr);
-  bnDigits.forEach((d, idx) => { norm = norm.split(d).join(String(idx)); });
-  const direct = Date.parse(norm);
-  if (!isNaN(direct)) return new Date(direct);
-
-  const monthMap: Record<string, string> = {
-    'জানুয়ারি': '01', 'ফেব্রুয়ারি': '02', 'মার্চ': '03', 'এপ্রিল': '04',
-    'মে': '05', 'জুন': '06', 'জুলাই': '07', 'আগস্ট': '08',
-    'সেপ্টেম্বর': '09', 'অক্টোবর': '10', 'নভেম্বর': '11', 'ডিসেম্বর': '12'
-  };
-  for (const [bnMonth, numMonth] of Object.entries(monthMap)) {
-    if (norm.includes(bnMonth)) {
-      const match = norm.match(/(\d{1,2})\s*([^\d\s]+)\s*(\d{4})/);
-      if (match) {
-        const day = match[1].padStart(2, '0');
-        const year = match[3];
-        return new Date(`${year}-${numMonth}-${day}T23:59:59.000Z`);
-      }
-    }
-  }
-  return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-}
-
-async function findOrAutoSyncJob(jobId: string) {
-  let job = await prisma.jobCircular.findFirst({
-    where: {
-      OR: [{ id: jobId }, { slug: jobId }],
-    },
-  });
-  if (job) return job;
-
-  // Search local stores for fallback
-  const candidatePaths = [
-    path.resolve(process.cwd(), '_legacy_archive/db/local_store.json'),
-    path.resolve(process.cwd(), '../client-master-portal/src/db/local_store.json'),
-    path.resolve(process.cwd(), 'src/db/local_store.json'),
-  ];
-
-  for (const filePath of candidatePaths) {
-    if (!fs.existsSync(filePath)) continue;
-    try {
-      const raw = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      const storeJobs = raw.jobs || {};
-      const found = storeJobs[jobId] || Object.values(storeJobs).find((j: any) => j.id === jobId || j.slug === jobId);
-      if (found) {
-        const f = found as any;
-        const positions = (Array.isArray(f.positions) && f.positions.length > 0)
-          ? f.positions
-          : [{
-              title: f.title || 'অফিসার',
-              grade: f.grade || '১০ম গ্রেড',
-              posts: Number(f.totalPosts) || 1,
-              salary: f.salary || 'জাতীয় বেতন স্কেল',
-              minEducation: f.minEducation || 'স্নাতক',
-              govtFee: Number(f.govtFee) || 0,
-            }];
-
-        const created = await prisma.jobCircular.upsert({
-          where: { id: f.id },
-          update: {
-            status: JobStatus.PUBLISHED,
-          },
-          create: {
-            id: f.id,
-            slug: f.slug || f.id,
-            title: f.title || 'চাকরির বিজ্ঞপ্তি',
-            titleBn: f.title || null,
-            organization: f.organization || 'সরকারি সংস্থা',
-            deadline: parseBengaliDate(f.deadline),
-            totalPositions: Number(f.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
-            officialFee: Number(f.govtFee) || 0,
-            serviceFee: Number(f.serviceFee) || 50,
-            sourceUrl: f.officialLink || f.applicationUrl || null,
-            officialPdfUrl: f.pdfUrl || f.circularPdfUrl || null,
-            bannerUrl: f.logo || null,
-            positions,
-            eligibility: {
-              minAge: f.minAge,
-              maxAge: f.maxAge,
-              districts: f.districts,
-              education: f.minEducation,
-            },
-            status: JobStatus.PUBLISHED,
-          },
-        });
-        return created;
-      }
-    } catch {}
-  }
-  return null;
-}
-
 export const applicationService = {
   createApplication: async (candidateId: string, payload: ICreateApplicationPayload) => {
-    const job = await findOrAutoSyncJob(payload.jobId);
+    const job = await prisma.jobCircular.findFirst({
+      where: {
+        OR: [{ id: payload.jobId }, { slug: payload.jobId }],
+      },
+    });
 
     if (!job || job.status !== JobStatus.PUBLISHED) {
       throw new AppError(status.NOT_FOUND, 'চাকরির সার্কুলারটি পাওয়া যায়নি অথবা বর্তমানে সক্রিয় নয়।');
