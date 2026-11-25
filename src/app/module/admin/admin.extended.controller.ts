@@ -378,4 +378,19 @@ export const adminExtendedController = {
     const company = await adminService.updateCompany(id, req.body);
     return res.status(200).json({ success: true, company, data: company });
   }),
+
+  getStaffMembers: catchAsync(async (_req: Request, res: Response) => {
+    const staff = await adminExtendedService.getStaffMembers();
+    return res.status(200).json({ success: true, staff, data: staff });
+  }),
+
+  createStaffMember: catchAsync(async (req: Request, res: Response) => {
+    const member = await adminExtendedService.createStaffMember(req.body);
+    return res.status(201).json({ success: true, member, data: member });
+  }),
+
+  deleteStaffMember: catchAsync(async (req: Request, res: Response) => {
+    await adminExtendedService.deleteStaffMember(req.params.id);
+    return res.status(200).json({ success: true });
+  }),
 };
