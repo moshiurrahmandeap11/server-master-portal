@@ -203,6 +203,11 @@ router.get('/operations/budget', adminExtendedController.getOperationsOverview);
 router.post('/operations/budget', adminExtendedController.updateBudget);
 router.get('/operations/usage', adminExtendedController.getOperationsOverview);
 
+// Staff & Roles Management
+router.get('/staff', adminExtendedController.getStaffMembers);
+router.post('/staff', adminExtendedController.createStaffMember);
+router.delete('/staff/:id', adminExtendedController.deleteStaffMember);
+
 // Dynamic Content, Exam, Review & Organization CRUD
 router.use('/', adminContentRouter);
 
