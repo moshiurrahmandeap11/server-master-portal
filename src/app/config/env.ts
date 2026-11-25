@@ -28,13 +28,27 @@ interface EnvConfig {
   GEMINI_API_KEY?: string;
   GEMINI_API_KEY_1?: string;
   GEMINI_API_KEY_2?: string;
+  R2_ACCOUNT_ID?: string;
+  R2_ACCESS_KEY_ID?: string;
+  R2_SECRET_ACCESS_KEY?: string;
+  R2_BUCKET_NAME?: string;
+  R2_PUBLIC_DOMAIN?: string;
+  SMS_API_URL?: string;
+  SMS_API_KEY?: string;
+  SMS_SENDER_ID?: string;
+  WHATSAPP_WEBHOOK_URL?: string;
+  ENABLE_AUTO_CRON: boolean;
 }
 
 const isProd = process.env.NODE_ENV === 'production';
 
-const sanitizeCookieDomain = (raw?: string): string | undefined => {
+const sanitizeCookieDomain = (raw?: string, frontendUrl?: string): string | undefined => {
   const trimmed = raw?.trim();
   if (!trimmed || trimmed === 'localhost' || trimmed === '.localhost') {
+    return undefined;
+  }
+  // Never apply a production domain (e.g. .moshiur.pro) when running locally on localhost/127.0.0.1
+  if (!isProd && (!frontendUrl || /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(frontendUrl))) {
     return undefined;
   }
   return trimmed;
@@ -57,7 +71,7 @@ const loadEnv = (): EnvConfig => {
     ACCESS_TOKEN_SECRET: accessSecret || 'cs_dev_only_access_token_secret_change_me_2026',
     REFRESH_TOKEN_SECRET: refreshSecret || 'cs_dev_only_refresh_token_secret_change_me_2026',
     COOKIE_SECURE: process.env.COOKIE_SECURE === 'true' || isProd,
-    COOKIE_DOMAIN: sanitizeCookieDomain(process.env.COOKIE_DOMAIN),
+    COOKIE_DOMAIN: sanitizeCookieDomain(process.env.COOKIE_DOMAIN, process.env.FRONTEND_URL),
     SMTP_HOST: process.env.SMTP_HOST || 'smtp.gmail.com',
     SMTP_PORT: Number(process.env.SMTP_PORT) || 587,
     SMTP_SECURE: process.env.SMTP_SECURE === 'true',
@@ -71,6 +85,16 @@ const loadEnv = (): EnvConfig => {
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     GEMINI_API_KEY_1: process.env.GEMINI_API_KEY_1 || process.env.GEMINI_API_KEY,
     GEMINI_API_KEY_2: process.env.GEMINI_API_KEY_2,
+    R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,
+    R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID,
+    R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
+    R2_BUCKET_NAME: process.env.R2_BUCKET_NAME,
+    R2_PUBLIC_DOMAIN: process.env.R2_PUBLIC_DOMAIN,
+    SMS_API_URL: process.env.SMS_API_URL,
+    SMS_API_KEY: process.env.SMS_API_KEY,
+    SMS_SENDER_ID: process.env.SMS_SENDER_ID,
+    WHATSAPP_WEBHOOK_URL: process.env.WHATSAPP_WEBHOOK_URL,
+    ENABLE_AUTO_CRON: process.env.ENABLE_AUTO_CRON !== 'false' && process.env.NODE_ENV !== 'test',
   };
 };
 
