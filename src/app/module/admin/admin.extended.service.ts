@@ -7,6 +7,7 @@ import AppError from '../../errorHelpers/AppError';
 import { env } from '../../config/env';
 import { bcryptUtils } from '../../utils/bcrypt';
 import { geminiUtils } from '../../utils/gemini';
+import { dispatchExternalNotification } from '../../utils/notificationGateway';
 import { JobStatus, TransactionStatus, TransactionType, UserRole, UserStatus } from '../../../generated/prisma';
 import { adminService, recordAdminAudit } from './admin.service';
 
@@ -532,16 +533,25 @@ export const adminExtendedService = {
     return await prisma.notificationDelivery.findMany({ orderBy: { createdAt: 'desc' }, take: 100 });
   },
 
-  sendBroadcastNotification: async (payload: { title: string; message: string; channel?: string; candidateId?: string }) => {
-    const title = String(payload.title || '').trim();
+  sendBroadcastNotification: async (payload: {
+    title?: string;
+    message: string;
+    channel?: string;
+    candidateId?: string;
+    recipientPhone?: string;
+  }) => {
+    const channel = String(payload.channel || 'in_app').toLowerCase();
+    const title = String(payload.title || (channel === 'sms' ? 'এসএমএস বার্তা' : '')).trim();
     const message = String(payload.message || '').trim();
     if (!title || !message) {
       throw new AppError(status.BAD_REQUEST, 'নোটিফিকেশন শিরোনাম ও বিবরণ আবশ্যক।');
     }
 
     const targets = payload.candidateId
-      ? await prisma.candidate.findMany({ where: { id: payload.candidateId }, select: { id: true, email: true } })
-      : await prisma.candidate.findMany({ where: { status: UserStatus.ACTIVE }, select: { id: true, email: true }, take: 200 });
+      ? await prisma.candidate.findMany({ where: { id: payload.candidateId }, select: { id: true, email: true, phone: true } })
+      : payload.recipientPhone
+      ? []
+      : await prisma.candidate.findMany({ where: { status: UserStatus.ACTIVE }, select: { id: true, email: true, phone: true }, take: 200 });
 
     for (const c of targets) {
       await prisma.notificationItem.create({
@@ -556,18 +566,40 @@ export const adminExtendedService = {
       });
     }
 
+    const gatewayResult = await dispatchExternalNotification({
+      channel,
+      recipientPhone: payload.recipientPhone,
+      recipientEmails: targets.map((t) => t.email).filter(Boolean),
+      title,
+      message,
+    });
+
     const delivery = await prisma.notificationDelivery.create({
       data: {
-        channel: payload.channel || 'in_app',
-        recipient: payload.candidateId || `active_candidates (${targets.length})`,
+        channel,
+        recipient: payload.recipientPhone || payload.candidateId || `active_candidates (${targets.length})`,
         title,
         message,
-        status: 'sent',
+        status: gatewayResult.status,
+        metadata: {
+          provider: gatewayResult.provider,
+          deliveredExternally: gatewayResult.deliveredExternally,
+          error: gatewayResult.error || null,
+          inAppCount: targets.length,
+        },
       },
     });
 
-    await recordAdminAudit('SEND_NOTIFICATION', 'NotificationDelivery', delivery.id, { count: targets.length });
-    return { sentCount: targets.length, delivery };
+    await recordAdminAudit('SEND_NOTIFICATION', 'NotificationDelivery', delivery.id, {
+      count: targets.length,
+      channel,
+      status: gatewayResult.status,
+    });
+    return {
+      sentCount: targets.length || (payload.recipientPhone ? 1 : 0),
+      delivery,
+      gatewayResult,
+    };
   },
 
   // 10. Content Studio
@@ -753,5 +785,32 @@ export const adminExtendedService = {
       update,
       create: { id: 'global', ...update },
     });
+  },
+
+  getStaffMembers: async () => {
+    return await prisma.staffMember.findMany({ orderBy: { createdAt: 'desc' } });
+  },
+
+  createStaffMember: async (data: { name: string; email: string; role?: string; permissions?: any }) => {
+    const name = String(data.name || '').trim();
+    const email = String(data.email || '').trim().toLowerCase();
+    if (!name || !email) {
+      throw new AppError(status.BAD_REQUEST, 'স্টাফের নাম ও ইমেইল প্রদান করুন।');
+    }
+    const roleStr = String(data.role || 'OPERATOR').toUpperCase();
+    const role = roleStr === 'ADMIN' ? UserRole.ADMIN : roleStr === 'EDITOR' ? UserRole.EDITOR : UserRole.OPERATOR;
+    const member = await prisma.staffMember.upsert({
+      where: { email },
+      update: { name, role, permissions: data.permissions || [] },
+      create: { name, email, role, permissions: data.permissions || [] },
+    });
+    await recordAdminAudit('UPSERT_STAFF_MEMBER', 'StaffMember', member.id, { email, role });
+    return member;
+  },
+
+  deleteStaffMember: async (id: string) => {
+    await prisma.staffMember.delete({ where: { id } });
+    await recordAdminAudit('DELETE_STAFF_MEMBER', 'StaffMember', id);
+    return { deleted: true };
   },
 };
