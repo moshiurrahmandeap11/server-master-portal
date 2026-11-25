@@ -11,6 +11,7 @@ if (typeof dns.setDefaultResultOrder === 'function') {
 import app from './app';
 import { env } from './app/config/env';
 import { prisma } from './app/lib/prisma';
+import { startBackgroundSchedulers, stopBackgroundSchedulers } from './app/utils/scheduler';
 
 async function bootstrap() {
   try {
@@ -28,10 +29,12 @@ async function bootstrap() {
       console.log(`📂 Uploads:     http://localhost:${env.PORT}/uploads`);
       console.log(`❤️  Health:      http://localhost:${env.PORT}/health`);
       console.log('====================================================');
+      startBackgroundSchedulers();
     });
 
     // 3. Graceful Shutdown
     const exitHandler = () => {
+      stopBackgroundSchedulers();
       if (server) {
         server.close(async () => {
           console.log('🛑 Server closed gracefully');
