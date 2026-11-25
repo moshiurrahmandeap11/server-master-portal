@@ -5,6 +5,8 @@ import { catchAsync } from '../../shared/catchAsync';
 import { prisma } from '../../lib/prisma';
 import { env } from '../../config/env';
 import { DocumentType } from '../../../generated/prisma';
+import { processCandidateImage } from '../../utils/imageProcessor';
+import { uploadFileToR2IfConfigured } from '../../utils/r2Storage';
 
 const fieldMap: Record<string, string> = {
   photo: 'photoUrl',
@@ -56,8 +58,33 @@ export const documentController = {
     const category = ((req.body?.category as string) || docType).trim();
     const replaceDocId = req.body?.replaceDocId as string | undefined;
 
-    // Relative URL accessible through authenticated upload route
-    const relativeUrl = `/api/uploads/candidate-documents/${req.file.filename}`;
+    // Standardize photo (300x300, <100KB) or signature (300x80, <60KB) via sharp
+    let finalFilePath = req.file.path;
+    let finalFileName = req.file.filename;
+    let finalFileSize = req.file.size;
+    let finalMimeType = req.file.mimetype;
+
+    try {
+      const processed = await processCandidateImage(req.file.path, docType);
+      if (processed) {
+        finalFilePath = processed.filePath;
+        finalFileName = path.basename(processed.filePath);
+        finalFileSize = processed.fileSize;
+        finalMimeType = processed.mimeType;
+      }
+    } catch (imgErr: any) {
+      console.warn('[documentController] Sharp image processing skipped:', imgErr?.message);
+    }
+
+    // Optional Cloudflare R2 mirror if configured; otherwise local protected route
+    const r2Url = await uploadFileToR2IfConfigured(
+      finalFilePath,
+      `candidate-documents/${finalFileName}`,
+      finalMimeType,
+    );
+
+    // Relative URL accessible through authenticated upload route (or R2 URL)
+    const relativeUrl = r2Url || `/api/uploads/candidate-documents/${finalFileName}`;
 
     // 1. Update Candidate profile field if it's an official standard document
     const candidateField = fieldMap[docType];
@@ -93,8 +120,8 @@ export const documentController = {
             category,
             title: docTitle,
             fileUrl: relativeUrl,
-            fileSize: req.file.size,
-            mimeType: req.file.mimetype,
+            fileSize: finalFileSize,
+            mimeType: finalMimeType,
             isVerified: false,
             verificationStatus: 'pending',
           },
@@ -122,7 +149,7 @@ export const documentController = {
     return res.status(200).json({
       success: true,
       fileUrl: relativeUrl,
-      fileName: req.file.filename,
+      fileName: finalFileName,
       docType,
       docTitle,
       document: {
