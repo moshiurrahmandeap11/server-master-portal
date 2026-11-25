@@ -1,297 +1,57 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { prisma } from '../src/app/lib/prisma';
-import { UserRole, UserStatus, JobStatus, ApplicationStatus, DocumentType } from '../src/generated/prisma';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-function parseBengaliDate(dateStr?: string): Date {
-  if (!dateStr) return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-  let norm = String(dateStr);
-  bnDigits.forEach((d, idx) => { norm = norm.split(d).join(String(idx)); });
-  const direct = Date.parse(norm);
-  if (!isNaN(direct)) return new Date(direct);
-
-  const monthMap: Record<string, string> = {
-    'জানুয়ারি': '01', 'ফেব্রুয়ারি': '02', 'মার্চ': '03', 'এপ্রিল': '04',
-    'মে': '05', 'জুন': '06', 'জুলাই': '07', 'আগস্ট': '08',
-    'সেপ্টেম্বর': '09', 'অক্টোবর': '10', 'নভেম্বর': '11', 'ডিসেম্বর': '12'
-  };
-  for (const [bnMonth, numMonth] of Object.entries(monthMap)) {
-    if (norm.includes(bnMonth)) {
-      const match = norm.match(/(\d{1,2})\s*([^\d\s]+)\s*(\d{4})/);
-      if (match) {
-        const day = match[1].padStart(2, '0');
-        const year = match[3];
-        return new Date(`${year}-${numMonth}-${day}T23:59:59.000Z`);
-      }
-    }
-  }
-  return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-}
-
-const catMap: Record<string, string> = {
-  'govt': 'cat-govt',
-  'bank': 'cat-bank',
-  'teacher': 'cat-teacher',
-  'health': 'cat-health',
-  'it': 'cat-it',
-  'engineer': 'cat-engineer',
-  'defense': 'cat-defense',
-  'ngo': 'cat-ngo',
-  'private': 'cat-private',
-  'company': 'cat-private',
-  'international': 'cat-international',
-};
+const CATEGORIES = [
+  { id: 'cat-govt', slug: 'government-jobs', titleBn: 'সরকারি চাকরি', titleEn: 'Government Jobs', icon: 'Building2', description: 'বাংলাদেশ সিভিল সার্ভিস (বিসিএস), সকল মন্ত্রণালয়, অধিদপ্তর, পরিদপ্তর ও রাজস্ব খাতভুক্ত সরকারি নিয়োগ বিজ্ঞপ্তির সমন্বিত তালিকা।', orderIndex: 1 },
+  { id: 'cat-govt-bcs', slug: 'bcs', titleBn: 'বিসিএস নিয়োগ (BCS)', titleEn: 'Bangladesh Civil Service (BCS)', icon: 'Award', description: 'বাংলাদেশ সরকারি কর্ম কমিশন (বিপিএসসি) পরিচালিত বিসিএস সাধারণ ও কারিগরি ক্যাডার নিয়োগ।', orderIndex: 1 },
+  { id: 'cat-govt-ministry', slug: 'ministry-jobs', titleBn: 'মন্ত্রণালয় ও বিভাগীয় চাকরি', titleEn: 'Ministry Jobs', icon: 'Building', description: 'বিভিন্ন মন্ত্রণালয়, সচিবালয় ও প্রশাসনিক বিভাগের গ্রেড ও নন-ক্যাডার নিয়োগ।', orderIndex: 2 },
+  { id: 'cat-govt-department', slug: 'directorate-jobs', titleBn: 'অধিদপ্তর ও পরিদপ্তর', titleEn: 'Government Department Jobs', icon: 'Landmark', description: 'এলজিইডি, পরিবার পরিকল্পনা, সমাজসেবা, কৃষি সম্প্রসারণসহ বিভিন্ন অধিদপ্তরের নিয়োগ।', orderIndex: 3 },
+  { id: 'cat-govt-autonomous', slug: 'autonomous-jobs', titleBn: 'স্বায়ত্তশাসিত ও রাষ্ট্রীয় প্রতিষ্ঠান', titleEn: 'Autonomous Organization Jobs', icon: 'Building2', description: 'সিটি কর্পোরেশন, ওয়াসা, রাজউক, বিমান বাংলাদেশ ও রাষ্ট্রায়ত্ত প্রতিষ্ঠানের চাকরির বিজ্ঞপ্তি।', orderIndex: 4 },
+  { id: 'cat-bank', slug: 'bank-jobs', titleBn: 'ব্যাংক চাকরি', titleEn: 'Bank Jobs', icon: 'Banknote', description: 'বাংলাদেশ ব্যাংক ও ব্যাংকার্স সিলেকশন কমিটি (বিএসসিএস) সহ সকল সরকারি ও বাণিজ্যিক ব্যাংকের নিয়োগ বিজ্ঞপ্তি।', orderIndex: 2 },
+  { id: 'cat-bank-bb', slug: 'bangladesh-bank', titleBn: 'বাংলাদেশ ব্যাংক নিয়োগ', titleEn: 'Bangladesh Bank', icon: 'Coins', description: 'বাংলাদেশ ব্যাংকের সহকারী পরিচালক (AD), অফিসার ও আইটি পদের সরাসরি নিয়োগ।', orderIndex: 1 },
+  { id: 'cat-bank-state', slug: 'state-owned-banks', titleBn: 'সমন্বিত রাষ্ট্রায়ত্ত ব্যাংক (BSCS)', titleEn: 'State-Owned Bank Jobs', icon: 'Layers', description: 'সোনালী, জনতা, অগ্রণী, রূপালী ও বিডিবিএল সমন্বিত অফিসার ও সিনিয়র অফিসার নিয়োগ।', orderIndex: 2 },
+  { id: 'cat-bank-private', slug: 'private-bank-jobs', titleBn: 'বেসরকারি বাণিজ্যিক ব্যাংক', titleEn: 'Private Bank Jobs', icon: 'Briefcase', description: 'ব্র্যাক ব্যাংক, ইবিএল, সিটি ব্যাংক, ডাচ-বাংলাসহ সকল শীর্ষস্থানীয় প্রাইভেট ব্যাংকের ক্যারিয়ার।', orderIndex: 3 },
+  { id: 'cat-private', slug: 'private-jobs', titleBn: 'বেসরকারি চাকরি', titleEn: 'Private Company Jobs', icon: 'Briefcase', description: 'দেশের শীর্ষস্থানীয় করপোরেট গ্রুপ, মাল্টিন্যাশনাল কোম্পানি ও স্টার্টআপের আকর্ষণীয় চাকরি।', orderIndex: 3 },
+  { id: 'cat-ngo', slug: 'ngo-jobs', titleBn: 'এনজিও চাকরি', titleEn: 'NGO Jobs', icon: 'HeartHandshake', description: 'ব্র্যাক, আশা, টিএমএসএস ও আন্তর্জাতিক উন্নয়ন সংস্থার প্রকল্পভিত্তিক ও স্থায়ী ক্যারিয়ার।', orderIndex: 4 },
+  { id: 'cat-teacher', slug: 'teacher-jobs', titleBn: 'শিক্ষা ও শিক্ষকতা', titleEn: 'Education & Teaching Jobs', icon: 'GraduationCap', description: 'সরকারি প্রাথমিক বিদ্যালয়, এনটিআরসিএ নিবন্ধন, কলেজ ও ক্যাডেট কলেজের শিক্ষক নিয়োগ।', orderIndex: 5 },
+  { id: 'cat-health', slug: 'medical-jobs', titleBn: 'স্বাস্থ্য ও চিকিৎসা', titleEn: 'Healthcare & Medical Jobs', icon: 'Stethoscope', description: 'স্বাস্থ্য অধিদপ্তর (DGHS), সিনিয়র স্টাফ নার্স, মেডিকেল অফিসার ও ফার্মাসিউটিক্যাল ক্যারিয়ার।', orderIndex: 6 },
+  { id: 'cat-it', slug: 'it-jobs', titleBn: 'আইটি ও সফটওয়্যার', titleEn: 'IT & Software Jobs', icon: 'Cpu', description: 'সফটওয়্যার ইঞ্জিনিয়ারিং, ওয়েব ডেভেলপমেন্ট, সাইবার সিকিউরিটি ও ডাটা এন্ট্রি ক্যারিয়ার।', orderIndex: 7 },
+  { id: 'cat-engineer', slug: 'engineering-jobs', titleBn: 'ইঞ্জিনিয়ারিং', titleEn: 'Engineering Jobs', icon: 'Wrench', description: 'সিভিল, ইলেকট্রিক্যাল, মেকানিক্যাল, পাওয়ার গ্রিড ও উপ-সহকারী প্রকৌশলী পদের চাকরি।', orderIndex: 8 },
+  { id: 'cat-defense', slug: 'defense-jobs', titleBn: 'প্রতিরক্ষা ও নিরাপত্তা', titleEn: 'Defense & Security Jobs', icon: 'ShieldCheck', description: 'বাংলাদেশ পুলিশ, সেনাবাহিনী, নৌবাহিনী, বিমানবাহিনী, বিজিবি ও আনসার-ভিডিপি নিয়োগ।', orderIndex: 9 },
+  { id: 'cat-university', slug: 'university-jobs', titleBn: 'বিশ্ববিদ্যালয় চাকরি', titleEn: 'University Jobs', icon: 'BookOpen', description: 'পাবলিক ও বেসরকারি বিশ্ববিদ্যালয়ের প্রভাষক, সহকারী অধ্যাপক ও প্রশাসনিক কর্মকর্তা নিয়োগ।', orderIndex: 10 },
+  { id: 'cat-school-college', slug: 'school-college-jobs', titleBn: 'স্কুল ও কলেজ চাকরি', titleEn: 'School & College Jobs', icon: 'GraduationCap', description: 'সরকারি ও এমপিওভুক্ত হাইস্কুল, মাদ্রাসা ও কলেজের শিক্ষক ও কর্মচারীর খবর।', orderIndex: 11 },
+  { id: 'cat-finance', slug: 'finance-jobs', titleBn: 'ফাইন্যান্স ও ইন্স্যুরেন্স', titleEn: 'Finance & Insurance Jobs', icon: 'Coins', description: 'বীমা কোম্পানি, নন-ব্যাংক আর্থিক প্রতিষ্ঠান, অডিট ফার্ম ও অ্যাকাউন্টস পদের ক্যারিয়ার।', orderIndex: 12 },
+  { id: 'cat-textile', slug: 'textile-jobs', titleBn: 'গার্মেন্টস ও টেক্সটাইল', titleEn: 'Garments & Textile Jobs', icon: 'Scissors', description: 'পোশাক শিল্প, স্পিনিং মিল, বায়িং হাউস ও মার্চেন্ডাইজিং খাতের পেশাজীবীদের সুযোগ।', orderIndex: 13 },
+  { id: 'cat-telecom', slug: 'telecom-jobs', titleBn: 'টেলিকমিউনিকেশন', titleEn: 'Telecom Jobs', icon: 'PhoneCall', description: 'গ্রামীণফোন, রবি, বাংলালিংক, টেলিটক ও সাবমেরিন কেবল কোম্পানির টেকনিক্যাল জব।', orderIndex: 14 },
+  { id: 'cat-agriculture', slug: 'agriculture-jobs', titleBn: 'কৃষি চাকরি', titleEn: 'Agriculture Jobs', icon: 'Wheat', description: 'কৃষি সম্প্রসারণ অধিদপ্তর (ডিএই), বিএডিসি, বারি ও কৃষি গবেষণা প্রতিষ্ঠানের চাকরির খবর।', orderIndex: 15 },
+  { id: 'cat-development', slug: 'development-jobs', titleBn: 'উন্নয়ন সংস্থা', titleEn: 'Development Organization Jobs', icon: 'Globe2', description: 'জাতিসংঘ সহযোগী সংস্থা, ইউএসএইড ও দাতা সংস্থা পরিচালিত উন্নয়ন প্রকল্পের নিয়োগ।', orderIndex: 16 },
+  { id: 'cat-international', slug: 'international-jobs', titleBn: 'আন্তর্জাতিক সংস্থা', titleEn: 'International Organization Jobs', icon: 'Plane', description: 'UNDP, UNICEF, WHO, ILO ও ঢাকায় অবস্থিত বিদেশি দূতাবাসগুলোর ক্যারিয়ার সুযোগ।', orderIndex: 17 },
+  { id: 'cat-research', slug: 'research-jobs', titleBn: 'গবেষণা ও ফেলোশিপ', titleEn: 'Research & Fellowship Jobs', icon: 'Microscope', description: 'বিসিএসআইআর, পরমাণু শক্তি কমিশন ও বিভিন্ন গবেষণা প্রতিষ্ঠানের ফেলো ও বিজ্ঞানী নিয়োগ।', orderIndex: 18 },
+  { id: 'cat-marketing', slug: 'marketing-jobs', titleBn: 'সেলস ও মার্কেটিং', titleEn: 'Sales & Marketing Jobs', icon: 'TrendingUp', description: 'এফএমসিজি, রিয়েল এস্টেট ও ব্র্যান্ডিং খাতের টেরিটরি অফিসার ও সেলস এক্সিকিউটিভ নিয়োগ।', orderIndex: 19 },
+  { id: 'cat-other', slug: 'other-jobs', titleBn: 'অন্যান্য চাকরি', titleEn: 'Other Jobs', icon: 'Layers', description: 'অফিস সহায়ক, ড্রাইভার, নিরাপত্তা প্রহরীসহ বিভিন্ন বিশেষায়িত নিয়োগ বিজ্ঞপ্তিসমূহ।', orderIndex: 20 },
+];
 
 async function main() {
-  const archiveJsonPath = path.join(__dirname, '../_legacy_archive/db/local_store.json');
-  const clientJsonPath = path.join(__dirname, '../../client-master-portal/src/db/local_store.json');
-  const legacyJsonPath = path.join(__dirname, '../src/db/local_store.json');
-  const jsonPath = fs.existsSync(clientJsonPath) ? clientJsonPath : (fs.existsSync(archiveJsonPath) ? archiveJsonPath : legacyJsonPath);
-  if (!fs.existsSync(jsonPath)) {
-    console.log('No local_store.json found to migrate.');
-    return;
-  }
-
-  console.log(`Reading ${jsonPath} for migration to Neon PostgreSQL...`);
-  const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-
-  // 1. Categories
-  const categories = Object.values(data.categories || {});
-  console.log(`Migrating ${categories.length} categories...`);
-  for (const cat of categories as any[]) {
+  console.log(`Seeding ${CATEGORIES.length} job categories into PostgreSQL...`);
+  for (const cat of CATEGORIES) {
     await prisma.category.upsert({
       where: { id: cat.id },
       update: {
-        slug: cat.slug || cat.id,
-        titleBn: cat.name_bn || cat.titleBn || 'ক্যাটাগরি',
-        titleEn: cat.name_en || cat.titleEn || cat.slug,
-        icon: cat.icon || null,
-        orderIndex: cat.display_order || 0,
+        slug: cat.slug,
+        titleBn: cat.titleBn,
+        titleEn: cat.titleEn,
+        icon: cat.icon,
+        description: cat.description,
+        orderIndex: cat.orderIndex,
       },
-      create: {
-        id: cat.id,
-        slug: cat.slug || cat.id,
-        titleBn: cat.name_bn || cat.titleBn || 'ক্যাটাগরি',
-        titleEn: cat.name_en || cat.titleEn || cat.slug,
-        icon: cat.icon || null,
-        orderIndex: cat.display_order || 0,
-      },
+      create: cat,
     });
   }
-
-  // 2. Candidates
-  const candidates = Object.values(data.candidates || {});
-  console.log(`Migrating ${candidates.length} candidates...`);
-  for (const c of candidates as any[]) {
-    if (!c.email && !c.username) continue;
-    const cleanEmail = (c.email || `usr_${c.id}@placeholder.com`).toLowerCase().trim();
-    const cleanUsername = (c.username || c.id || `usr_${Date.now()}`).toLowerCase().trim();
-
-    const candidate = await prisma.candidate.upsert({
-      where: { id: c.id },
-      update: {
-        email: cleanEmail,
-        name: c.name || c.nameBn || 'প্রার্থী',
-        nameBn: c.nameBn || null,
-        phone: c.phone || null,
-        username: cleanUsername,
-        passwordHash: c.passwordHash || 'default_hash',
-        role: c.role === 'admin' ? UserRole.ADMIN : UserRole.CANDIDATE,
-        isEmailVerified: !!c.isEmailVerified,
-        walletBalance: Number(c.walletBalance) || 0,
-        district: c.district || null,
-        division: c.division || null,
-        avatarUrl: c.photoUrl || null,
-      },
-      create: {
-        id: c.id,
-        email: cleanEmail,
-        name: c.name || c.nameBn || 'প্রার্থী',
-        nameBn: c.nameBn || null,
-        phone: c.phone || null,
-        username: cleanUsername,
-        passwordHash: c.passwordHash || 'default_hash',
-        role: c.role === 'admin' ? UserRole.ADMIN : UserRole.CANDIDATE,
-        isEmailVerified: !!c.isEmailVerified,
-        walletBalance: Number(c.walletBalance) || 0,
-        district: c.district || null,
-        division: c.division || null,
-        avatarUrl: c.photoUrl || null,
-      },
-    });
-
-    // Migrate educations
-    if (Array.isArray(c.education)) {
-      for (const edu of c.education) {
-        if (!edu.level && !edu.degree) continue;
-        await prisma.educationRecord.create({
-          data: {
-            candidateId: candidate.id,
-            level: edu.level || 'SSC',
-            examTitle: edu.degree || edu.examTitle || 'পরীক্ষা',
-            boardUniversity: edu.boardOrUni || edu.board || null,
-            institute: edu.institute || null,
-            rollNumber: edu.roll ? String(edu.roll) : null,
-            regNumber: edu.reg ? String(edu.reg) : null,
-            passingYear: parseInt(edu.year || '2020') || 2020,
-            resultType: edu.result || 'GPA',
-            groupMajor: edu.majorSubject || null,
-          },
-        }).catch(() => {});
-      }
-    }
-  }
-
-  // 3. Job Circulars (Skipped by default to prevent seeding dummy jobs)
-  if (process.env.SEED_LEGACY_DUMMY_JOBS === 'true') {
-    const jobs = Object.values(data.jobs || {});
-    console.log(`Migrating ${jobs.length} jobs...`);
-    for (const j of jobs as any[]) {
-      const slug = j.slug || j.id;
-      const deadlineDate = parseBengaliDate(j.deadline);
-      const categoryId = catMap[j.category] || (j.category?.startsWith('cat-') ? j.category : null);
-      const positions = (Array.isArray(j.positions) && j.positions.length > 0)
-        ? j.positions
-        : [{
-            title: j.title || 'অফিসার',
-            grade: j.grade || '১০ম গ্রেড',
-            posts: Number(j.totalPosts) || 1,
-            salary: j.salary || 'জাতীয় বেতন স্কেল',
-            minEducation: j.minEducation || 'স্নাতক',
-            govtFee: Number(j.govtFee) || 0,
-          }];
-
-      await prisma.jobCircular.upsert({
-        where: { id: j.id },
-        update: {
-          slug,
-          title: j.title || 'চাকরির বিজ্ঞপ্তি',
-          titleBn: j.title || null,
-          organization: j.organization || 'সরকারি সংস্থা',
-          organizationSlug: j.organizationEn ? j.organizationEn.toLowerCase().replace(/[^a-z0-9]/g, '-') : null,
-          categoryId,
-          deadline: deadlineDate,
-          totalPositions: Number(j.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
-          officialFee: Number(j.govtFee) || 0,
-          serviceFee: Number(j.serviceFee) || 50,
-          sourceUrl: j.officialLink || j.applicationUrl || null,
-          officialPdfUrl: j.pdfUrl || j.circularPdfUrl || null,
-          bannerUrl: j.logo || null,
-          positions,
-          eligibility: {
-            minAge: j.minAge,
-            maxAge: j.maxAge,
-            districts: j.districts,
-            education: j.minEducation,
-          },
-          status: JobStatus.PUBLISHED,
-        },
-        create: {
-          id: j.id,
-          slug,
-          title: j.title || 'চাকরির বিজ্ঞপ্তি',
-          titleBn: j.title || null,
-          organization: j.organization || 'সরকারি সংস্থা',
-          organizationSlug: j.organizationEn ? j.organizationEn.toLowerCase().replace(/[^a-z0-9]/g, '-') : null,
-          categoryId,
-          deadline: deadlineDate,
-          totalPositions: Number(j.totalPosts) || positions.reduce((acc: number, p: any) => acc + (Number(p.posts) || 0), 0) || 1,
-          officialFee: Number(j.govtFee) || 0,
-          serviceFee: Number(j.serviceFee) || 50,
-          sourceUrl: j.officialLink || j.applicationUrl || null,
-          officialPdfUrl: j.pdfUrl || j.circularPdfUrl || null,
-          bannerUrl: j.logo || null,
-          positions,
-          eligibility: {
-            minAge: j.minAge,
-            maxAge: j.maxAge,
-            districts: j.districts,
-            education: j.minEducation,
-          },
-          status: JobStatus.PUBLISHED,
-        },
-      }).catch(err => console.error(`Job ${j.id} failed:`, err.message));
-    }
-
-    // 4. Applications
-    const applicationsGroup = Object.values(data.applications || {});
-    const flatApplications: any[] = [];
-    for (const group of applicationsGroup) {
-      if (Array.isArray(group)) {
-        flatApplications.push(...group);
-      }
-    }
-    console.log(`Migrating ${flatApplications.length} applications...`);
-    for (const app of flatApplications) {
-      if (!app.candidateId || !app.jobId) continue;
-      await prisma.applicationRequest.upsert({
-        where: { id: app.id },
-        update: {
-          positionName: app.positionName || app.jobTitle || 'পদবি',
-          trackingNumber: app.trackingNumber || `CS-${Math.floor(10000 + Math.random() * 90000)}`,
-          status: app.status === 'COMPLETED' ? ApplicationStatus.COMPLETED : ApplicationStatus.PENDING,
-          govtFee: Number(app.govtFee) || 0,
-          serviceFee: Number(app.serviceFee) || 50,
-          totalPaid: Number(app.totalAmount || app.totalPaid) || 50,
-          applicantCopyPdfUrl: app.applicantCopyPdfUrl || null,
-          teletalkUserId: app.teletalkUserId || null,
-        },
-        create: {
-          id: app.id,
-          candidateId: app.candidateId,
-          jobId: app.jobId,
-          positionName: app.positionName || app.jobTitle || 'পদবি',
-          trackingNumber: app.trackingNumber || `CS-${Math.floor(10000 + Math.random() * 90000)}`,
-          status: app.status === 'COMPLETED' ? ApplicationStatus.COMPLETED : ApplicationStatus.PENDING,
-          govtFee: Number(app.govtFee) || 0,
-          serviceFee: Number(app.serviceFee) || 50,
-          totalPaid: Number(app.totalAmount || app.totalPaid) || 50,
-          applicantCopyPdfUrl: app.applicantCopyPdfUrl || null,
-          teletalkUserId: app.teletalkUserId || null,
-        },
-      }).catch(() => {});
-    }
-  } else {
-    console.log('Skipping legacy dummy jobs & applications (clean database preserved).');
-  }
-
-  // 5. Pages
-  const pages = Object.values(data.pages || {});
-  console.log(`Migrating ${pages.length} pages...`);
-  for (const p of pages as any[]) {
-    await prisma.pageRecord.upsert({
-      where: { id: p.id },
-      update: {
-        slug: p.slug,
-        title: p.title,
-        metaTitle: p.metaTitle || null,
-        metaDescription: p.metaDescription || null,
-        sections: Array.isArray(p.sections) ? p.sections : [],
-        isSystemPage: !!p.isSystemPage,
-      },
-      create: {
-        id: p.id,
-        slug: p.slug,
-        title: p.title,
-        metaTitle: p.metaTitle || null,
-        metaDescription: p.metaDescription || null,
-        sections: Array.isArray(p.sections) ? p.sections : [],
-        isSystemPage: !!p.isSystemPage,
-      },
-    }).catch(() => {});
-  }
-
-  console.log('✅ Migration to Neon PostgreSQL completed successfully!');
+  console.log('Successfully seeded all job categories!');
 }
 
 main()
-  .catch((e) => {
-    console.error('Seeding error:', e);
+  .catch((err) => {
+    console.error('Seed error:', err);
     process.exit(1);
   })
   .finally(async () => {
