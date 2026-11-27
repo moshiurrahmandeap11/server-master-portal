@@ -21,6 +21,8 @@ interface EnvConfig {
   SMTP_USER?: string;
   SMTP_PASS?: string;
   SMTP_FROM?: string;
+  RESEND_API_KEY?: string;
+  RESEND_FROM_EMAIL?: string;
   ADMIN_SECRET_KEY?: string;
   CHAKRI_UPLOAD_DIR: string;
   GOOGLE_CLIENT_ID?: string;
@@ -67,7 +69,7 @@ const loadEnv = (): EnvConfig => {
     NODE_ENV: process.env.NODE_ENV || 'development',
     PORT: Number(process.env.PORT) || 6969,
     DATABASE_URL: process.env.DATABASE_URL || '',
-    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3050',
+    FRONTEND_URL: (process.env.FRONTEND_URL || 'http://localhost:3050').replace(/\/+$/, ''),
     ACCESS_TOKEN_SECRET: accessSecret || 'cs_dev_only_access_token_secret_change_me_2026',
     REFRESH_TOKEN_SECRET: refreshSecret || 'cs_dev_only_refresh_token_secret_change_me_2026',
     COOKIE_SECURE: process.env.COOKIE_SECURE === 'true' || isProd,
@@ -78,6 +80,8 @@ const loadEnv = (): EnvConfig => {
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
     SMTP_FROM: process.env.SMTP_FROM || 'চাকরি সেবা <noreply@chakriseba.com>',
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL || 'চাকরি সেবা <noreply@moshiur.pro>',
     ADMIN_SECRET_KEY: adminSecret || (!isProd ? 'admin_dev_secret_2026' : undefined),
     CHAKRI_UPLOAD_DIR: process.env.CHAKRI_UPLOAD_DIR || path.join(process.cwd(), 'uploads'),
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,

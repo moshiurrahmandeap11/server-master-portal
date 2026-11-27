@@ -20,6 +20,28 @@ const transporter = nodemailer.createTransport({
   } : undefined,
 });
 
+async function sendViaResend(to: string, subject: string, html: string): Promise<boolean> {
+  if (!env.RESEND_API_KEY) return false;
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: env.RESEND_FROM_EMAIL || 'চাকরি সেবা <noreply@moshiur.pro>',
+      to: [to],
+      subject,
+      html,
+    }),
+  });
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => '');
+    throw new Error(`Resend HTTP ${res.status}: ${errBody}`);
+  }
+  return true;
+}
+
 export const emailUtils = {
   sendOtpEmail: async (to: string, otp: string, type: 'login' | 'verify' | 'reset' = 'verify'): Promise<{ success: boolean; devOtp?: string }> => {
     try {
@@ -33,11 +55,15 @@ export const emailUtils = {
         html = `<h2>আপনার চাকরি সেবা ওটিপি কোড: <b>${otp}</b></h2><p>এই কোডটি আগামী ১০ মিনিট কার্যকর থাকবে।</p>`;
       }
 
-      if (env.SMTP_USER && env.SMTP_PASS) {
-        let subject = 'চাকরি সেবা — ইমেইল ভেরিফিকেশন ওটিপি';
-        if (type === 'login') subject = 'চাকরি সেবা — লগইন ভেরিফিকেশন ওটিপি';
-        if (type === 'reset') subject = 'চাকরি সেবা — পাসওয়ার্ড রিসেট ওটিপি';
+      let subject = 'চাকরি সেবা — ইমেইল ভেরিফিকেশন ওটিপি';
+      if (type === 'login') subject = 'চাকরি সেবা — লগইন ভেরিফিকেশন ওটিপি';
+      if (type === 'reset') subject = 'চাকরি সেবা — পাসওয়ার্ড রিসেট ওটিপি';
 
+      if (env.RESEND_API_KEY) {
+        sendViaResend(to, subject, html).catch((err) => {
+          console.error('[emailUtils] Failed to send email via Resend:', err.message);
+        });
+      } else if (env.SMTP_USER && env.SMTP_PASS) {
         // Send email asynchronously with error catching so request is never blocked by SMTP timeouts
         transporter.sendMail({
           from: env.SMTP_FROM,

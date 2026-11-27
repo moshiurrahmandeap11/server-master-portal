@@ -114,36 +114,81 @@ export async function dispatchExternalNotification(params: {
     }
   }
 
-  if (ch === 'email' && env.SMTP_USER && env.SMTP_PASS && params.recipientEmails?.length) {
-    try {
-      const transporter = nodemailer.createTransport({
-        host: env.SMTP_HOST,
-        port: env.SMTP_PORT,
-        secure: env.SMTP_SECURE,
-        auth: { user: env.SMTP_USER, pass: env.SMTP_PASS },
-      });
+  if (ch === 'email' && params.recipientEmails?.length) {
+    if (env.RESEND_API_KEY) {
+      try {
+        const res = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${env.RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: env.RESEND_FROM_EMAIL || 'চাকরি সেবা <noreply@moshiur.pro>',
+            to: [env.RESEND_FROM_EMAIL?.match(/<([^>]+)>/)?.[1] || 'noreply@moshiur.pro'],
+            bcc: params.recipientEmails.slice(0, 50),
+            subject: params.title,
+            text: params.message,
+          }),
+        });
+        if (!res.ok) {
+          const errText = await res.text().catch(() => '');
+          return {
+            channel: 'email',
+            deliveredExternally: false,
+            status: 'failed',
+            provider: 'resend_api',
+            error: `HTTP ${res.status}: ${errText}`,
+          };
+        }
+        return {
+          channel: 'email',
+          deliveredExternally: true,
+          status: 'sent',
+          provider: 'resend_api',
+        };
+      } catch (err: any) {
+        return {
+          channel: 'email',
+          deliveredExternally: false,
+          status: 'failed',
+          provider: 'resend_api',
+          error: err?.message,
+        };
+      }
+    }
 
-      await transporter.sendMail({
-        from: env.SMTP_FROM,
-        bcc: params.recipientEmails.slice(0, 50),
-        subject: params.title,
-        text: params.message,
-      });
+    if (env.SMTP_USER && env.SMTP_PASS) {
+      try {
+        const transporter = nodemailer.createTransport({
+          host: env.SMTP_HOST,
+          port: env.SMTP_PORT,
+          secure: env.SMTP_SECURE,
+          auth: { user: env.SMTP_USER, pass: env.SMTP_PASS },
+        });
 
-      return {
-        channel: 'email',
-        deliveredExternally: true,
-        status: 'sent',
-        provider: 'smtp_nodemailer',
-      };
-    } catch (err: any) {
-      return {
-        channel: 'email',
-        deliveredExternally: false,
-        status: 'failed',
-        provider: 'smtp_nodemailer',
-        error: err?.message,
-      };
+        await transporter.sendMail({
+          from: env.SMTP_FROM,
+          bcc: params.recipientEmails.slice(0, 50),
+          subject: params.title,
+          text: params.message,
+        });
+
+        return {
+          channel: 'email',
+          deliveredExternally: true,
+          status: 'sent',
+          provider: 'smtp_nodemailer',
+        };
+      } catch (err: any) {
+        return {
+          channel: 'email',
+          deliveredExternally: false,
+          status: 'failed',
+          provider: 'smtp_nodemailer',
+          error: err?.message,
+        };
+      }
     }
   }
 
